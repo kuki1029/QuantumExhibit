@@ -5,7 +5,7 @@ A joint website by Kunal Varkekar and Chaitanya Luktuke to showcase physics simu
 
 ### Simulations
 
-- None rn
+- Simple Pendulum
 
 ### Suggestions?
 
