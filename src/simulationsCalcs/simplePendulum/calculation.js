@@ -38,6 +38,16 @@ export default class SimplePendulumData {
         return [x,y]
     }
 
+    /**
+     * Changes the gravity for the pendulum to specified value
+     * @param {number} newGrav - The new gravity value to be used in m/s^2
+     */
+    setGravity(newGrav) {
+        // TODO: Might need a time offset to allow for smooth transition
+        // when switching gravity
+        this.gravity = newGrav
+    }
+
 
     // TODO: Func for change gravity, change drag, reset initial angle
     // TODO: Get the current position in x, y
