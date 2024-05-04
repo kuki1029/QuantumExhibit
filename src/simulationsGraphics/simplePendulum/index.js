@@ -20,11 +20,8 @@ const animationSpeed = 100;
 const backgroundColor = 0x0c0c0c; // TODO: Match dark theme. Need to make this responsive.
 const sliderBoxSize = 180;
 
-// Store simplePendulumData class
-let pend;
 // totalTime used to update the animation
 let totalTime = 0;
-
 
 // TODO: Add sliding option to change the length and speed
 // TODO: Display the period and other properties on screen
@@ -32,17 +29,19 @@ let totalTime = 0;
 // Create page with react syntax. Need to do it this way
 // so that Pixi.js works well with React
 export const SimplePendulum = () => {
+  // SimplePendulum class
+  const pend = new SimplePendulumData(defaultMass, defaultLength);
   
   // Ref used to display the pixi.js code
   const ref = useRef(null);
 
   // Variables for sliders to change parameters
-  const [value, setValue] = React.useState(9.8);
+  const [gravVal, setGravValue] = React.useState(9.8);
 
   // Handle changes when the slider is changed
-  const handleSliderChange = (event, newValue) => {
+  const handleGravSliderChange = (event, newValue) => {
     pend.setGravity(newValue, totalTime)
-    setValue(newValue);
+    setGravValue(newValue);
   };
 
   // React hooks. Runs after render of page
@@ -108,11 +107,7 @@ export const SimplePendulum = () => {
     }
 
     initializePixiApp();
-
-    // SimplePendulum class
-    pend = new SimplePendulumData(defaultMass, defaultLength);
- 
-
+  
     return () => {
       // On unload completely destroy the application and all of it's children
       app.destroy(true, true);
@@ -136,22 +131,21 @@ export const SimplePendulum = () => {
             Gravity
           </Typography>
             {/* Gravity Slider */}
-              <Slider
-                value={typeof value === 'number' ? value : 0}
-                onChange={handleSliderChange}
-                size="small"
-                step={0.1}
-                color={pivotColor}
-                valueLabelDisplay="auto"
-              />
+            <Slider
+              value={typeof gravVal === 'number' ? gravVal : 0}
+              onChange={handleGravSliderChange}
+              size="small"
+              step={0.1}
+              min={0.1}
+              color={pivotColor}
+              valueLabelDisplay="auto"
+            />
         </Box>
       </Stack>
       <MathJaxContext>
       <p>Some explanation for the above simulation.</p>
         <h2>Basic example with Latex</h2>
         <MathJax>{"\\(\\frac{10}{4x} \\approx 2^{12}\\)"}</MathJax>
-                 
       </MathJaxContext>
-        
     </div>);
 }
