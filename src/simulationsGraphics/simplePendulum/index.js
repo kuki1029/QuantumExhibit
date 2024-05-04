@@ -23,15 +23,15 @@ const sliderBoxSize = 180;
 // totalTime used to update the animation
 let totalTime = 0;
 
+// SimplePendulum class
+const pend = new SimplePendulumData(defaultMass, defaultLength);
+
 // TODO: Add sliding option to change the length and speed
 // TODO: Display the period and other properties on screen
 
 // Create page with react syntax. Need to do it this way
 // so that Pixi.js works well with React
 export const SimplePendulum = () => {
-  // SimplePendulum class
-  const pend = new SimplePendulumData(defaultMass, defaultLength);
-  
   // Ref used to display the pixi.js code
   const ref = useRef(null);
 
