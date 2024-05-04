@@ -37,7 +37,7 @@ export default class SimplePendulumData {
         // We store time to allow for smooth transitions through offset
         this.time = time
 
-        const theta = this.angle * Math.cos((time - this.offset) * omega)
+        const theta = this.angle * Math.cos(time * omega + this.offset)
         // Convert to cartesian using r as length
         const x = this.length * Math.cos(theta)
         const y = this.length * Math.sin(theta)
@@ -48,15 +48,11 @@ export default class SimplePendulumData {
      * Changes the gravity for the pendulum to specified value
      * @param {number} newGrav - The new gravity value to be used in m/s^2
      */
-    setGravity(newGrav) {
-        // TODO: Might need a time offset to allow for smooth transition
-        // when switching gravity
-        console.log(newGrav)
+    setGravity(newGrav, time) {
+        // Find the phase for the new cos wave by setting the phase angle to 0
         const omega1 = Math.sqrt(this.gravity / this.length)
         const omega2 = Math.sqrt(newGrav / this.length)
-        // TODO: Do some angle solving to make smoother transitions
-        this.offset = this.offset + (omega1 - omega2) * this.time
-
+        this.offset = this.offset + (omega1 - omega2) * time
         this.gravity = newGrav
     }
 

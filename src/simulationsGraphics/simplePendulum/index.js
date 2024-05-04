@@ -4,13 +4,10 @@ import "./style.css";
 import SimplePendulumData from '../../simulationsCalcs/simplePendulum/calculation.js'
 import { Screen } from "../../constants.js";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
-import MuiInput from '@mui/material/Input';import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
-
+import { Box } from "@mui/material";
 
 const pivotSize = 20;
 const defaultLength = 200;
@@ -20,10 +17,14 @@ const pivotColor = "#ffffff";
 const ropeColor = pivotColor;
 const pendulumColor = 0xff0033;
 const animationSpeed = 100;
-const backgroundColor = 0x0c0c0c; // Match dark theme. Need to make this responsive.
+const backgroundColor = 0x0c0c0c; // TODO: Match dark theme. Need to make this responsive.
 const sliderBoxSize = 180;
 
+// Store simplePendulumData class
 let pend;
+// totalTime used to update the animation
+let totalTime = 0;
+
 
 // TODO: Add sliding option to change the length and speed
 // TODO: Display the period and other properties on screen
@@ -40,28 +41,9 @@ export const SimplePendulum = () => {
 
   // Handle changes when the slider is changed
   const handleSliderChange = (event, newValue) => {
-    pend.setGravity(newValue)
+    pend.setGravity(newValue, totalTime)
     setValue(newValue);
   };
-
-  // Handle any changes when a value is entered into input
-  const handleInputChange = (event) => {
-    setValue(event.target.value === '' ? 0 : Number(event.target.value));
-    pend.setGravity(value)
-  };
-
-  // Makes sure value does not go above bounds
-  const handleBlur = () => {
-    if (value <= 0) {
-      setValue(0.01);
-    } 
-  };
-
-  // Style for input
-  const Input = styled(MuiInput)`
-    width: 42px;
-  `;
-
 
   // React hooks. Runs after render of page
   useEffect(() => {
@@ -83,9 +65,6 @@ export const SimplePendulum = () => {
 
     drawRope(Screen.width / 2, Screen.height / 3 + defaultLength)
 
-    // totalTime used to update the animation
-    let totalTime = 0;
-
     // Need a function for this as we cannot animate the line moving
     // by just changing one side. We redraw the line each time
     // the pendulum moves
@@ -102,7 +81,7 @@ export const SimplePendulum = () => {
       // Create a new application
       const app = new Application();
       // Initialize the application
-      await app.init({ background: 0x111111, width: Screen.width, 
+      await app.init({ background: backgroundColor, width: Screen.width, 
                        height: Screen.height, antialias: true });
       // Append the application canvas to the document body
       ref.current.appendChild(app.canvas);
@@ -153,42 +132,21 @@ export const SimplePendulum = () => {
         justifyContent="center">
         <Box sx={{ width: sliderBoxSize }} m="auto">
           {/* Slider Label */}
-          <Typography id="input-slider" >
+          <Typography>
             Gravity
           </Typography>
-          {/* Grid layout using CSS flex box */}
-          <Grid container spacing={1} alignItems="center">
-            <Grid item xs>
-            {/* Gravity */}
+            {/* Gravity Slider */}
               <Slider
                 value={typeof value === 'number' ? value : 0}
                 onChange={handleSliderChange}
-                aria-labelledby="input-slider"
                 size="small"
+                step={0.1}
                 color={pivotColor}
+                valueLabelDisplay="auto"
               />
-            </Grid>
-            <Grid item>
-              <Input
-                value={value}
-                size="small"
-                onChange={handleInputChange}
-                onBlur={handleBlur}
-                sx={{ input: { color: pivotColor } }}
-                inputProps={{
-                  step: 10,
-                  min: 0,
-                  max: 1000,
-                  type: 'number',
-                  'aria-labelledby': 'input-slider',
-                }}
-              />
-            </Grid>
-          </Grid>
         </Box>
       </Stack>
       <MathJaxContext>
-
       <p>Some explanation for the above simulation.</p>
         <h2>Basic example with Latex</h2>
         <MathJax>{"\\(\\frac{10}{4x} \\approx 2^{12}\\)"}</MathJax>
