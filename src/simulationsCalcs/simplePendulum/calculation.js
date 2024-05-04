@@ -62,5 +62,7 @@ export default class SimplePendulumData {
     // TODO: change mass or length
     // TODO: incorporate drag into the equations
     // TODO: write a paper explaining all the math
+    // TODO: Make 0 gravity option
+    // TODO: Make it clickable
     // Make a testing file 
 }
