@@ -13,12 +13,33 @@ const pivotSize = 20;
 const defaultLength = 200;
 const defaultMass = 1;
 const pendulumSize = 10;
-const pivotColor = "#ffffff";
-const ropeColor = pivotColor;
-const pendulumColor = 0xff0033;
 const animationSpeed = 100;
-const backgroundColor = 0x0c0c0c; // TODO: Match dark theme. Need to make this responsive.
 const sliderBoxSize = 180;
+let pivotColor;
+let pendulumColor;
+let backgroundColor;
+let ropeColor = pivotColor;
+
+let redrawColors = false;
+
+// Colors for simulation. If not light, assume dark
+// We emit an event in the themeToggle component and listen to it here
+// Whenever theme changes, we update our colors and redraw shapes
+window.addEventListener('themeChanged', () => {
+  const theme = localStorage.getItem("theme")
+  redrawColors = true;
+  if (theme === 'light') {
+    pivotColor = "#000000";
+    pendulumColor = 0x4169E1;
+    backgroundColor = '#ffffff'; 
+    ropeColor = pivotColor;
+  } else {
+    pivotColor = "#ffffff";
+    pendulumColor = 0xff0033;
+    backgroundColor = 0x0c0c0c;
+    ropeColor = pivotColor;
+  }
+})
 
 // totalTime used to update the animation
 let totalTime = 0;
@@ -31,7 +52,7 @@ let totalTime = 0;
 export const SimplePendulum = () => {
   // SimplePendulum class
   const pend = new SimplePendulumData(defaultMass, defaultLength);
-  
+
   // Ref used to display the pixi.js code
   const ref = useRef(null);
 
@@ -70,8 +91,7 @@ export const SimplePendulum = () => {
     function drawRope(endpointX, endpointY) {
       rope.moveTo(Screen.width / 2, Screen.height / 3);
       rope.lineTo(endpointX, endpointY);
-      rope.fill(ropeColor);
-      rope.stroke({ width: 2 });
+      rope.stroke({ width: 2, color: ropeColor });
     }
 
     // We need a function for this as pixiJS requires
@@ -96,13 +116,25 @@ export const SimplePendulum = () => {
         // as it usually is for polar to cartesian conversions
         const xCoord = pend.getCurrentPosition(totalTime)[0]
         const yCoord = pend.getCurrentPosition(totalTime)[1]
-        pendulum.y = xCoord 
         pendulum.x = yCoord
+        pendulum.y = xCoord
         // Animate rope
         rope.clear();
         drawRope(yCoord + ((Screen.width - pivotSize) / 2), 
         xCoord + defaultLength)
 
+        // Redraw with new color to match theme
+        if (redrawColors) {
+          pendulum.fill(pendulumColor);
+          pendulum.circle((Screen.width - pivotSize)/ 2, (Screen.height  - pivotSize)/ 3, pendulumSize)
+
+          pivot.rect((Screen.width - pivotSize)/ 2, (Screen.height  - pivotSize)/ 3, pivotSize, pivotSize);
+          pivot.fill(pivotColor);
+
+          app.renderer.background.color = backgroundColor;
+          
+          redrawColors = false;
+        }
       });
     }
 
