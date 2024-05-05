@@ -22,10 +22,15 @@ canvas {
     order: 3;
 }
 
+/* Colors for the label that pops out when you hover on slider */
 .css-cq3a6k-MuiSlider-valueLabel {
-    background-color: #fff !important;
+    background-color: var(--secondary-color) !important;
+}
+.MuiSlider-valueLabel {
+    color: var(--primary-color) !important;
 }
 
-.MuiSlider-valueLabel {
-    color: black !important;
+/* Colors for thumbtrack and slider */
+.css-nl6333-MuiSlider-track, .css-7o8aqz-MuiSlider-rail, .MuiSlider-thumb {
+    background-color: var(--secondary-color) !important;
 }
