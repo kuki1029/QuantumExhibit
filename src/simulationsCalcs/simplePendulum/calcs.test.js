@@ -68,7 +68,3 @@ test('X position at t=356', () => {
 test('Y position at t=356', () => {
   expect(pendmult.getCurrentPosition(356)[1]).toBeCloseTo(-24.2559449717, 5);
 });
-
-
-
-// TODO: Add more tests
