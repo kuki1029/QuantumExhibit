@@ -32,7 +32,12 @@ const kunalData = {
 
 const chatData = {
     title: "Chat",
-    aboutme: "Placeholder",
+    aboutme: "I am a Honours Physics student at the University of Waterloo and intend to pursue further graduate studies in physics.\
+    Writing about and coding physics simulations has let me explore my interest in physics in multiple ways\
+    enabling me to pursue and merge my passion for writing, coding and physics on my own terms. I have experience working in a number of scientific\
+    research institutes such as TRIUMF and SNOLAB and have developed experience working with Monte Carlo simulations and Statistical Data Analysis\
+    techniques in ROOT, Python C++ and even Fortran. I have had experience ranging from Dark Matter experiments (Deap-3600 and DarkSide-20K) to\
+    Nuclear Physics and Magneto-Optical Atom Traps (TRINAT)",
 };
 
 const dataportfolio = [{
