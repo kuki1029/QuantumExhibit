@@ -219,7 +219,7 @@ export const SimplePendulum = () => {
           \\end{aligned}$$`  
         }
         </MathJax>
-        <p class="sPextT">
+        <p class="sPText">
           This equation is now solvable, and the solution to it is given below:
         </p>
         <MathJax>{
@@ -229,7 +229,7 @@ export const SimplePendulum = () => {
           \\end{aligned}$$`  
         }
         </MathJax>
-        <p class="sPextT">
+        <p class="sPText">
           We make use of this equation in our simulation. The initial angle is a result of solving the differential and we set 
           it to 20 degrees. We do not use real world time as the animation would be too slow, rather we multiply the time by
           some factor to help speed up the animations.
@@ -238,7 +238,7 @@ export const SimplePendulum = () => {
         <h2>
           Simulation Quirks
         </h2>
-        <p>
+        <p class="sPText">
           Aside from the actual physics involved, there are a few tricks we need to use while calculating for the position
           of the pendulum. These quirks help us display a smooth and beautiful animation to the user while keeping the 
           math simple in the backend. 
@@ -247,14 +247,12 @@ export const SimplePendulum = () => {
         <h3>
           Phase Angle Offset
         </h3>
-        <p>
+        <p class="sPText">
           When changing the gravity, the <MathJax inline>{"\\( \\omega \\)"}</MathJax> term also changes as it depends on gravity.
           This means that the overall function is different and thus, the position at the same time will be different. The pendulum
           will just teleport to the new position which does not look visually appealing. 
         </p>
         </MathJaxContext>
-
-        <p class="sPText">s</p>
       </Box>
     </div>);
 }
