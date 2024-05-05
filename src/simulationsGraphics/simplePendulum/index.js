@@ -174,10 +174,87 @@ export const SimplePendulum = () => {
             />
         </Box>
       </Stack>
-      <MathJaxContext>
-      <p>Some explanation for the above simulation.</p>
-        <h2>Basic example with Latex</h2>
-        <MathJax>{"\\(\\frac{10}{4x} \\approx 2^{12}\\)"}</MathJax>
-      </MathJaxContext>
+      <Box sx={{ maxWidth: '105ch' }} m="auto" pb={20}>
+        <MathJaxContext>
+        <h1>A Simple Single Pendulum</h1>
+        {/* Physics Explanation */}
+        <p class="sPText">Our goal here was to recreate a simple pendulum using elementary physics principles. 
+            We start by drawing the free body diagram for the pendulum:
+        </p>
+        
+        <p class="sPText">
+          From this free body diagram, we can derive the following equations:
+        </p>
+        <MathJax>{"\\[ F=ma  \\]"}</MathJax>
+        <MathJax>{"\\[ -mg \\sin(\\theta) = ma  \\]"}</MathJax>
+        <MathJax hideUntilTypeset={"first"}>
+          {`Here, we need to apply a change of variables as we have two different variables for position
+          on each side of the equation. We can replace acceleration with \\(L \\alpha \\) where \\( \\alpha \\) represents the
+          angular acceleration. Thus, we have:
+          \\[ -mg \\sin(\\theta) = mL \\alpha \\]`}
+        </MathJax>
+        <MathJax>{"\\[ -g \\sin(\\theta) = L \\alpha  \\]"}</MathJax>
+        <p class="sPText">
+          Now, we will represent this in differential form so that we have a solvable equation:
+        </p>
+        <MathJax>{
+          `
+          $$\\begin{aligned}
+            -g \\sin(\\theta) &= L \\frac{\\text{d}^2 \\theta}{\\text{d} t^2} \\\\ 
+            \\frac{\\text{d}^2 \\theta}{\\text{d} t^2}  + \\omega^2 \\sin(\\theta) &= 0 \\\\
+          \\end{aligned}$$`  
+        }
+        </MathJax>
+        <p class="sPText">
+          Here we define <MathJax inline>{"\\( \\omega = \\sqrt{\\frac{g}{L}} \\)"}</MathJax> as is done when solving equations
+          of these sorts. We run into a small issue when trying to find a solution for this differential equation which is that
+          it cannot be analytically solved. We can apply various numerical integration methods to obtain a solution for this
+          but for the purposes of this simple simulation, we decided to use the small angle approximation. In this approximation, 
+          we assume that <MathJax inline>{"\\( \\sin (\\theta) \\approx \\theta  \\)"}</MathJax>. Thus, we get:
+        </p>
+        <MathJax>{
+          `
+          $$\\begin{aligned}
+            \\frac{\\text{d}^2 \\theta}{\\text{d} t^2}  + \\omega^2 \\theta &= 0 \\\\
+          \\end{aligned}$$`  
+        }
+        </MathJax>
+        <p class="sPextT">
+          This equation is now solvable, and the solution to it is given below:
+        </p>
+        <MathJax>{
+          `
+          $$\\begin{aligned}
+            \\theta (t) &= \\theta _0 \\cos (\\omega t) \\\\
+          \\end{aligned}$$`  
+        }
+        </MathJax>
+        <p class="sPextT">
+          We make use of this equation in our simulation. The initial angle is a result of solving the differential and we set 
+          it to 20 degrees. We do not use real world time as the animation would be too slow, rather we multiply the time by
+          some factor to help speed up the animations.
+        </p>
+        {/* Simulation Quirks */}
+        <h2>
+          Simulation Quirks
+        </h2>
+        <p>
+          Aside from the actual physics involved, there are a few tricks we need to use while calculating for the position
+          of the pendulum. These quirks help us display a smooth and beautiful animation to the user while keeping the 
+          math simple in the backend. 
+        </p>
+        {/* Phase Angle Offset */}
+        <h3>
+          Phase Angle Offset
+        </h3>
+        <p>
+          When changing the gravity, the <MathJax inline>{"\\( \\omega \\)"}</MathJax> term also changes as it depends on gravity.
+          This means that the overall function is different and thus, the position at the same time will be different. The pendulum
+          will just teleport to the new position which does not look visually appealing. 
+        </p>
+        </MathJaxContext>
+
+        <p class="sPText">s</p>
+      </Box>
     </div>);
 }

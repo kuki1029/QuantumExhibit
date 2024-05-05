@@ -10,6 +10,8 @@ import Headermain from "../header";
 import AnimatedCursor  from "../hooks/AnimatedCursor";
 import "./App.css";
 
+// TODO: Add footer
+
 function _ScrollToTop(props) {
   const { pathname } = useLocation();
   useEffect(() => {

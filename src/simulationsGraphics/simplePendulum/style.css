@@ -22,6 +22,10 @@ canvas {
     order: 3;
 }
 
+.sPText {
+    font-size: 14px;
+}
+
 /* Colors for the label that pops out when you hover on slider */
 .css-cq3a6k-MuiSlider-valueLabel {
     background-color: var(--secondary-color) !important;
