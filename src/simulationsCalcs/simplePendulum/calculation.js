@@ -18,8 +18,10 @@ export default class SimplePendulumData {
         this.gravity = gravity;
         // TODO: Add actual solving instead of approximation and give user the choice to see difference
         this.angle = initialAngle;
-        this.drag = drag
-        this.omega = Math.sqrt(this.gravity / this.length)
+        this.drag = drag;
+        // This offset is to allow smooth transition between parameter changes
+        this.offset = 0;
+        this.time = 0;
 
     }
 
@@ -31,7 +33,11 @@ export default class SimplePendulumData {
     getCurrentPosition(time) {
         // TODO: Make small angle approximation a choice and implement proper way
         // Find current angle based on given time
-        const theta = this.angle * Math.cos(time * this.omega)
+        const omega = Math.sqrt(this.gravity / this.length)
+        // We store time to allow for smooth transitions through offset
+        this.time = time
+
+        const theta = this.angle * Math.cos(time * omega + this.offset)
         // Convert to cartesian using r as length
         const x = this.length * Math.cos(theta)
         const y = this.length * Math.sin(theta)
@@ -42,9 +48,11 @@ export default class SimplePendulumData {
      * Changes the gravity for the pendulum to specified value
      * @param {number} newGrav - The new gravity value to be used in m/s^2
      */
-    setGravity(newGrav) {
-        // TODO: Might need a time offset to allow for smooth transition
-        // when switching gravity
+    setGravity(newGrav, time) {
+        // Find the phase for the new cos wave by setting the phase angle to 0
+        const omega1 = Math.sqrt(this.gravity / this.length)
+        const omega2 = Math.sqrt(newGrav / this.length)
+        this.offset = this.offset + (omega1 - omega2) * time
         this.gravity = newGrav
     }
 
@@ -54,5 +62,7 @@ export default class SimplePendulumData {
     // TODO: change mass or length
     // TODO: incorporate drag into the equations
     // TODO: write a paper explaining all the math
+    // TODO: Make 0 gravity option
+    // TODO: Make it clickable
     // Make a testing file 
 }

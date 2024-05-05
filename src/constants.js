@@ -1,7 +1,7 @@
 // Basic physics constants that can be exported to other files
 export const Constant =  {
-    "gravity":9.8,
-    "light":299792458
+    "gravity": 9.8,
+    "light": 299792458
 }
 
 // Screen size standards

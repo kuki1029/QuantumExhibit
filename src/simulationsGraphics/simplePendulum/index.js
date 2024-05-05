@@ -4,16 +4,27 @@ import "./style.css";
 import SimplePendulumData from '../../simulationsCalcs/simplePendulum/calculation.js'
 import { Screen } from "../../constants.js";
 import { MathJax, MathJaxContext } from "better-react-mathjax";
+import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
+import Stack from '@mui/material/Stack';
+import { Box } from "@mui/material";
 
 const pivotSize = 20;
 const defaultLength = 200;
 const defaultMass = 1;
 const pendulumSize = 10;
-const pivotColor = 0xffffff;
+const pivotColor = "#ffffff";
 const ropeColor = pivotColor;
 const pendulumColor = 0xff0033;
 const animationSpeed = 100;
-const backgroundColor = 0x0c0c0c;
+const backgroundColor = 0x0c0c0c; // TODO: Match dark theme. Need to make this responsive.
+const sliderBoxSize = 180;
+
+// totalTime used to update the animation
+let totalTime = 0;
+
+// SimplePendulum class
+const pend = new SimplePendulumData(defaultMass, defaultLength);
 
 // TODO: Add sliding option to change the length and speed
 // TODO: Display the period and other properties on screen
@@ -23,6 +34,15 @@ const backgroundColor = 0x0c0c0c;
 export const SimplePendulum = () => {
   // Ref used to display the pixi.js code
   const ref = useRef(null);
+
+  // Variables for sliders to change parameters
+  const [gravVal, setGravValue] = React.useState(9.8);
+
+  // Handle changes when the slider is changed
+  const handleGravSliderChange = (event, newValue) => {
+    pend.setGravity(newValue, totalTime)
+    setGravValue(newValue);
+  };
 
   // React hooks. Runs after render of page
   useEffect(() => {
@@ -43,11 +63,6 @@ export const SimplePendulum = () => {
     pendulum.fill(pendulumColor)
 
     drawRope(Screen.width / 2, Screen.height / 3 + defaultLength)
-
-    // totalTime used to update the animation
-    let totalTime = 0;
-    // SimplePendulum class
-    const pend = new SimplePendulumData(defaultMass, defaultLength);
 
     // Need a function for this as we cannot animate the line moving
     // by just changing one side. We redraw the line each time
@@ -92,20 +107,45 @@ export const SimplePendulum = () => {
     }
 
     initializePixiApp();
+  
     return () => {
       // On unload completely destroy the application and all of it's children
       app.destroy(true, true);
     };
   }, []);
- 
+
   // Return the actual code for the Pixi.JS. 
   return (
     <div>
+      {/* Div for the canvas element. Pixi adds the canvas here through ref */}
       <div ref={ref} />
-      <p>Some explanation for the above simulation.</p>
+      {/* Align items in the row and center on page*/}
+      <Stack 
+        direction="row" 
+        spacing={2} m="auto"
+        alignItems="center"
+        justifyContent="center">
+        <Box sx={{ width: sliderBoxSize }} m="auto">
+          {/* Slider Label */}
+          <Typography>
+            Gravity
+          </Typography>
+            {/* Gravity Slider */}
+            <Slider
+              value={typeof gravVal === 'number' ? gravVal : 0}
+              onChange={handleGravSliderChange}
+              size="small"
+              step={0.1}
+              min={0.1}
+              color={pivotColor}
+              valueLabelDisplay="auto"
+            />
+        </Box>
+      </Stack>
       <MathJaxContext>
-              <h2>Basic example with Latex</h2>
-              <MathJax>{"\\(\\frac{10}{4x} \\approx 2^{12}\\)"}</MathJax>
-        </MathJaxContext>
+      <p>Some explanation for the above simulation.</p>
+        <h2>Basic example with Latex</h2>
+        <MathJax>{"\\(\\frac{10}{4x} \\approx 2^{12}\\)"}</MathJax>
+      </MathJaxContext>
     </div>);
 }

@@ -22,3 +22,10 @@ canvas {
     order: 3;
 }
 
+.css-cq3a6k-MuiSlider-valueLabel {
+    background-color: #fff !important;
+}
+
+.MuiSlider-valueLabel {
+    color: black !important;
+}
