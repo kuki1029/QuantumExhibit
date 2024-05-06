@@ -48,7 +48,7 @@ let totalTime = 0;
 const pend = new SimplePendulumData(defaultMass, defaultLength);
 
 // TODO: Add sliding option to change the length and speed
-// TODO: Display the period and other properties on screen
+// TODO: Display the period and other properties on screen. Discuss this. 
 
 // Create page with react syntax. Need to do it this way
 // so that Pixi.js works well with React
@@ -250,9 +250,42 @@ export const SimplePendulum = () => {
         <p class="sPText">
           When changing the gravity, the <MathJax inline>{"\\( \\omega \\)"}</MathJax> term also changes as it depends on gravity.
           This means that the overall function is different and thus, the position at the same time will be different. The pendulum
-          will just teleport to the new position which does not look visually appealing. 
+          will just teleport to the new position which does not look visually appealing. <br></br>
+          How do we combat this? We applied a phase angle to our solution:
+        </p>
+        <MathJax>{
+          `
+          $$\\begin{aligned}
+            \\theta (t) &= \\theta _0 \\cos (\\omega t + \\phi) \\\\
+          \\end{aligned}$$`  
+        }
+        </MathJax>
+        <p class="sPText">
+          The phase angle allows us to shift the wavefunction as we desire. This means that once we change the gravity, we can 
+          calculate the phase shift by setting the old cosine equal to the new one and solve for the new phase shift in the new 
+          cosine function. This allows for a really smooth transition while changing gravity.  
+        </p>
+         {/* Things we wanted to do differently */}
+         <h2>
+          In Another World
+        </h2>
+        <p class="sPText">
+          As this was our first crack at a web based simulation, we did things that seemed to be the most straight forward. However, 
+          in hindsight, we realize that there are a lot of things that we could've done differently to allow for more features for the user
+          and faster calculations in the backend. For example, to obtain the position of the pendulum, we just made use of the equation
+          of motion with the small angle approximations. This is fine but it limits what we can do. <br></br>
+          For example, we wanted to allow the user to be able to drag the pendulum to anywhere and flick it to any speed they like.
+          This cannot be achieved with our current setup. To achieve this, we would need to also make use of energy conservation
+          and calculate the initial speed of the pendulum based on how fast the user moves it. It was a level of complexity that
+          we expect to overcome in our double pendulum simulation. <br></br>
+          Also, another thing we would like to implement is some form of numerical integration instead of using the small angle 
+          approximation. Although it works just fine and the difference wouldn't be noticeable, it would still be nice to be 
+          able to implement it in a more rigorous way. We will have to make use of numerical integration in our double pendulum 
+          simulation. 
         </p>
         </MathJaxContext>
       </Box>
     </div>);
 }
+// TODO: Check for spelling errors and grammar
+// TODO: Github link for each repo prolly on simulation page

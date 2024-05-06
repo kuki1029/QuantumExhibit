@@ -6,6 +6,7 @@ import { Portfolio } from "../pages/portfolio";
 import { ContactUs } from "../pages/contact";
 import { About } from "../pages/about";
 import { SimplePendulum } from "../simulationsGraphics/simplePendulum";
+import AnimatedCursor from "../hooks/AnimatedCursor";
 import { Socialicons } from "../components/socialicons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -39,7 +40,8 @@ function AppRoutes() {
   return (
     <div className="ooo">
       <AnimatedRoutes />
-      <Socialicons />
+      <AnimatedCursor />
+      {/* <Socialicons /> */}
     </div>
   );
 }

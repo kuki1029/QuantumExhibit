@@ -58,11 +58,8 @@ export default class SimplePendulumData {
 
 
     // TODO: Func for change gravity, change drag, reset initial angle
-    // TODO: Get the current position in x, y
-    // TODO: change mass or length
+    // TODO: change length
     // TODO: incorporate drag into the equations
-    // TODO: write a paper explaining all the math
     // TODO: Make 0 gravity option
     // TODO: Make it clickable
-    // Make a testing file 
 }
