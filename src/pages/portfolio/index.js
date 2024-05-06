@@ -3,7 +3,7 @@ import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col } from "react-bootstrap";
 import { dataportfolio } from "../../content_option";
-
+//TODO: Fix this page
 export const Portfolio = () => {
   return (
     <HelmetProvider>
