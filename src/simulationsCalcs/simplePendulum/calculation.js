@@ -21,8 +21,6 @@ export default class SimplePendulumData {
         this.drag = drag;
         // This offset is to allow smooth transition between parameter changes
         this.offset = 0;
-        this.time = 0;
-
     }
 
     /**
@@ -34,9 +32,6 @@ export default class SimplePendulumData {
         // TODO: Make small angle approximation a choice and implement proper way
         // Find current angle based on given time
         const omega = Math.sqrt(this.gravity / this.length)
-        // We store time to allow for smooth transitions through offset
-        this.time = time
-
         const theta = this.angle * Math.cos(time * omega + this.offset)
         // Convert to cartesian using r as length
         const x = this.length * Math.cos(theta)
@@ -49,6 +44,9 @@ export default class SimplePendulumData {
      * @param {number} newGrav - The new gravity value to be used in m/s^2
      */
     setGravity(newGrav, time) {
+        if (newGrav < 0) {
+            newGrav = newGrav * -1
+        }
         // Find the phase for the new cos wave by setting the phase angle to 0
         const omega1 = Math.sqrt(this.gravity / this.length)
         const omega2 = Math.sqrt(newGrav / this.length)
@@ -64,5 +62,4 @@ export default class SimplePendulumData {
     // TODO: write a paper explaining all the math
     // TODO: Make 0 gravity option
     // TODO: Make it clickable
-    // Make a testing file 
 }
