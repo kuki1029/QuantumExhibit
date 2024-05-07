@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Application, Graphics } from 'pixi.js';
 import "./style.css";
 import SimplePendulumData from '../../simulationsCalcs/simplePendulum/calculation.js'
@@ -8,6 +8,9 @@ import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
 import { Box } from "@mui/material";
+import fbdLight from './fbdSimplePendulumLight.png'
+import fbdDark from './fbdSimplePendulumDark.png'
+
 
 const pivotSize = 20;
 const defaultLength = 200;
@@ -21,25 +24,6 @@ let backgroundColor;
 let ropeColor = pivotColor;
 
 let redrawColors = false;
-
-// Colors for simulation. If not light, assume dark
-// We emit an event in the themeToggle component and listen to it here
-// Whenever theme changes, we update our colors and redraw shapes
-window.addEventListener('themeChanged', () => {
-  const theme = localStorage.getItem("theme")
-  redrawColors = true;
-  if (theme === 'light') {
-    pivotColor = "#000000";
-    pendulumColor = 0x4169E1;
-    backgroundColor = '#ffffff'; 
-    ropeColor = pivotColor;
-  } else {
-    pivotColor = "#ffffff";
-    pendulumColor = 0xff0033;
-    backgroundColor = 0x0c0c0c;
-    ropeColor = pivotColor;
-  }
-})
 
 // totalTime used to update the animation
 let totalTime = 0;
@@ -58,6 +42,7 @@ export const SimplePendulum = () => {
 
   // Variables for sliders to change parameters
   const [gravVal, setGravValue] = React.useState(9.8);
+  const [isLightTheme, setTheme] = useState((localStorage.getItem("theme") === 'light') ? true : false);
 
   // Handle changes when the slider is changed
   const handleGravSliderChange = (event, newValue) => {
@@ -146,6 +131,26 @@ export const SimplePendulum = () => {
     };
   }, []);
 
+  // Colors for simulation. If not light, assume dark
+  // We emit an event in the themeToggle component and listen to it here
+  // Whenever theme changes, we update our colors and redraw shapes
+  window.addEventListener('themeChanged', () => {
+    const theme = localStorage.getItem("theme");
+    setTheme((localStorage.getItem("theme") === 'light') ? true : false)
+    redrawColors = true;
+    if (theme === 'light') {
+      pivotColor = "#000000";
+      pendulumColor = 0x4169E1;
+      backgroundColor = '#ffffff'; 
+      ropeColor = pivotColor;
+    } else {
+      pivotColor = "#ffffff";
+      pendulumColor = 0xff0033;
+      backgroundColor = 0x0c0c0c;
+      ropeColor = pivotColor;
+    }
+  })
+
   // Return the actual code for the Pixi.JS. 
   return (
     <div>
@@ -178,11 +183,15 @@ export const SimplePendulum = () => {
         <MathJaxContext>
         <h1>A Simple Single Pendulum</h1>
         {/* Physics Explanation */}
-        <p class="sPText">Our goal here was to recreate a simple pendulum using elementary physics principles. 
+        <p className="sPText">Our goal here was to recreate a simple pendulum using elementary physics principles. 
             We start by drawing the free body diagram for the pendulum:
         </p>
-        
-        <p class="sPText">
+        {/* Reactively shown the right image for the theme */}
+        <img
+          className='centerImage'
+          src={isLightTheme ? fbdLight  : fbdDark}
+        />
+        <p className="sPText">
           From this free body diagram, we can derive the following equations:
         </p>
         <MathJax>{"\\[ F=ma  \\]"}</MathJax>
@@ -194,7 +203,7 @@ export const SimplePendulum = () => {
           \\[ -mg \\sin(\\theta) = mL \\alpha \\]`}
         </MathJax>
         <MathJax>{"\\[ -g \\sin(\\theta) = L \\alpha  \\]"}</MathJax>
-        <p class="sPText">
+        <p className="sPText">
           Now, we will represent this in differential form so that we have a solvable equation:
         </p>
         <MathJax>{
@@ -205,7 +214,7 @@ export const SimplePendulum = () => {
           \\end{aligned}$$`  
         }
         </MathJax>
-        <p class="sPText">
+        <p className="sPText">
           Here we define <MathJax inline>{"\\( \\omega = \\sqrt{\\frac{g}{L}} \\)"}</MathJax> as is done when solving equations
           of these sorts. We run into a small issue when trying to find a solution for this differential equation which is that
           it cannot be analytically solved. We can apply various numerical integration methods to obtain a solution for this
@@ -219,7 +228,7 @@ export const SimplePendulum = () => {
           \\end{aligned}$$`  
         }
         </MathJax>
-        <p class="sPText">
+        <p className="sPText">
           This equation is now solvable, and the solution to it is given below:
         </p>
         <MathJax>{
@@ -229,7 +238,7 @@ export const SimplePendulum = () => {
           \\end{aligned}$$`  
         }
         </MathJax>
-        <p class="sPText">
+        <p className="sPText">
           We make use of this equation in our simulation. The initial angle is a result of solving the differential and we set 
           it to 20 degrees. We do not use real world time as the animation would be too slow, rather we multiply the time by
           some factor to help speed up the animations.
@@ -238,7 +247,7 @@ export const SimplePendulum = () => {
         <h2>
           Simulation Quirks
         </h2>
-        <p class="sPText">
+        <p className="sPText">
           Aside from the actual physics involved, there are a few tricks we need to use while calculating for the position
           of the pendulum. These quirks help us display a smooth and beautiful animation to the user while keeping the 
           math simple in the backend. 
@@ -247,7 +256,7 @@ export const SimplePendulum = () => {
         <h3>
           Phase Angle Offset
         </h3>
-        <p class="sPText">
+        <p className="sPText">
           When changing the gravity, the <MathJax inline>{"\\( \\omega \\)"}</MathJax> term also changes as it depends on gravity.
           This means that the overall function is different and thus, the position at the same time will be different. The pendulum
           will just teleport to the new position which does not look visually appealing. <br></br>
@@ -260,7 +269,7 @@ export const SimplePendulum = () => {
           \\end{aligned}$$`  
         }
         </MathJax>
-        <p class="sPText">
+        <p className="sPText">
           The phase angle allows us to shift the wavefunction as we desire. This means that once we change the gravity, we can 
           calculate the phase shift by setting the old cosine equal to the new one and solve for the new phase shift in the new 
           cosine function. This allows for a really smooth transition while changing gravity.  
@@ -269,7 +278,7 @@ export const SimplePendulum = () => {
          <h2>
           In Another World
         </h2>
-        <p class="sPText">
+        <p className="sPText">
           As this was our first crack at a web based simulation, we did things that seemed to be the most straight forward. However, 
           in hindsight, we realize that there are a lot of things that we could've done differently to allow for more features for the user
           and faster calculations in the backend. For example, to obtain the position of the pendulum, we just made use of the equation

@@ -38,3 +38,11 @@ canvas {
 .css-nl6333-MuiSlider-track, .css-7o8aqz-MuiSlider-rail, .MuiSlider-thumb {
     background-color: var(--secondary-color) !important;
 }
+
+.centerImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 20%;
+    max-height: 20%
+}
