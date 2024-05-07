@@ -6,7 +6,6 @@ import { Portfolio } from "../pages/portfolio";
 import { ContactUs } from "../pages/contact";
 import { About } from "../pages/about";
 import { SimplePendulum } from "../simulationsGraphics/simplePendulum";
-import { Socialicons } from "../components/socialicons";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const AnimatedRoutes = withRouter(({ location }) => (
@@ -37,9 +36,8 @@ const AnimatedRoutes = withRouter(({ location }) => (
 
 function AppRoutes() {
   return (
-    <div className="ooo">
+    <div className="s_c">
       <AnimatedRoutes />
-      <Socialicons />
     </div>
   );
 }
