@@ -7,6 +7,7 @@ import {
 import withRouter from "../hooks/withRouter";
 import AppRoutes from "./routes";
 import Headermain from "../header";
+import Footer from "../components/footer";
 import AnimatedCursor  from "../hooks/AnimatedCursor";
 import "./App.css";
 
@@ -24,7 +25,7 @@ const ScrollToTop = withRouter(_ScrollToTop);
 export default function App() {
   return (
     <Router basename={process.env.PUBLIC_URL}>
-      {/* <div className="cursor__dot">
+      <div className="cursor__dot">
         <AnimatedCursor
           innerSize={15}
           outerSize={15}
@@ -33,11 +34,12 @@ export default function App() {
           innerScale={0.7}
           outerScale={5}
         />
-      </div> */}
+      </div>
       <ScrollToTop>
         <Headermain />
         <AppRoutes />
       </ScrollToTop>
+      <Footer />
     </Router>
   );
 }
