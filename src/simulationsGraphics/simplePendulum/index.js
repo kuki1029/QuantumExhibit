@@ -31,9 +31,6 @@ let totalTime = 0;
 // SimplePendulum class
 const pend = new SimplePendulumData(defaultMass, defaultLength);
 
-// TODO: Add sliding option to change the length and speed
-// TODO: Display the period and other properties on screen. Discuss this. 
-
 // Create page with react syntax. Need to do it this way
 // so that Pixi.js works well with React
 export const SimplePendulum = () => {
@@ -41,13 +38,20 @@ export const SimplePendulum = () => {
   const ref = useRef(null);
 
   // Variables for sliders to change parameters
-  const [gravVal, setGravValue] = React.useState(9.8);
+  const [gravVal, setGravValue] = useState(9.8);
+  const [lengthVal, setLengthVal] = useState(defaultLength)
   const [isLightTheme, setTheme] = useState((localStorage.getItem("theme") === 'light') ? true : false);
 
   // Handle changes when the slider is changed
   const handleGravSliderChange = (event, newValue) => {
     pend.setGravity(newValue, totalTime)
     setGravValue(newValue);
+  };
+
+  // Handle changes when the slider is changed
+  const handleLenSliderChange = (event, newValue) => {
+    pend.setLength(newValue, totalTime)
+    setLengthVal(newValue);
   };
 
   // React hooks. Runs after render of page
@@ -60,12 +64,12 @@ export const SimplePendulum = () => {
     // Draw pivot at half width and a third of the height.
     // Rect draws at x, y of top left of rectangle so we subtract those
     // to make sure it properly draws in the center
-    pivot.rect((Screen.width - pivotSize)/ 2, (Screen.height  - pivotSize)/ 3, pivotSize, pivotSize);
+    pivot.rect((Screen.width - pivotSize)/ 2, Screen.height/3 - pivotSize/2, pivotSize, pivotSize);
     pivot.fill(pivotColor);
 
     // This pendulum location is irrelevant as we update it in the app.ticker
     // to match the motion of a pendulum
-    pendulum.circle((Screen.width - pivotSize)/ 2, (Screen.height  - pivotSize)/ 3, pendulumSize)
+    pendulum.circle((Screen.width)/ 2, Screen.height/3, pendulumSize)
     pendulum.fill(pendulumColor)
 
     drawRope(Screen.width / 2, Screen.height / 3 + defaultLength)
@@ -105,15 +109,14 @@ export const SimplePendulum = () => {
         pendulum.y = xCoord
         // Animate rope
         rope.clear();
-        drawRope(yCoord + ((Screen.width - pivotSize) / 2), 
-        xCoord + defaultLength)
+        drawRope(yCoord + (Screen.width / 2), xCoord + defaultLength)
 
         // Redraw with new color to match theme
         if (redrawColors) {
           pendulum.fill(pendulumColor);
-          pendulum.circle((Screen.width - pivotSize)/ 2, (Screen.height  - pivotSize)/ 3, pendulumSize)
+          pendulum.circle((Screen.width)/ 2, Screen.height/3, pendulumSize)
 
-          pivot.rect((Screen.width - pivotSize)/ 2, (Screen.height  - pivotSize)/ 3, pivotSize, pivotSize);
+          pivot.rect((Screen.width - pivotSize)/ 2, Screen.height/3 - pivotSize/2, pivotSize, pivotSize);
           pivot.fill(pivotColor);
 
           app.renderer.background.color = backgroundColor;
@@ -131,12 +134,13 @@ export const SimplePendulum = () => {
     };
   }, []);
 
+  // TODO: Some refactoring and moving to components of code
   // Colors for simulation. If not light, assume dark
   // We emit an event in the themeToggle component and listen to it here
   // Whenever theme changes, we update our colors and redraw shapes
   window.addEventListener('themeChanged', () => {
     const theme = localStorage.getItem("theme");
-    setTheme((localStorage.getItem("theme") === 'light') ? true : false)
+    setTheme((theme === 'light') ? true : false)
     redrawColors = true;
     if (theme === 'light') {
       pivotColor = "#000000";
@@ -174,6 +178,24 @@ export const SimplePendulum = () => {
               size="small"
               step={0.1}
               min={0.1}
+              color={pivotColor}
+              valueLabelDisplay="auto"
+            />
+        </Box>
+        {/* Length Slider */}
+        <Box sx={{ width: sliderBoxSize }} m="auto">
+          {/* Slider Label */}
+          <Typography>
+            Length
+          </Typography>
+            {/* Length Slider */}
+            <Slider
+              value={typeof lengthVal === 'number' ? lengthVal : 0}
+              onChange={handleLenSliderChange}
+              size="small"
+              step={1}
+              min={5}
+              max={400}
               color={pivotColor}
               valueLabelDisplay="auto"
             />
@@ -292,9 +314,21 @@ export const SimplePendulum = () => {
           able to implement it in a more rigorous way. We will have to make use of numerical integration in our double pendulum 
           simulation. 
         </p>
+        {/* Motivations*/}
+        <h2>
+          Motivations
+        </h2>
+        <p className="sPText">
+          This was our first simulation. Simple yet elegant. Our main motivation behind this simulation was to learn how Pixi.JS works 
+          and how we can use it to create physics simulations. It wasn't meant to be complicated. We could've added plenty of options
+          and customizations but we wanted to keep it simple. This simulation led the way for all our future simulations as it allowed
+          us to learn what we might need to do different. For example, our project structure, how we split up work and communicate with each other,
+          or even how we implement different equations in our calculations. <br></br>
+          This first simulation was extremely fun to make as we spent our time figuring out something new and learning many things along the way. 
+          The future simulations will hopefully be a bit more complicated and showcase the magic of Physics as we intend to.
+        </p>
         </MathJaxContext>
       </Box>
     </div>);
 }
 // TODO: Check for spelling errors and grammar
-// TODO: Github link for each repo prolly on simulation page
