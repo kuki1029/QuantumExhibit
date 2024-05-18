@@ -32,7 +32,7 @@ const kunalData = {
 
 const chatData = {
     title: "Chaitanya",
-    aboutme: "I am a Honours Physics student at the University of Waterloo and an aspiring research scientist.\
+    aboutme: "I am an Honours Physics student at the University of Waterloo and an aspiring research scientist.\
     Developing physics simulations and this site has let me explore my interest in physics in non-traditional ways\
     enabling me to pursue and merge my passion for writing, coding and physics on my own terms. I have experience working in a number of scientific\
     research institutes such as TRIUMF and SNOLAB and have developed experience working with Monte Carlo simulations and Statistical Data Analysis\
