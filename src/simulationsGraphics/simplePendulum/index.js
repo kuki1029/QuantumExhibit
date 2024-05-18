@@ -18,11 +18,13 @@ const defaultMass = 1;
 const pendulumSize = 10;
 const animationSpeed = 100;
 const sliderBoxSize = 180;
-let pivotColor;
-let pendulumColor;
-let backgroundColor;
-let ropeColor = pivotColor;
 
+// Set intial colors based on users theme
+const theme = localStorage.getItem("theme")
+let pivotColor = (theme === 'light') ? "#000000" : "#ffffff";
+let pendulumColor = (theme === 'light') ? 0x4169E1 : 0xff0033;
+let backgroundColor = (theme === 'light') ? '#ffffff' : '#0c0c0c';
+let ropeColor = pivotColor;
 let redrawColors = false;
 
 // totalTime used to update the animation
@@ -128,10 +130,10 @@ export const SimplePendulum = () => {
 
     initializePixiApp();
   
-    return () => {
-      // On unload completely destroy the application and all of it's children
-      app.destroy(true, true);
-    };
+    // return () => {
+    //   // On unload completely destroy the application and all of it's children
+    //   app.destroy(true, true);
+    // };
   }, []);
 
   // TODO: Some refactoring and moving to components of code
@@ -308,7 +310,7 @@ export const SimplePendulum = () => {
           For example, we wanted to allow the user to be able to drag the pendulum to anywhere and flick it to any speed they like.
           This cannot be achieved with our current setup. To achieve this, we would need to also make use of energy conservation
           and calculate the initial speed of the pendulum based on how fast the user moves it. It was a level of complexity that
-          we expect to overcome in our double pendulum simulation. <br></br>
+          we expect to overcome in our double pendulum simulation. <br></br><br></br>
           Also, another thing we would like to implement is some form of numerical integration instead of using the small angle 
           approximation. Although it works just fine and the difference wouldn't be noticeable, it would still be nice to be 
           able to implement it in a more rigorous way. We will have to make use of numerical integration in our double pendulum 
