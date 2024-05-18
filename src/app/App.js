@@ -12,22 +12,22 @@ import "./App.css";
 
 // TODO: Add footer
 
-function _ScrollToTop(props) {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return props.children;
-}
-const ScrollToTop = withRouter(_ScrollToTop);
+// function _ScrollToTop(props) {
+//   const { pathname } = useLocation();
+//   useEffect(() => {
+//     window.scrollTo(0, 0);
+//   }, [pathname]);
+//   return props.children;
+// }
+// const ScrollToTop = withRouter(_ScrollToTop);
 
 export default function App() {
   return (
     <Router basename={process.env.PUBLIC_URL}>
-      <ScrollToTop>
+      {/* <ScrollToTop> */}
         <Headermain />
         <AppRoutes />
-      </ScrollToTop>
+      {/* </ScrollToTop> */}
       <Footer />
     </Router>
   );

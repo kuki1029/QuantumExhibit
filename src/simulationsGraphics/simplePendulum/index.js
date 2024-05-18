@@ -18,11 +18,13 @@ const defaultMass = 1;
 const pendulumSize = 10;
 const animationSpeed = 100;
 const sliderBoxSize = 180;
-let pivotColor;
-let pendulumColor;
-let backgroundColor;
-let ropeColor = pivotColor;
 
+// Set intial colors based on users theme
+const theme = localStorage.getItem("theme")
+let pivotColor = (theme === 'light') ? "#000000" : "#ffffff";
+let pendulumColor = (theme === 'light') ? 0x4169E1 : 0xff0033;
+let backgroundColor = (theme === 'light') ? '#ffffff' : '#0c0c0c';
+let ropeColor = pivotColor;
 let redrawColors = false;
 
 // totalTime used to update the animation
@@ -125,10 +127,10 @@ export const SimplePendulum = () => {
 
     initializePixiApp();
   
-    return () => {
-      // On unload completely destroy the application and all of it's children
-      app.destroy(true, true);
-    };
+    // return () => {
+    //   // On unload completely destroy the application and all of it's children
+    //   app.destroy(true, true);
+    // };
   }, []);
 
   // Colors for simulation. If not light, assume dark

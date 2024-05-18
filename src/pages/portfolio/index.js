@@ -17,7 +17,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
-
 // TODO: Add filter options for types and by who later on when theres more
 export const Portfolio = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -54,73 +53,83 @@ export const Portfolio = () => {
           </Col>
         </Row>
         {/* ================= Loop to show all data ================= */}
-        <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-
-          {dataportfolio.map((data, i) => {
-            return (
-              <Grid item xs={2} sm={4} md={4} key={i}>
-              <Card className="simCard"  sx={{ maxWidth: 345}}>
-                <CardHeader
-                className="cardText"
-                  action={
-                    <div>
-                    <IconButton
-                      id="basic-button"
-                      aria-controls={open ? 'basic-menu' : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? 'true' : undefined}
-                      onClick={handleClick}
-                      className="cardText">
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      MenuListProps={{
-                        'aria-labelledby': 'basic-button',
-                      }}>
-                      <MenuItem component={"a"} target="_blank" onClick={handleClose} href="https://github.com/kuki1029">Kunal's GitHub</MenuItem>
-                      <MenuItem component={"a"} target="_blank" onClick={handleClose} href="https://github.com/cluktuke">Chat's GitHub</MenuItem>
-                    </Menu>
-                    </div>
-                  }
-                  title={data.title}
-                />
-                {isLightTheme ? 
-                  <CardMedia
-                  component="img"
-                  image={data.img}
-                  alt={data.alt}
-                  sx={{ padding: 3 }}
-                  /> 
-                  :
-                  <CardMedia
-                    component="img"
-                    image={data.imgLight}
-                    alt={data.alt}
-                    sx={{ padding: 3 }}
-                  /> 
-                }
-                
-                <CardContent>
-                  <Typography variant="body2" color="text.secondary" className="cardText">
-                    {data.description}
-                  </Typography>
-                </CardContent>
-                <CardActions sx={{ justifyContent : 'space-between', p: 1 }} disableSpacing>
-                  <Button variant="outlined" color='inherit'>
-                    Learn More
-                  </Button>
-                    By {data.By}
-                </CardActions>
-              </Card>
-              </Grid>
-            );
-          })}
-        </Grid>
+        <Box  sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
+            {dataportfolio.map((data, i) => {
+              return (
+                <Grid item xs={2} sm={4} md={4} key={i}>
+                  <Card className="simCard"  sx={{ maxWidth: 345}}>
+                    <CardHeader
+                    className="cardText"
+                      action={
+                        <div>
+                        <IconButton
+                          id="basic-button"
+                          aria-controls={open ? 'basic-menu' : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? 'true' : undefined}
+                          onClick={handleClick}
+                          className="cardText">
+                          <MoreVertIcon />
+                        </IconButton>
+                        <Menu
+                          id="basic-menu"
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          MenuListProps={{
+                            'aria-labelledby': 'basic-button',
+                          }}>
+                          <MenuItem component={"a"} target="_blank" onClick={handleClose} href="https://github.com/kuki1029">Kunal's GitHub</MenuItem>
+                          <MenuItem component={"a"} target="_blank" onClick={handleClose} href="https://github.com/cluktuke">Chat's GitHub</MenuItem>
+                        </Menu>
+                        </div>
+                      }
+                      title={data.title}
+                    />
+                    {isLightTheme ? 
+                      <CardMedia
+                      component="img"
+                      image={data.imgLight}
+                      alt={data.alt}
+                      sx={{ padding: 3 }}
+                      /> 
+                      :
+                      <CardMedia
+                        component="img"
+                        image={data.img}
+                        alt={data.alt}
+                        sx={{ padding: 3 }}
+                      /> 
+                    }
+                    <CardContent>
+                      <Typography variant="body2" color="text.secondary" className="cardText">
+                        {data.description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions sx={{ justifyContent : 'space-between', p: 1 }} disableSpacing>
+                      <Grid
+                        container
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={2}>
+                          <Grid item xs={6}>
+                          <a href={data.link}>
+                            <Button variant="outlined" color='inherit' sx={{ textDecoration: "none"}}>
+                            Learn More
+                          </Button></a>
+                          </Grid>
+                          <Grid item xs={6}>
+                          By {data.By}
+                          </Grid>
+                      </Grid>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              );
+            })}
+          </Grid>
         </Box>
       </Container>
     </HelmetProvider>
