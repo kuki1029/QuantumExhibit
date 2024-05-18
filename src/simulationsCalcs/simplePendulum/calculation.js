@@ -42,6 +42,7 @@ export default class SimplePendulumData {
     /**
      * Changes the gravity for the pendulum to specified value
      * @param {number} newGrav - The new gravity value to be used in m/s^2
+     * @param {number} time - The current time in s to help calculate the offset
      */
     setGravity(newGrav, time) {
         if (newGrav < 0) {
@@ -54,9 +55,23 @@ export default class SimplePendulumData {
         this.gravity = newGrav
     }
 
+     /**
+     * Changes the length for the pendulum to specified value
+     * @param {number} newLen - The new length value to be used in m
+     */
+    setLength(newLen, time) {
+        if (newLen < 0) {
+            newLen = 5
+        }
+        // Find the phase for the new cos wave by setting the phase angle to 0
+        const omega1 = Math.sqrt(this.gravity / this.length)
+        const omega2 = Math.sqrt(this.gravity / newLen)
+        this.offset = this.offset + (omega1 - omega2) * time
+        this.length = newLen
+    }
+
 
     // TODO: Func for change gravity, change drag, reset initial angle
-    // TODO: change length
     // TODO: incorporate drag into the equations
     // TODO: Make 0 gravity option
     // TODO: Make it clickable
