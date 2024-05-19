@@ -5,7 +5,6 @@ import { Home } from "../pages/home";
 import { Portfolio } from "../pages/portfolio";
 import { ContactUs } from "../pages/contact";
 import { About } from "../pages/about";
-import { Test } from "../pages/test";
 import { SimplePendulum } from "../simulations/simplePendulum";
 
 const AnimatedRoutes = withRouter(({ location }) => (
@@ -13,7 +12,6 @@ const AnimatedRoutes = withRouter(({ location }) => (
       <Routes location={location}>
         <Route exact path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
-        <Route path="/test" element={<Test />} />
         <Route path="/simulation" element={<Portfolio />} />
         <Route path="/simulation/simplePendulum" element={<SimplePendulum /> } />
         <Route path="/contact" element={<ContactUs />} />
