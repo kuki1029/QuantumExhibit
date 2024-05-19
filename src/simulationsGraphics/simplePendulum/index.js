@@ -8,57 +8,41 @@ import Stack from '@mui/material/Stack';
 import { Box } from "@mui/material";
 import { SimePendExplanation } from "./spExplanation.js";
 import simpPendAnimation from "./spAnimation.js";
-import SimplePendulumData from "../../simulationsCalcs/simplePendulum/calculation.js";
 
-
+const defaultLength = 200;
 const sliderBoxSize = 180;
 
-// Set intial colors based on users theme
 const theme = localStorage.getItem("theme")
-let pivotColor = (theme === 'light') ? "#000000" : "#ffffff";
-let pendulumColor = (theme === 'light') ? 0x4169E1 : 0xff0033;
-let backgroundColor = (theme === 'light') ? '#ffffff' : '#0c0c0c';
-let ropeColor = pivotColor;
-let redrawColors = false;
+let sliderColor = (theme === 'light') ? "#000000" : "#ffffff";
 
-// totalTime used to update the animation
-let totalTime = 0;
+const pendAnimate = new simpPendAnimation()
 
-// SimplePendulum class
-const pend = new SimplePendulumData(defaultMass, defaultLength);
-
-// Create page with react syntax. Need to do it this way
-// so that Pixi.js works well with React
 export const SimplePendulum = () => {
   // Ref used to display the pixi.js code
   const ref = useRef(null);
 
-  // Variables for sliders to change parameters
   const [gravVal, setGravValue] = useState(9.8);
   const [lengthVal, setLengthVal] = useState(defaultLength)
 
   // Handle changes when the slider is changed
   const handleGravSliderChange = (event, newValue) => {
-    pend.setGravity(newValue, 0)
+    pendAnimate.setGravity(newValue)
     setGravValue(newValue);
   };
 
   // Handle changes when the slider is changed
   const handleLenSliderChange = (event, newValue) => {
-    pend.setLength(newValue, 0)
+    pendAnimate.setLength(newValue)
     setLengthVal(newValue);
   };
 
   // Runs once
   useEffect(() => {
-    // We need a function for this as pixiJS requires
-    // async setup to be initialized
+    // We need a function for this as pixiJS requires async setup to be initialized
     async function initializePixiApp() {
-      // Create a new application
       const app = new Application();
 
-      const pendAnimate = new simpPendAnimation(app, Screen.width/2, Screen.height/3)
-      await pendAnimate.initPixi()
+      await pendAnimate.initPixi(app, Screen.width/2, Screen.height/3)
       pendAnimate.drawPivot()
       pendAnimate.drawPendulum()
       pendAnimate.drawRope(0, defaultLength)
@@ -93,7 +77,7 @@ export const SimplePendulum = () => {
               size="small"
               step={0.1}
               min={0.1}
-              color={pivotColor}
+              color={sliderColor}
               valueLabelDisplay="auto"
             />
         </Box>
@@ -111,7 +95,7 @@ export const SimplePendulum = () => {
               step={1}
               min={5}
               max={400}
-              color={pivotColor}
+              color={sliderColor}
               valueLabelDisplay="auto"
             />
         </Box>

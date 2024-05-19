@@ -22,19 +22,8 @@ export default class simpPendAnimation {
      * @param {number} originY - The origin for y values. All objects will be drawn from here
      */
     constructor(app, originX, originY) {
-        this.app = app;
-        this.originX = originX
-        this.originY = originY
         // totalTime used to update the animation
         this.totalTime = 0;
-
-        // Initialize all graphics instances
-        this.pendulum = new Graphics();
-        this.rope = new Graphics();
-        this.pivot = new Graphics();
-        this.app.stage.addChild(this.pivot)
-        this.app.stage.addChild(this.rope)
-        this.app.stage.addChild(this.pendulum)
 
         // Set intial colors based on users theme
         const theme = localStorage.getItem("theme")
@@ -125,12 +114,50 @@ export default class simpPendAnimation {
         })
     }
 
-    async initPixi() {
+    /**
+     * Initialize all the graphics objects and adds to stage
+     */
+    initObjectsToStage() {
+        // Initialize all graphics instances
+        this.pendulum = new Graphics();
+        this.rope = new Graphics();
+        this.pivot = new Graphics();
+        this.app.stage.addChild(this.pivot)
+        this.app.stage.addChild(this.rope)
+        this.app.stage.addChild(this.pendulum)
+    }
+
+    /**
+     * Initialize all the main components for Pixi.js including the app
+     * Starts the animation and creates listeners for theme changes to update colors.
+     * Also, creates all graphics objects and adds to stage.
+     */
+    async initPixi(app, originX, originY) {
+        this.app = app;
+        this.originX = originX
+        this.originY = originY
         await this.app.init({ background: this.backgroundColor, width: Screen.width, 
             height: Screen.height, antialias: true });
         // Set colors to be reactive to theme changes
         this.updateColors();
         // Run animation
         this.animatePendulumRope()
+        this.initObjectsToStage()
+    }
+
+    /**
+     * Changes the gravity for the pendulum. 
+     * @param {number} newGrav - New gravity value in m/s^2
+     */
+    setGravity(newGrav) {
+        pend.setGravity(newGrav, this.totalTime)
+    }
+
+    /**
+     * Changes the length for the pendulum. 
+     * @param {number} newLen - New length value in m
+     */
+    setLength(newLen) {
+        pend.setLength(newLen, this.totalTime)
     }
 }
