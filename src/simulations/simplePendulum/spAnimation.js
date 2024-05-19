@@ -1,6 +1,6 @@
-import { Screen } from "../../constants.js";
+import { Screen, SimColors } from "../../constants.js";
 import { Graphics } from 'pixi.js';
-import SimplePendulumData from '../../simulationsCalcs/simplePendulum/calculation.js'
+import SimplePendulumData from './spCalculation.js'
 
 // Constants for animation
 const pivotSize = 20;
@@ -27,9 +27,9 @@ export default class simpPendAnimation {
 
         // Set intial colors based on users theme
         const theme = localStorage.getItem("theme")
-        this.pivotColor = (theme === 'light') ? "#000000" : "#ffffff";
-        this.pendulumColor = (theme === 'light') ? 0x4169E1 : 0xff0033;
-        this.backgroundColor = (theme === 'light') ? '#ffffff' : '#0c0c0c';
+        this.pivotColor = (theme === 'light') ? SimColors.black : SimColors.white;
+        this.pendulumColor = (theme === 'light') ? SimColors.blue : SimColors.red;
+        this.backgroundColor = (theme === 'light') ? SimColors.bgLight : SimColors.bgDark;
         this.ropeColor = this.pivotColor;
     }
 
@@ -98,14 +98,14 @@ export default class simpPendAnimation {
         // Whenever theme changes, we update our colors and redraw shapes
         window.addEventListener('themeChanged', () => {
             if (localStorage.getItem("theme") === 'light') {
-                this.pivotColor = "#000000";
-                this.pendulumColor = 0x4169E1;
-                this.backgroundColor = '#ffffff'; 
+                this.pivotColor = SimColors.black;
+                this.pendulumColor = SimColors.blue;
+                this.backgroundColor = SimColors.bgLight; 
                 this.ropeColor = this.pivotColor;
             } else {
-                this.pivotColor = "#ffffff";
-                this.pendulumColor = 0xff0033;
-                this.backgroundColor = 0x0c0c0c;
+                this.pivotColor = SimColors.white;
+                this.pendulumColor = SimColors.red;
+                this.backgroundColor = SimColors.bgDark;
                 this.ropeColor = this.pivotColor;
             }
             this.drawPendulum()

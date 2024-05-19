@@ -1,4 +1,4 @@
-import SimplePendulumData from './calculation.js'
+import SimplePendulumData from './spCalculation.js'
 
 const pend = new SimplePendulumData(1, 100)
 

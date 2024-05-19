@@ -1,6 +1,6 @@
 import { MathJax, MathJaxContext } from "better-react-mathjax";
-import fbdLight from './fbdSimplePendulumLight.png'
-import fbdDark from './fbdSimplePendulumDark.png'
+import fbdLight from './images/fbdSimplePendulumLight.png'
+import fbdDark from './images/fbdSimplePendulumDark.png'
 import { useState } from "react";
 
 // File for explanation for simple pendulum. Code contains latex which is displayed on FE
@@ -31,7 +31,7 @@ export const SimePendExplanation = () => {
         <MathJax>{"\\[ F=ma  \\]"}</MathJax>
         <MathJax>{"\\[ -mg \\sin(\\theta) = ma  \\]"}</MathJax>
         <MathJax hideUntilTypeset={"first"}>
-          {`Here, we need to apply a change of variables as we have two different variables for position
+          {`Here, we need to apply a change of variables as we have two different variables for the position
           on each side of the equation. We can replace acceleration with \\(L \\alpha \\) where \\( \\alpha \\) represents the
           angular acceleration. Thus, we have:
           \\[ -mg \\sin(\\theta) = mL \\alpha \\]`}
@@ -82,7 +82,7 @@ export const SimePendExplanation = () => {
           Simulation Quirks
         </h2>
         <p className="sPText">
-          Aside from the actual physics involved, there are a few tricks we need to use while calculating for the position
+          Aside from the actual physics involved, there are a few tricks we need to use while calculating the position
           of the pendulum. These quirks help us display a smooth and beautiful animation to the user while keeping the 
           math simple in the backend. 
         </p>
@@ -117,7 +117,7 @@ export const SimePendExplanation = () => {
           in hindsight, we realize that there are a lot of things that we could've done differently to allow for more features for the user
           and faster calculations in the backend. For example, to obtain the position of the pendulum, we just made use of the equation
           of motion with the small angle approximations. This is fine but it limits what we can do. <br></br>
-          For example, we wanted to allow the user to be able to drag the pendulum to anywhere and flick it to any speed they like.
+          For example, we wanted to allow the user to be able to drag the pendulum anywhere and flick it to any speed they like.
           This cannot be achieved with our current setup. To achieve this, we would need to also make use of energy conservation
           and calculate the initial speed of the pendulum based on how fast the user moves it. It was a level of complexity that
           we expect to overcome in our double pendulum simulation. <br></br><br></br>
@@ -134,7 +134,7 @@ export const SimePendExplanation = () => {
           This was our first simulation. Simple yet elegant. Our main motivation behind this simulation was to learn how Pixi.JS works 
           and how we can use it to create physics simulations. It wasn't meant to be complicated. We could've added plenty of options
           and customizations but we wanted to keep it simple. This simulation led the way for all our future simulations as it allowed
-          us to learn what we might need to do different. For example, our project structure, how we split up work and communicate with each other,
+          us to learn what we might need to do differently. For example, our project structure, how we split up work and communicate with each other,
           or even how we implement different equations in our calculations. <br></br>
           This first simulation was extremely fun to make as we spent our time figuring out something new and learning many things along the way. 
           The future simulations will hopefully be a bit more complicated and showcase the magic of Physics as we intend to.
