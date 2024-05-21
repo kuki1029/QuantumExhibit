@@ -5,7 +5,7 @@ import { Home } from "../pages/home";
 import { Portfolio } from "../pages/portfolio";
 import { ContactUs } from "../pages/contact";
 import { About } from "../pages/about";
-import { SimplePendulum } from "../simulationsGraphics/simplePendulum";
+import { SimplePendulum } from "../simulations/simplePendulum";
 
 const AnimatedRoutes = withRouter(({ location }) => (
 

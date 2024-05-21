@@ -1,5 +1,6 @@
-import simpPendDark from "./simulationsGraphics/simplePendulum/simExampleSimplePend.png"
-import simpPendLight from "./simulationsGraphics/simplePendulum/simExampleSimplePendLight.png"
+import simpPendDark from "./simulations/simplePendulum/images/simExampleSimplePend.png"
+import simpPendLight from "./simulations/simplePendulum/images/simExampleSimplePendLight.png"
+import homeLogo from "./assets/images/homeLogo.png"
 
 
 const logotext = "QE";
@@ -13,7 +14,7 @@ const introData = {
         third: "We make it simple",
     },
     description: "This site is created by Kunal Varkekar & Chaitanya Luktuke. We made this website to work on what we love and showcase it to the world. We hope you enjoy our physics simulations!",
-    your_img_url: "https://images.unsplash.com/photo-1576319155264-99536e0be1ee",
+    your_img_url: homeLogo,
 };
 
 const aboutData = {
@@ -52,7 +53,7 @@ const dataportfolio = [{
         alt: "Simple Pendulum",
         description: "A simple yet elegant pendulum simluation using elementary physics. Our first simulation \
         which was used to help learn the basics of Pixi.JS and the intricacies of creating online simulations.",
-        By: "Kunal & Chat",
+        By: "Kunal",
         link: "/simulation/simplePendulum"
     },
 ];

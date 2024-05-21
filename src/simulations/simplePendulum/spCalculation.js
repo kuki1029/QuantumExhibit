@@ -16,7 +16,6 @@ export default class SimplePendulumData {
         this.mass = mass;
         this.length = length;
         this.gravity = gravity;
-        // TODO: Add actual solving instead of approximation and give user the choice to see difference
         this.angle = initialAngle;
         this.drag = drag;
         // This offset is to allow smooth transition between parameter changes
@@ -29,7 +28,6 @@ export default class SimplePendulumData {
      * @return {[number, number]} The x and y position of the pendulum in meters.
      */
     getCurrentPosition(time) {
-        // TODO: Make small angle approximation a choice and implement proper way
         // Find current angle based on given time
         const omega = Math.sqrt(this.gravity / this.length)
         const theta = this.angle * Math.cos(time * omega + this.offset)
@@ -71,8 +69,4 @@ export default class SimplePendulumData {
     }
 
 
-    // TODO: Func for change gravity, change drag, reset initial angle
-    // TODO: incorporate drag into the equations
-    // TODO: Make 0 gravity option
-    // TODO: Make it clickable
 }

@@ -17,7 +17,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
-// TODO: Add filter options for types and by who later on when theres more
 export const Portfolio = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [isLightTheme, setTheme] = useState((localStorage.getItem("theme") === 'light') ? true : false);
