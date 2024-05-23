@@ -18,6 +18,5 @@ export const SimColors = {
     "blue": "#4169E1",
     "bgLight": "#ffffff",
     "bgDark": "#0c0c0c"
-
 }
 
