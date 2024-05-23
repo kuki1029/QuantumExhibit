@@ -1,0 +1,17 @@
+.footerBox {
+    background-color: var(--bg-color);
+}
+
+.footerText {
+    text-align: center;
+}
+
+.MuiLink-root {
+    color: var(--text-color) !important;
+    font-family: 'Raleway' !important;
+}
+
+.footerMadeByText {
+    font-size: 0.5em;
+    text-align: center;
+}
