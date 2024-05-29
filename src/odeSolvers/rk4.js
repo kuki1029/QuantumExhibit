@@ -24,10 +24,12 @@ export class rk4 {
     //TODO: Check if array or not
     /**
      * Does one step of Runge-Kutta. Makes use of the class variables 
-     * @returns {[number, number]} Returns y_{n+1} and t_{n+1} as a list
+     * @returns {[number, number]} Returns y_{n+1} and t_{n+1} as a list [t, y]
      */
     step() {
-        return //TODO: Add the rk4 method here 
+        this.y += this.odeMethod(this.t, this.y, this.h)
+        this.t += this.h
+        return [this.t, this.y]
     }
 
     /**
@@ -47,15 +49,25 @@ export class rk4 {
         // Add h here to account for floating point errors
         while (t0 < tf + h) {
             solved.push([t0, y0])
-            // TODO: Add RK4 method here to figure out next y and t value
-            const k1 = this.func(t0, y0)
-            const k2 = this.func(t0 + (h/2), y0 + k1 * (h/2))
-            const k3 = this.func(t0 + (h/2), y0 + k2 * (h/2))
-            const k4 = this.func(t0 + h, y0 + k3 * h)
-            y0 = y0 + (h/6) * (k1 + 2 * k2 + 2 * k3 + k4)
+            y0 = y0 + this.odeMethod(t0, y0, h)
             t0 += h
         }
         return solved
+    }
+
+    /**
+     * Returns the constants or terms required for the ode scheme. RK4 in this case
+     * and returns the addition term for it.
+     * @param {number} t - The current t value or t_n
+     * @param {number} y - The current y value or y_n
+     * @returns {number} - Returns the term to be added to y0 for the next y value
+     */
+    odeMethod(t, y, h) {
+        const k1 = this.func(t, y)
+        const k2 = this.func(t + (h/2), y + k1 * (h/2))
+        const k3 = this.func(t + (h/2), y + k2 * (h/2))
+        const k4 = this.func(t + h, y + k3 * h)
+        return ((h/6) * (k1 + 2 * k2 + 2 * k3 + k4))
     }
 }
 

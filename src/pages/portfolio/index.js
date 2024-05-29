@@ -106,12 +106,11 @@ export const Portfolio = () => {
                         {data.description}
                       </Typography>
                     </CardContent>
-                    <CardActions sx={{ justifyContent : 'space-between', p: 1 }} disableSpacing>
+                    <CardActions sx={{ justifyContent : 'space-between', mb:-1.5  }} disableSpacing>
                       <Grid
                         container
                         direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
+
                         spacing={2}>
                           <Grid item xs={6}>
                           <a href={data.link}>
@@ -120,7 +119,7 @@ export const Portfolio = () => {
                           </Button></a>
                           </Grid>
                           <Grid item xs={6}>
-                          By {data.By}
+                            <p className="byText">By {data.By}</p>
                           </Grid>
                       </Grid>
                     </CardActions>
