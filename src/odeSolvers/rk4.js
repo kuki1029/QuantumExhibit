@@ -7,7 +7,7 @@ export class rk4 {
     /**
      * Creates a rk4 solver with given initial conditions. IC's can be changed
      * later on along with any other parameters
-     * @param {function} func - Mass in Kg
+     * @param {function} func - Function that takes in parameters in format f(t, y) where y is a scalar or vector
      * @param {number} y0 - The initial condition y value
      * @param {number} t0 - The intial time value
      * @param {number} h - Stepsize
@@ -39,22 +39,27 @@ export class rk4 {
      * @param {number} t0 - The intial time value
      * @param {number} h - Stepsize
      * @param {number} tf - Final t value for the returned y(t) function
-     * @returns {[number, number][]} - Returns a list of y and t points of the solved function between t0 and tf
+     * @returns {[number, number][]} - Returns a list of t and y points of the solved function between t0 and tf. [y, t]
      */
     solve(y0, t0, h, tf) {
-        solved = []
-        let y = y0
-        let t = t0
-        while (t <= tf) {
-            solved.push([y, t])
+        // TODO: Add check to make sure tf > t0
+        let solved = []
+        // Add h here to account for floating point errors
+        while (t0 < tf + h) {
+            solved.push([t0, y0])
             // TODO: Add RK4 method here to figure out next y and t value
-
-            t += h
+            const k1 = this.func(t0, y0)
+            const k2 = this.func(t0 + (h/2), y0 + k1 * (h/2))
+            const k3 = this.func(t0 + (h/2), y0 + k2 * (h/2))
+            const k4 = this.func(t0 + h, y0 + k3 * h)
+            y0 = y0 + (h/6) * (k1 + 2 * k2 + 2 * k3 + k4)
+            t0 += h
         }
         return solved
     }
-
-    
-
-
 }
+
+// TODO: Change step size
+// TODO: Change func
+// TODO: Handle arrays in func. 
+// TODO: Take in arrays into input and also scalar. depending on how many eqns passed
