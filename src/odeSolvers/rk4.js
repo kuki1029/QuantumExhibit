@@ -8,7 +8,7 @@ export class rk4 {
      * Creates a rk4 solver with given initial conditions. IC's can be changed
      * later on along with any other parameters. If func takes in vector variables,
      * the initial conditions must also be vectors. 
-     * @param {function | function[]} func - Function that takes in parameters in format f(t, y) where y is a scalar or vector
+     * @param {function(t, y) | function(t, [y])[]} func - Function that takes in parameters in format f(t, y) where y is a scalar or vector
      * @param {number | number[]} y0 - The initial condition y value
      * @param {number | number[]} t0 - The intial time value
      * @param {number} h - Stepsize. Always scalar. 
@@ -50,14 +50,15 @@ export class rk4 {
      * Provides the solved function y(t) between t0 and a final t value.
      * Does not use the class' variables and need to supply your own. This is to allow
      * one to solve the function without messing up the gradual stepping required for animations.
-     * Just uses the function provided to class. 
+     * Just uses the function provided to class. You can also choose to only pass in tf if you would like to 
+     * use class defaults for the other parameters
      * @param {number} y0 - The initial condition y value
      * @param {number} t0 - The intial time value
      * @param {number} h - Stepsize
      * @param {number} tf - Final t value for the returned y(t) function
      * @returns {[number, number][]} - Returns a list of t and y points of the solved function between t0 and tf. [y, t]
      */
-    solve(y0, t0, h, tf) {
+    solve(y0 = this.y0, t0 = this.t0, h = this.h, tf) {
         // TODO: Add check to make sure tf > t0
         let solved = []
         // Add h here to account for floating point errors
