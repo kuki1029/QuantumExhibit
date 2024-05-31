@@ -6,19 +6,33 @@
 export class rk4 {
     /**
      * Creates a rk4 solver with given initial conditions. IC's can be changed
-     * later on along with any other parameters
-     * @param {function} func - Function that takes in parameters in format f(t, y) where y is a scalar or vector
-     * @param {number} y0 - The initial condition y value
-     * @param {number} t0 - The intial time value
-     * @param {number} h - Stepsize
+     * later on along with any other parameters. If func takes in vector variables,
+     * the initial conditions must also be vectors. 
+     * @param {function | function[]} func - Function that takes in parameters in format f(t, y) where y is a scalar or vector
+     * @param {number | number[]} y0 - The initial condition y value
+     * @param {number | number[]} t0 - The intial time value
+     * @param {number} h - Stepsize. Always scalar. 
     */
     constructor(func, y0, t0, h) {
-        this.func = func
-        this.y0 = y0
-        this.t0 = t0
-        this.t = t0
-        this.y = y0
+        if (!((Array.isArray(func) === Array.isArray(y0)) && (Array.isArray(y0) === Array.isArray(t0)))) {
+            throw new TypeError("ERROR: Some values are scalar while some are arrays. Please pass in consistent types.")
+        }
+        if (Array.isArray(func)) {
+            this.func = func
+            this.y0 = y0
+            this.t0 = t0
+            this.t = t0
+            this.y = y0
+        } else {
+            this.func = func
+            this.y0 = y0
+            this.t0 = t0
+            this.t = t0
+            this.y = y0
+        }
         this.h = h
+
+        
     }
 
     //TODO: Check if array or not
@@ -27,7 +41,7 @@ export class rk4 {
      * @returns {[number, number]} Returns y_{n+1} and t_{n+1} as a list [t, y]
      */
     step() {
-        this.y += this.odeMethod(this.t, this.y, this.h)
+        this.y += this.odeMethod(this.t, this.y, this.h) //TODO MAKE array helper funcs
         this.t += this.h
         return [this.t, this.y]
     }
