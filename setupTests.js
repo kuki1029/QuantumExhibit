@@ -15,8 +15,11 @@ function toBeCloseDeepArray(actual, expected, precision) {
       throw new TypeError('The length of actual and expected need to be equal. ')
     }
     else if (typeof actual[0] !== 'number') {
-      throw new TypeError('The elements within the array must be numbers!')
+      throw new TypeError('The elements within actual array must be numbers!')
     }
+    else if (typeof expected[0] !== 'number') {
+        throw new TypeError('The elements within expected array must be numbers!')
+      }
   
     // Do testing
     let pass = true

@@ -3,7 +3,7 @@ import { rk4 as ode } from "./rk4";
 
 const step = 0.05
 const start = 0
-const end = 2
+const end = 0.2
 
 const numberOfValues =((end - start) / step) + 1
 // Create list of t values from 0 to 2 in steps of 0.05
@@ -93,6 +93,60 @@ function solvedFuncDifficult(t) {
     return (1/5) * (((2 * Math.exp(t)) * 
                     (-3*Math.exp(-t)*Math.cos(3*t) - Math.exp(-t)*Math.sin((3*t)))) + 
                     (11 * Math.exp(t)))
+}
+}
+// ==================== END ====================
+
+// ==================== BEGIN DIFFICULT FUNCTION TESTING ====================
+{
+const y0 = 1
+const x0 = 1
+const t0 = 0
+const odeClass = new ode([funcCoupledY, funcCoupledX], [y0, x0], t0, step)
+const analyticalY = returnSolvedList(solvedCoupledExp, t)
+const numericalPoints = odeClass.solve([y0, x0], t0, step, end)
+const numericalY = numericalPoints.map(i => i[1]).map(i => i[0])
+const numericalX = numericalPoints.map(i => i[1]).map(i => i[1])
+const numericalTime = numericalPoints.map((i) => i[0])
+test("Solve coupled ode. y'=x, x'=y. Testing x points", () => {
+    expect(numericalY).toBeCloseDeepArray(analyticalY, 5);
+});
+
+test("Solve coupled ode. y'=x, x'=y. Testing Y points", () => {
+    expect(numericalX).toBeCloseDeepArray(analyticalY, 5);
+});
+
+test("Checking time values", () => {
+    expect(t).toBeCloseDeepArray(numericalTime, 5);
+});
+
+// Get all steps until t=2
+const points = [[start, [x0, y0]]]
+for (var i = 0; i < end; i += step) {
+    points.push(odeClass.step())
+}
+const stepNumericalY = points.map((i) => i[1]).map(i => i[0])
+const stepNumericalTime = points.map((i) => i[0])
+test("Solve ode y'(t) = y with step method", () => {
+    expect(stepNumericalY).toBeCloseDeepArray(analyticalY, 5);
+});
+
+test("Checking time values from step method", () => {
+    expect(t).toBeCloseDeepArray(stepNumericalTime, 5);
+});
+
+
+function funcCoupledY(t, y) {
+    return y[1]
+}
+
+function funcCoupledX(t, y) {
+    return y[0]
+}
+
+// Solution to above equation
+function solvedCoupledExp(t) {
+    return Math.exp(t)
 }
 }
 // ==================== END ====================

@@ -75,13 +75,8 @@ function applyParamsToAllFunc(func, ...params) {
     if (typeof func[0] !== 'function') {return new TypeError("Elements within func need to be function declarations")}
 
     const res = []
-    func.forEach((elem, i) => {
-        if (typeof params[0] === 'number') {
-            res.push(elem.apply(null, params))
-        } else {
-            const newParams = [params[0][i], params[1]]
-            res.push(elem.apply(null, newParams))
-        }
+    func.forEach(elem => {
+        res.push(elem.apply(null, params))
     })
     return res
 }

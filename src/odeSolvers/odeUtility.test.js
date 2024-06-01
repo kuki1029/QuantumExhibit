@@ -57,7 +57,7 @@ test("Array DivideScalar 1", () => {
 });
 
 test("Array ApplyFunc 1", () => {
-    expect([5]).toBeCloseDeepArray(applyParamsToAllFunc([(t, y) => {return 5}], [1,2,3,4]), 5);
+    expect([5]).toBeCloseDeepArray(applyParamsToAllFunc([(t, y) => {return 5}], 1, 2), 5);
 });
 
 const func1 = (t, y) => {return t + y}
@@ -68,14 +68,24 @@ test("Array ApplyFunc 2", () => {
     expect([10, 8, 12]).toBeCloseDeepArray(applyParamsToAllFunc([func1, func2, func3], 4, 6), 5);
 });
 
-const func4 = (t, y) => {return t + y}
+const func4 = (t, y) => {return t + y[0]}
 const func5 = (t, y) => {return 2 * t}
-const func6 = (t, y) => {return y + 6}
+const func6 = (t, y) => {return y[1] + 6}
 
 test("Array ApplyFunc 3", () => {
-    expect([7, 4, 12]).toBeCloseDeepArray(applyParamsToAllFunc([func4, func5, func6], [1,2,3],  6), 5);
+    expect([2, 2, 8]).toBeCloseDeepArray(applyParamsToAllFunc([func4, func5, func6], 1,  [1,2,3]), 5);
 });
 
 test("Array ApplyFunc 4", () => {
     expect([11]).toBeCloseDeepArray(applyParamsToAllFunc([func3], 3, 5), 5);
+});
+
+const func7 = (t, y) => {return y}
+test("Array ApplyFunc 5", () => {
+    expect([5]).toBeCloseDeepArray(applyParamsToAllFunc([func7], 3, 5), 5);
+});
+
+const func8 = (t, y) => {return y[0]}
+test("Array ApplyFunc 5", () => {
+    expect([5]).toBeCloseDeepArray(applyParamsToAllFunc([func8], 3, [5, 4]), 5);
 });
