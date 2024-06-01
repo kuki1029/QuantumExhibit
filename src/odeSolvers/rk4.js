@@ -1,13 +1,11 @@
 import {addArrays, 
-        addScalarToArray, 
         multiplyArrayByScalar, 
-        divideArrayByScalar, 
         applyParamsToAllFunc } from "./odeUtility";
 
 /** Class implements the Runge-Kutta method also known as
  * RK4. It is the more popular methods in the Range-Kutta family.
  */
-export class rk4 {
+export class RK4 {
     /**
      * Creates a rk4 solver with given initial conditions. IC's can be changed
      * later on along with any other parameters. If func takes in vector variables,
@@ -15,7 +13,7 @@ export class rk4 {
      * initial conditions
      * @param {function(t, y) | function(t, [y])[]} func - Function that takes in parameters in format f(t, y) where y is a scalar or vector
      * @param {number | number[]} y0 - The initial condition y value
-     * @param {number} t0 - The intial time value. ALways scalar.
+     * @param {number} t0 - The intial time value. Always scalar.
      * @param {number} h - Stepsize. Always scalar. 
     */
     constructor(func, y0, t0, h) {
@@ -63,7 +61,7 @@ export class rk4 {
      */
     solve(y0, t0, h, tf) {
         if (tf < t0) {
-            return new RangeError("The final time value should be greater than the initial time value")
+            throw new RangeError("The final time value should be greater than the initial time value")
         }
 
         let solved = []
@@ -88,6 +86,7 @@ export class rk4 {
      * and returns the addition term for it.
      * @param {number} t - The current t value or t_n
      * @param {number} y - The current y value or y_n
+     * @param {number} h - Step size
      * @returns {number} - Returns the term to be added to y0 for the next y value
      */
     odeMethodScalar(t, y, h) {
@@ -103,6 +102,7 @@ export class rk4 {
      * and returns the addition term for it.
      * @param {number} t - The current t value or t_n
      * @param {number[]} y - The current y value or y_n
+     * @param {number} h - Step size
      * @returns {number[]} - Returns the term to be added to y0 for the next y value
      */
     odeMethodVector(t, y, h) {
