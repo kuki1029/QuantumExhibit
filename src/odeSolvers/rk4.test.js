@@ -1,5 +1,5 @@
 import {expect} from '@jest/globals';
-import { rk4 as ode } from "./rk4";
+import { RK4 as ode } from "./rk4";
 
 const step = 0.05
 const start = 0
