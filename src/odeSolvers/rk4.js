@@ -114,9 +114,12 @@ export class rk4 {
         return multiplyArrayByScalar((h/6), addArrays(k1, multiplyArrayByScalar(2, k2), 
                                                             multiplyArrayByScalar(2, k3), k4))
     }
-}
 
-// TODO: Change step size or other params
-// TODO: Change func
-// TODO: Handle arrays in func. 
-// TODO: Take in arrays into input and also scalar. depending on how many eqns passed
+    /**
+     * Changes the step size to new value
+     * @param newH New value for the step size
+     */
+    changeStepSize(newH) {
+        this.h = newH
+    }
+}
