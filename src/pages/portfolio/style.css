@@ -11,3 +11,7 @@
 .MuiTypography-h5 {
     font-family: 'Raleway' !important;
 }
+
+.byText {
+    text-align:end !important;
+}
