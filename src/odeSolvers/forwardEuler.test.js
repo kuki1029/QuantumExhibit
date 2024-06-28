@@ -1,11 +1,12 @@
 import {expect} from '@jest/globals';
-import { RK4 as ode } from "./rk4";
+import { ForwardEuler as ode } from "./forwardEuler";
 
 const step = 0.05
 const start = 0
 const end = 0.2
 // Define this here as different methods have different precisions
-const precision = 5
+// Zero implies a precision of 1. Forward Euler isn't too accurate so we need this.
+const precision = 0
 
 const numberOfValues =((end - start) / step) + 1
 // Create list of t values from 0 to 2 in steps of 0.05

@@ -26,7 +26,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test rk4.test.js --setupFilesAfterEnv='./setupTests.js'",
+        "test": "react-scripts test --setupFilesAfterEnv='./setupTests.js'",
         "eject": "react-scripts eject",
         "predeploy": "yarn build && cp build/index.html build/404.html",
         "deploy": "gh-pages -d build"
