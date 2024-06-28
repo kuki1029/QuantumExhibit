@@ -24,7 +24,7 @@ test("Array Addition 4", () => {
     expect([2]).toBeCloseDeepArray(addArrays([2]), 5);
 });
 
-test("Array Addition 4", () => {
+test("Array Addition 5", () => {
     expect([0]).toBeCloseDeepArray(addArrays(), 5);
 });
 
@@ -86,6 +86,6 @@ test("Array ApplyFunc 5", () => {
 });
 
 const func8 = (t, y) => {return y[0]}
-test("Array ApplyFunc 5", () => {
+test("Array ApplyFunc 6", () => {
     expect([5]).toBeCloseDeepArray(applyParamsToAllFunc([func8], 3, [5, 4]), 5);
 });

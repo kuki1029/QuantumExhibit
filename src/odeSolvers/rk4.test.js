@@ -116,7 +116,7 @@ test("Solve coupled ode. y'=x, x'=y. Testing Y points", () => {
     expect(numericalX).toBeCloseDeepArray(analyticalY, 5);
 });
 
-test("Checking time values", () => {
+test("Checking time values1", () => {
     expect(t).toBeCloseDeepArray(numericalTime, 5);
 });
 
@@ -127,11 +127,11 @@ for (var i = 0; i < end; i += step) {
 }
 const stepNumericalY = points.map((i) => i[1]).map(i => i[0])
 const stepNumericalTime = points.map((i) => i[0])
-test("Solve ode y'(t) = y with step method", () => {
+test("Solve ode y'(t) = y with step method1", () => {
     expect(stepNumericalY).toBeCloseDeepArray(analyticalY, 5);
 });
 
-test("Checking time values from step method", () => {
+test("Checking time values from step method1", () => {
     expect(t).toBeCloseDeepArray(stepNumericalTime, 5);
 });
 
