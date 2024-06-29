@@ -6,6 +6,7 @@ import { Portfolio } from "../pages/portfolio";
 import { ContactUs } from "../pages/contact";
 import { About } from "../pages/about";
 import { SimplePendulum } from "../simulations/simplePendulum";
+import { DoublePendulum } from "../simulations/doublePendulum";
 
 const AnimatedRoutes = withRouter(({ location }) => (
 
@@ -14,6 +15,7 @@ const AnimatedRoutes = withRouter(({ location }) => (
         <Route path="/about" element={<About />} />
         <Route path="/simulation" element={<Portfolio />} />
         <Route path="/simulation/simplePendulum" element={<SimplePendulum /> } />
+        <Route path="/simulation/doublePendulum" element={<DoublePendulum /> } />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="*" element={<Home />} />
       </Routes>
