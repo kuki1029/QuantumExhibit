@@ -1,16 +1,17 @@
 import { useRef, useEffect, useState } from "react";
-import { Application } from 'pixi.js';
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
+import Grid from '@mui/material/Unstable_Grid2';
 import { Box } from "@mui/material";
 import dpAnimation from "./dpAnimation.js";
 import { Screen, SimColors } from "../../constants.js";
 import "./style.css";
+import ToggleButton from '@mui/material/ToggleButton';
 
-const defaultLength1 = 100;
-const defaultLength2 = 200
+const defaultLength1 = 1;
+const defaultLength2 = 2
 const sliderBoxSize = 180;
 
 const theme = localStorage.getItem("theme")
@@ -25,6 +26,7 @@ export const DoublePendulum = () => {
   const [gravVal, setGravValue] = useState(9.8);
   const [lengthVal1, setLengthVal1] = useState(defaultLength1)
   const [lengthVal2, setLengthVal2] = useState(defaultLength2)
+  const [showOptions, setShowOptions] = useState(false)
 
   // Handle changes when the slider is changed
   const handleGravSliderChange = (event, newValue) => {
@@ -47,13 +49,7 @@ export const DoublePendulum = () => {
   useEffect(() => {
     // We need a function for this as pixiJS requires async setup to be initialized
     async function initializePixiApp() {
-      const app = new Application();
-
-      await pendAnimate.initPixi(app, Screen.width/2, Screen.height/4)
-      pendAnimate.drawPivot()
-      pendAnimate.drawPendulums()
-      pendAnimate.drawRopes(0, defaultLength1, 0, defaultLength2)
-
+      const app = await pendAnimate.initPixi(Screen.width/2, Screen.height/4)
       // Attach to the current DOM
       ref.current.appendChild(app.canvas);
     }
@@ -71,52 +67,38 @@ export const DoublePendulum = () => {
         parameters of the pendulum. An explanation behind the pendulum is show shown." />
       </Helmet>
       <div>
-        {/* Div for the canvas element. Pixi adds the canvas here through ref */}
-        <div ref={ref} />
-        {/* Align items in the row and center on page*/}
-        <Stack 
-          direction="row" 
-          spacing={2} m="auto"
-          alignItems="center"
-          justifyContent="center">
-          <Box sx={{ width: sliderBoxSize }} m="auto">
-            {/* Slider Label */}
-            <Typography>
-              Gravity
-            </Typography>
-              {/* Gravity Slider */}
-              <Slider
-                value={typeof gravVal === 'number' ? gravVal : 0}
-                onChange={handleGravSliderChange}
-                size="small"
-                step={0.1}
-                min={0.1}
-                color={sliderColor}
-                valueLabelDisplay="auto"
-              />
-          </Box>
-          {/* Length Slider */}
-          <Box sx={{ width: sliderBoxSize }} m="auto">
-            {/* Slider Label */}
-            <Typography>
-              Length
-            </Typography>
-              {/* Length Slider */}
-              <Slider
-                value={typeof lengthVal === 'number' ? lengthVal1 : 0}
-                onChange={handleLenSliderChange1}
-                size="small"
-                step={1}
-                min={5}
-                max={400}
-                color={sliderColor}
-                valueLabelDisplay="auto"
-              />
-          </Box>
-        </Stack>
+        {/* AShow the canvas and sliders. Slider are hidden until user clicks to show them*/}
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 4, md: 12 }} display="flex" justifyContent="center" alignItems="center">
+            <Grid xs={4} sm={4} md={6}  >
+                <Stack  spacing={2}>
+                    <div ref={ref} display="flex" />
+                    <Stack
+                        direction="row"
+                        justifyContent="flex-end"
+                        alignItems="center"
+                        spacing={2}
+                        >
+                        <ToggleButton
+                            value="check"
+                            selected={showOptions}
+                            onChange={() => {
+                                setShowOptions(!showOptions);
+                            }}
+                            >
+                            button                        
+                        </ToggleButton>
+                     </Stack>
+
+                </Stack>
+            </Grid>
+
+        </Grid>
         <Box sx={{ maxWidth: '105ch' }} m="auto" pb={20}>
           {/* <SimePendExplanation /> */}
+          {/* Talk about verification of accuracy.  */}
         </Box>
       </div>
     </HelmetProvider>);
+
+
 }

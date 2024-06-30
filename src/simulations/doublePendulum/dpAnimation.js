@@ -1,6 +1,7 @@
 import { Screen, SimColors } from "../../constants.js";
 import { Graphics } from 'pixi.js';
 import DoublePendulumData from './dpCalculation.js'
+import { Application } from 'pixi.js';
 
 // Constants for animation
 const pivotSize = 20;
@@ -8,7 +9,7 @@ const pivotSize = 20;
 const defaultMass = 1;
 const pendulumSize = 10;
 const animationSpeed = 100;
-
+const scaling = 100
 
 /** Class creates the application for Pixi.JS and helper
  * functions to do all the drawing for it.
@@ -32,9 +33,9 @@ export default class DoublePendulumAnimation {
         this.pendulumColor = (theme === 'light') ? SimColors.blue : SimColors.red;
         this.backgroundColor = (theme === 'light') ? SimColors.bgLight : SimColors.bgDark;
         this.ropeColor = this.pivotColor;
-        this.len1 = defaultLen1
-        this.len2 = defaultLen2
-        this.pend = new DoublePendulumData(defaultMass, defaultMass, defaultLen1, defaultLen2);
+        this.len1 = defaultLen1 * scaling
+        this.len2 = defaultLen2 * scaling
+        this.pend = new DoublePendulumData(2, 0, defaultLen1, defaultLen2);
     }
 
     /**
@@ -65,6 +66,8 @@ export default class DoublePendulumAnimation {
         this.rope2.moveTo(this.originX + x1, this.originY + y1);
         this.rope2.lineTo(this.originX + x1 + x2, this.originY + y1 + y2); 
         this.rope2.stroke({ width: 2, color: this.ropeColor });
+
+
     }
 
      /**
@@ -89,18 +92,20 @@ export default class DoublePendulumAnimation {
             this.totalTime += this.app.ticker.elapsedMS / animationSpeed;
             // X, and y are switched as the angle is defind relative to y not x
             // as it usually is for polar to cartesian conversions
-
+            this.pend.calculateNextPos()
             const { x: x1, y: y1 } = this.pend.getPos1(this.totalTime)
             const { x: x2, y: y2 } = this.pend.getPos2(this.totalTime)
             // Animate the pendulum
-            this.pendulum1.x = x1
-            this.pendulum1.y = y1
-            this.pendulum2.x = x2 + x1
-            this.pendulum2.y = y2 + y1
+            this.pendulum1.x = x1 * scaling
+            this.pendulum1.y = y1 * scaling
+            this.pendulum2.x = x2 * scaling + x1 * scaling
+            this.pendulum2.y = y2 * scaling + y1 * scaling
             // Animate rope
             this.rope1.clear();
             this.rope2.clear();
-            this.drawRopes(x1, y1, x2, y2)
+            this.drawRopes(x1 * scaling, scaling * y1, scaling * x2, scaling * y2)
+            this.secondTrace.lineTo(this.originX + x1 + x2, this.originY + y1 + y2).stroke({ width: 2, color: this.ropeColor })
+
         });
     }   
 
@@ -141,11 +146,13 @@ export default class DoublePendulumAnimation {
         this.rope1 = new Graphics()
         this.rope2 = new Graphics()
         this.pivot = new Graphics()
+        this.secondTrace = new Graphics()
         this.app.stage.addChild(this.pivot)
         this.app.stage.addChild(this.rope1)
         this.app.stage.addChild(this.rope2)
         this.app.stage.addChild(this.pendulum1)
         this.app.stage.addChild(this.pendulum2)
+        this.app.stage.addChild(this.secondTrace)
     }
 
     /**
@@ -153,8 +160,9 @@ export default class DoublePendulumAnimation {
      * Starts the animation and creates listeners for theme changes to update colors.
      * Also, creates all graphics objects and adds to stage.
      */
-    async initPixi(app, originX, originY) {
-        this.app = app;
+    async initPixi(originX, originY) {
+        this.app = new Application();
+
         this.originX = originX
         this.originY = originY
         await this.app.init({ background: this.backgroundColor, width: Screen.width, 
@@ -165,6 +173,13 @@ export default class DoublePendulumAnimation {
         // Run animation
         this.animatePendulumRope()
         this.initObjectsToStage()
+        this.drawPivot()
+        this.drawPendulums()
+        this.drawRopes(0, this.len1, 0, this.len2)
+        const { x, y } = this.pend.getPos2()
+        this.secondTrace.moveTo(x,y).stroke({ width: 2, color: this.ropeColor})
+        console.log("SS")
+        return this.app
     }
 
     /**
