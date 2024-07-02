@@ -9,7 +9,7 @@ canvas {
 .MuiToggleButton-root {
     border-color: white !important;
     color: white !important;
-    width: auto !important;
+    width: 140px !important;
     float: right;
 }
 
@@ -56,4 +56,15 @@ canvas {
     margin-right: auto;
     max-width: 20%;
     max-height: 20%
+}
+
+@keyframes inAnimation {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 0.1;
+      visibility: hidden;
+    }
 }

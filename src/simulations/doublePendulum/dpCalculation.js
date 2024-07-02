@@ -1,4 +1,4 @@
-import { Constant } from "../../constants";
+import { Constant, DefaultDoublePend } from "../../constants";
 import { RK4 } from "../../odeSolvers/rk4";
 
 /** Class contains information to draw a double pendulum
@@ -13,7 +13,7 @@ export default class DoublePendulumData {
      * @param {number} drag - The horizontal drag force on the pendulum in Newtons. Default is 0 N.
      * @param {number} gravity - Gravity in m/s^2. Default is 9.8
      */
-    constructor(m1, m2, len1, len2, initialAngle1 = Math.PI/2, initialAngle2 = Math.PI/2, drag = 0, gravity = Constant.gravity) {
+    constructor(m1, m2, len1, len2, initialAngle1 = Math.PI/9, initialAngle2 = Math.PI/4, drag = 0, gravity = Constant.gravity) {
         Object.assign(this, { m1, m2, len1, len2, gravity, drag})
         this.params = [initialAngle1, initialAngle2, 0, 0]
         // This offset is to allow smooth transition between parameter changes
@@ -37,16 +37,16 @@ export default class DoublePendulumData {
         return [x,y]
     }
 
-    getPos1(time) {
+    getPos1() {
         return { 
-            x: Math.sin(this.params[0]) * this.len1, 
-            y: Math.cos(this.params[0]) * this.len1}
+            x: Math.sin(this.params[0]) * this.len1 * DefaultDoublePend.scaling, 
+            y: Math.cos(this.params[0]) * this.len1 * DefaultDoublePend.scaling}
     }
 
-    getPos2(time) {
+    getPos2() {
         return { 
-            x: Math.sin(this.params[1]) * this.len2, 
-            y: Math.cos(this.params[1]) * this.len2}
+            x: Math.sin(this.params[1]) * this.len2 * DefaultDoublePend.scaling, 
+            y: Math.cos(this.params[1]) * this.len2 * DefaultDoublePend.scaling}
     }
 
     calculateNextPos() {
@@ -65,32 +65,64 @@ export default class DoublePendulumData {
     /**
      * Changes the gravity for the pendulum to specified value
      * @param {number} newGrav - The new gravity value to be used in m/s^2
-     * @param {number} time - The current time in s to help calculate the offset
      */
-    setGravity(newGrav, time) {
-        if (newGrav < 0) {
-            newGrav = newGrav * -1
-        }
-        // Find the phase for the new cos wave by setting the phase angle to 0
-        const omega1 = Math.sqrt(this.gravity / this.len1)
-        const omega2 = Math.sqrt(newGrav / this.len1)
-        this.offset = this.offset + (omega1 - omega2) * time
+    setGravity(newGrav) {
         this.gravity = newGrav
+        this.diffSolver.changeFunc([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()])
     }
 
-     /**
-     * Changes the length for the pendulum to specified value
-     * @param {number} newLen - The new length value to be used in m
+    /**
+     * Changes the mass for the first pendulum
+     * @param {number} newMass - The new mass in kg
      */
-    setLength(newLen, time) {
-        if (newLen < 0) {
-            newLen = 5
-        }
-        // Find the phase for the new cos wave by setting the phase angle to 0
-        const omega1 = Math.sqrt(this.gravity / this.len1)
-        const omega2 = Math.sqrt(this.gravity / newLen)
-        this.offset = this.offset + (omega1 - omega2) * time
+    setMass1(newMass) {
+        this.m1 = newMass
+        this.diffSolver.changeFunc([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()])
+    }
+
+    /**
+     * Changes the mass for the second pendulum
+     * @param {number} newMass - The new mass in kg
+     */
+    setMass2(newMass) {
+        this.m2 = newMass
+        this.diffSolver.changeFunc([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()])
+    }
+
+    /**
+     * Changes the length for the first pendulum
+     * @param {number} newLen - The new length in m
+     */
+    setLen1(newLen) {
         this.len1 = newLen
+        this.diffSolver.changeFunc([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()])
+    }
+    
+        /**
+     * Changes the length for the second pendulum
+     * @param {number} newLen - The new length in m
+     */
+    setLen2(newLen) {
+        this.len2 = newLen
+        this.diffSolver.changeFunc([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()])
+    }
+
+    /**
+     * Changes the angle for the first pendulum. Resets all other parameters
+     * @param {number} newAngle - New angle value in radians
+     */
+    setAngle1(newAngle) {
+        this.params = [newAngle, this.params[1], 0, 0]
+        this.diffSolver.resetParams(this.params)
+    }
+        
+    /**
+     * Changes the angle for the second pendulum
+     * @param {number} newLen - New angle value in radians
+     */
+    setAngle2(newAngle) {
+        this.params = [this.params[0], newAngle, 0, 0]
+        this.diffSolver.resetParams(this.params)
     }
 
     thetaPrime1(t, params) {

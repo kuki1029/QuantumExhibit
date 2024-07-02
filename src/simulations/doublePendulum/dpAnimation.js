@@ -1,15 +1,7 @@
-import { Screen, SimColors } from "../../constants.js";
-import { Graphics } from 'pixi.js';
+import { Screen, SimColors, DefaultDoublePend } from "../../constants.js";
+import { Graphics, Text } from 'pixi.js';
 import DoublePendulumData from './dpCalculation.js'
 import { Application } from 'pixi.js';
-
-// Constants for animation
-const pivotSize = 20;
-// const defaultLength = 200;
-const defaultMass = 1;
-const pendulumSize = 10;
-const animationSpeed = 100;
-const scaling = 100
 
 /** Class creates the application for Pixi.JS and helper
  * functions to do all the drawing for it.
@@ -33,19 +25,21 @@ export default class DoublePendulumAnimation {
         this.pendulumColor = (theme === 'light') ? SimColors.blue : SimColors.red;
         this.backgroundColor = (theme === 'light') ? SimColors.bgLight : SimColors.bgDark;
         this.ropeColor = this.pivotColor;
-        this.len1 = defaultLen1 * scaling
-        this.len2 = defaultLen2 * scaling
-        this.pend = new DoublePendulumData(2, 0, defaultLen1, defaultLen2);
+        this.len1 = DefaultDoublePend.defaultLen1
+        this.len2 = DefaultDoublePend.defaultLen2
+        this.showEnergy = false
+        this.pend = new DoublePendulumData(DefaultDoublePend.mass1, DefaultDoublePend.mass2, defaultLen1, defaultLen2);
     }
 
     /**
      * Draws pivot. Draws it at the origin point
      */
     drawPivot() {
+        const pivotSize = DefaultDoublePend.pivotSize
         // Need to calculate the coordinates of the upper left of rectangle as Pixi draws it from upper
         // left corner
-        const upperLeftX = this.originX - pivotSize/ 2
-        const upperLeftY = this.originY - pivotSize/2
+        const upperLeftX = this.originX - pivotSize / 2
+        const upperLeftY = this.originY - pivotSize / 2
         this.pivot.rect(upperLeftX, upperLeftY, pivotSize, pivotSize);
         this.pivot.fill(this.pivotColor);
     }
@@ -75,10 +69,10 @@ export default class DoublePendulumAnimation {
      * are relative to the origin. We set the zero point for the pendulum here as the origin
      */
     drawPendulums() {
-        this.pendulum1.circle(this.originX, this.originY, pendulumSize)
+        this.pendulum1.circle(this.originX, this.originY, DefaultDoublePend.pendulumSize)
         this.pendulum1.fill(this.pendulumColor)
 
-        this.pendulum2.circle(this.originX, this.originY, pendulumSize)
+        this.pendulum2.circle(this.originX, this.originY, DefaultDoublePend.pendulumSize)
         this.pendulum2.fill("#ffffff")
     }
 
@@ -89,23 +83,21 @@ export default class DoublePendulumAnimation {
     animatePendulumRope() {
         // Runs on each render loop. Used to animate
         this.app.ticker.add(() => {
-            this.totalTime += this.app.ticker.elapsedMS / animationSpeed;
             // X, and y are switched as the angle is defind relative to y not x
             // as it usually is for polar to cartesian conversions
             this.pend.calculateNextPos()
-            const { x: x1, y: y1 } = this.pend.getPos1(this.totalTime)
-            const { x: x2, y: y2 } = this.pend.getPos2(this.totalTime)
+            const { x: x1, y: y1 } = this.pend.getPos1()
+            const { x: x2, y: y2 } = this.pend.getPos2()
             // Animate the pendulum
-            this.pendulum1.x = x1 * scaling
-            this.pendulum1.y = y1 * scaling
-            this.pendulum2.x = x2 * scaling + x1 * scaling
-            this.pendulum2.y = y2 * scaling + y1 * scaling
+            this.pendulum1.x = x1
+            this.pendulum1.y = y1
+            this.pendulum2.x = x2 + x1
+            this.pendulum2.y = y2 + y1
             // Animate rope
             this.rope1.clear();
             this.rope2.clear();
-            this.drawRopes(x1 * scaling, scaling * y1, scaling * x2, scaling * y2)
+            this.drawRopes(x1, y1, x2, y2)
             this.secondTrace.lineTo(this.originX + x1 + x2, this.originY + y1 + y2).stroke({ width: 2, color: this.ropeColor })
-
         });
     }   
 
@@ -177,24 +169,78 @@ export default class DoublePendulumAnimation {
         this.drawPendulums()
         this.drawRopes(0, this.len1, 0, this.len2)
         const { x, y } = this.pend.getPos2()
-        this.secondTrace.moveTo(x,y).stroke({ width: 2, color: this.ropeColor})
-        console.log("SS")
+        console.log(x,y)
+        this.secondTrace.moveTo(x + this.originX, y + this.originY + this.defaultLen1).stroke({ width: 2, color: this.ropeColor})
+        this.secondTrace.clear()
+
         return this.app
     }
 
     /**
-     * Changes the gravity for the pendulum. 
-     * @param {number} newGrav - New gravity value in m/s^2
+     * Changes the mass for first pendulum
+     * @param {number} newMass - New mass value
      */
-    setGravity(newGrav) {
-        this.pend.setGravity(newGrav, this.totalTime)
+    setMass1(newMass) {
+        this.pend.setMass1(newMass)
     }
 
     /**
-     * Changes the length for the pendulum. 
-     * @param {number} newLen - New length value in m
+     * Changes the mass for second pendulum
+     * @param {number} newMass - New mass value
      */
-    setLength(newLen) {
-        this.pend.setLength(newLen, this.totalTime)
+    setMass2(newMass) {
+        this.pend.setMass2(newMass)
+    }
+
+    /**
+     * Changes the length for the first pendulum
+     * @param {number} newLen - New length value
+     */
+    setLen1(newLen) {
+        this.pend.setLen1(newLen)
+        this.secondTrace.clear()  
+    }
+
+    /**
+     * Changes the length for the second pendulum
+     * @param {number} newLen - New length value
+     */
+    setLen2(newLen) {
+        this.pend.setLen2(newLen)
+        this.secondTrace.clear()  
+    }
+
+    /**
+     * Changes the angle for the first pendulum
+     * @param {number} newAngle - New angle value in radians
+     */
+    setAngle1(newAngle) {
+        this.pend.setAngle1(newAngle)
+        this.secondTrace.clear()  
+    }
+
+    /**
+     * Changes the angle for the second pendulum
+     * @param {number} newAngle - New angle value in radians
+     */
+    setAngle2(newAngle) {
+        this.pend.setAngle2(newAngle)
+        this.secondTrace.clear()  
+    }
+
+    /**
+     * Changes the gravity for the simulation
+     * @param {number} newGrav - New gravity
+     */
+    setGravity(newGrav) {
+        this.pend.setGravity(newGrav)
+    }
+
+    /**
+     * Changes the view for the energy display
+     * @param {Boolean} showEnergy - To show energy or not
+     */
+    setEnergyDisplay(showEnergy) {
+        this.showEnergy = showEnergy
     }
 }

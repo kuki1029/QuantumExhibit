@@ -20,3 +20,16 @@ export const SimColors = {
     "bgDark": "#0c0c0c"
 }
 
+// Specifically for double pendulum
+export const DefaultDoublePend = {
+    "mass1": 1,
+    "mass2": 1,
+    "defaultLen1": 1,
+    "defaultLen2": 2,
+    "defaultAngle1": Math.PI / 4,
+    "defaultAngle2": Math.PI / 4,
+    "scaling": 100,
+    "pendulumSize": 10,
+    "pivotSize": 20
+}
+
