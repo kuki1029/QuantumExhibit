@@ -39,6 +39,7 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
                     maxWidth={Screen.width}
                 >
                     <ToggleButton
+                        value="Show Options"
                         selected={val}
                         onChange={onSmash}
                     >

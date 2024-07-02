@@ -1,5 +1,5 @@
 import { Screen, SimColors, DefaultDoublePend } from "../../constants.js";
-import { Graphics, Text } from 'pixi.js';
+import { Graphics, Text, TextStyle } from 'pixi.js';
 import DoublePendulumData from './dpCalculation.js'
 import { Application } from 'pixi.js';
 
@@ -98,6 +98,13 @@ export default class DoublePendulumAnimation {
             this.rope2.clear();
             this.drawRopes(x1, y1, x2, y2)
             this.secondTrace.lineTo(this.originX + x1 + x2, this.originY + y1 + y2).stroke({ width: 2, color: this.ropeColor })
+
+            if (this.showEnergy) {
+                const { ke, pe } = this.pend.getEnergy()
+                this.energyText.text = `Kinetic: ${Math.round(ke * 100) / 100}\nPotential: ${Math.round(pe * 100) / 100}\nTotal: ${Math.round((Math.abs(ke+pe)) * 100) / 100}`
+            } else {
+                this.energyText.text = ""
+            }
         });
     }   
 
@@ -139,12 +146,16 @@ export default class DoublePendulumAnimation {
         this.rope2 = new Graphics()
         this.pivot = new Graphics()
         this.secondTrace = new Graphics()
+        this.energyText = new Text({ text: `Total Energy: 0`, style: {
+            fill: "#ffffff"
+        }});
         this.app.stage.addChild(this.pivot)
         this.app.stage.addChild(this.rope1)
         this.app.stage.addChild(this.rope2)
         this.app.stage.addChild(this.pendulum1)
         this.app.stage.addChild(this.pendulum2)
         this.app.stage.addChild(this.secondTrace)
+        this.app.stage.addChild(this.energyText)
     }
 
     /**
@@ -172,6 +183,8 @@ export default class DoublePendulumAnimation {
         console.log(x,y)
         this.secondTrace.moveTo(x + this.originX, y + this.originY + this.defaultLen1).stroke({ width: 2, color: this.ropeColor})
         this.secondTrace.clear()
+        this.energyText.x = 0
+        this.energyText.y = 0
 
         return this.app
     }

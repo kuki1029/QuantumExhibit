@@ -53,13 +53,6 @@ export default class DoublePendulumData {
         for (let i = 0; i<10; i++) {
             this.params = this.diffSolver.step()[1]
         }
-        // energy
-        // const {m1, m2, len1, len2, gravity:g} = this
-        // const ke = 0.5 * (m1 + m2) * len1**2 * this.params[2]**2 + 0.5 * m2 * len2**2 * this.params[3]**2 + m2*len1*len2*this.params[2]*this.params[3]*Math.cos(this.params[0]-this.params[1])
-        // const pe = -1 * (m1 + m2) * g * len1 * Math.cos(this.params[0]) - m2*g*len2*Math.cos(this.params[1])
-        // // Total Energy
-        // console.log(ke + pe)
-
     }
 
     /**
@@ -123,6 +116,20 @@ export default class DoublePendulumData {
     setAngle2(newAngle) {
         this.params = [this.params[0], newAngle, 0, 0]
         this.diffSolver.resetParams(this.params)
+    }
+
+    /**
+     * Changes the angle for the second pendulum
+     * @return {number} - Returns total energy of system
+     */
+    getEnergy() {
+        const {m1, m2, len1, len2, gravity:g} = this
+        const ke = 0.5 * (m1 + m2) * len1**2 * this.params[2]**2 + 
+            0.5 * m2 * len2**2 * this.params[3]**2 + 
+            m2*len1*len2*this.params[2]*this.params[3]*Math.cos(this.params[0]-this.params[1])
+        const pe = -1 * (m1 + m2) * g * len1 * Math.cos(this.params[0]) - m2*g*len2*Math.cos(this.params[1])
+        // Total Energy
+        return { ke, pe }
     }
 
     thetaPrime1(t, params) {

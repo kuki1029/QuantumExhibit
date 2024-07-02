@@ -11,7 +11,7 @@ export const GravityEnergySlider = ({ pendulum }) => {
         <div>
             <Stack direction="row" spacing={6}>
                 <CustomSlider name="Gravity" step={0.01} min={0} max={50} val={gravity} onChange={handleGravityChange} />
-                <ToggleButton selected={energy} onChange={handleEnergyChange} style={{ height: 40, marginTop: 4}}>
+                <ToggleButton value="Show Energy" selected={energy} onChange={handleEnergyChange} style={{ height: 40, marginTop: 4}}>
                     Show Energy                        
                 </ToggleButton>
             </Stack>
@@ -25,5 +25,6 @@ export const GravityEnergySlider = ({ pendulum }) => {
 
     function handleEnergyChange() {
         setEnergyButton(!energy) 
+        pendulum.setEnergyDisplay(!energy)
     }
 }
