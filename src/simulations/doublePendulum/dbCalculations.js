@@ -1,6 +1,8 @@
 import { Constant } from "../../constants";
 import { ForwardEuler } from "../../odeSolvers/forwardEuler";
 
+const eulobj = new ForwardEuler()
+
 export default class DoublePendulum {
      /**
      * Creates a double pendulum with the given parameters
@@ -29,16 +31,55 @@ export default class DoublePendulum {
         this.drag = drag;
         // This offset is to allow smooth transition between parameter changes
         this.offset = 0;
+
+        let 
     }
 
     /**
-     * Get the x and y point of pendulum. Makes use of small angle approximation
+     * Internally updates the position of pendulum 1.
      * @param {number} time - The time in seconds at which the pos should be returned
-     * @return {[number, number]} The x and y position of the pendulum in meters.
      */
     updatepos_pend1(time) {
-        const theta_dd1_num = -1*this.gravity*(2*this.mass1+this.mass2)*Math.sin(this.theta1)-this.mass2*this.gravity*Math.sin(this.theta1-2*this.theta2)-2*Math.sin(theta_1-theta_2)*m2*(omega2*omega2*L2+omega1*omega1*L1*Math.cos(theta_1-theta_2))
-        
-        return [x,y]
+        const theta_dd1_num = -1*this.gravity*(2*this.mass1+this.mass2)*Math.sin(this.theta1)-this.mass2*this.gravity*Math.sin(this.theta1-2*this.theta2)-2*Math.sin(this.theta1-this.theta2)*this.mass2*(this.theta_d2*this.theta_d2*this.length2+this.theta_d1*this.theta_d1*this.length1*Math.cos(this.theta1-this.theta2))
+        const theta_dd1_denom = this.length1*(2*this.mass1+this.mass2-this.mass2*Math.cos(2*this.theta1-2*this.theta2))
+
+        const theta_dd1 = theta_dd1_num/theta_dd1_denom
+
+        this.theta_d1 += eulobj.PreCalc_odeMethodScalar(h=this.h, derv=theta_dd1)    
+        this.theta1 += eulobj.PreCalc_odeMethodScalar(h=this.h, derv=this.theta_d1)    
     }
+
+    /**
+     * Internally updates the position of pendulum 1.
+     * @param {number} time - The time in seconds at which the pos should be returned
+     */
+    updatepos_pend2(time) {
+        const theta_dd2_num = 2*Math.sin(this.theta1-this.theta2)*(this.theta_d1*this.theta_d1*this.length1*(this.mass1+this.mass2)+this.gravity*(this.mass1+this.mass2)*Math.cos(this.theta1)+this.theta_d2*this.theta_d2*this.length2*this.mass2*Math.cos(this.theta1-this.theta2))
+        const theta_dd2_denom = this.length1*(2*this.mass1+this.mass2-this.mass2*Math.cos(2*this.theta1-2*this.theta2))
+
+        const theta_dd2 = theta_dd2_num/theta_dd2_denom
+
+        this.theta_d2 += eulobj.PreCalc_odeMethodScalar(h=this.h, derv=theta_dd2)    
+        this.theta2 += eulobj.PreCalc_odeMethodScalar(h=this.h, derv=this.theta_d2)    
+    }
+
+    /**
+     * Returns xy position of the specified pendulum based on its current angle and length\
+     * @param {number} PendulumIndex - Index number of the pendulum you want the xy position of
+     * @returns {[number, number]} - x, y position of the pendulum relative to its pivot(based on its length)
+     */
+    get_xy(PendulumIndex) {
+        let xy;
+        
+        if (PendulumIndex == 1){
+            xy = [this.length1*Math.sin(this.theta1), this.length1*Math.cos(this.theta1)]
+        }
+
+        if (PendulumIndex == 2){
+            xy = [this.length2*Math.sin(this.theta2), this.length2*Math.cos(this.theta2)]
+        }
+        
+        return xy; 
+    }
+
 }

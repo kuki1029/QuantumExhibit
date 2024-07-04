@@ -30,4 +30,15 @@ odeMethodScalar(t, y, h) {
 odeMethodVector(t, y, h) {
     return multiplyArrayByScalar(h, applyParamsToAllFunc(this.func, t, y))
 }
+
+/**
+ * Returns the constants or terms required for the ode scheme for scalar variables where the derivative is calculated. Forward Euler in this case
+ * and returns the addition term for it.
+ * @param {number} derv - The calculated derivative value
+ * @param {number} h - Step size
+ * @returns {number} - Returns the term to be added to y0 for the next y value
+ */
+PreCalc_odeMethodScalar(derv, h) {
+    return h * derv
+}
 }
