@@ -6,6 +6,7 @@
     --text-color-2: #fff;
     --text-color-3: rgb(204, 0, 0);
     --overlay-color: rgb(12 12 12 / 63%);
+    --active-color: rgba(255, 255, 255, 0.16);
 }
 
 [data-theme="light"] {
@@ -16,6 +17,7 @@
     --text-color-2: #000;
     --text-color-3: rgb(204, 0, 0);
     --overlay-color: rgb(255 255 255 / 70%);
+    --active-color: rgba(0, 0, 0, 0.08)
 }
 
 html,

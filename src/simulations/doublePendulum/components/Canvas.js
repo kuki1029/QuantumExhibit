@@ -8,6 +8,8 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
 
+    // If the screen is md size or larger, the button will be moved to the left
+    // to accomodate the options
     const moveButton = () => {
         if (!val) {
             return false
@@ -36,14 +38,12 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
                     justifyContent={moveButton() ? "flex-start" : "flex-end"}
                     alignItems="center"
                     spacing={2}
-                    maxWidth={Screen.width}
-                >
+                    maxWidth={Screen.width}>
                     <ToggleButton
                         value="Show Options"
                         selected={val}
-                        onChange={onSmash}
-                    >
-                        Show Options                        
+                        onChange={onSmash}>
+                            Show Options                        
                     </ToggleButton>
                 </Stack>
             </Stack>

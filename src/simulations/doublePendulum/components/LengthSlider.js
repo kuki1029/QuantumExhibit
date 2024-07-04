@@ -1,11 +1,11 @@
 import { Stack } from '@mui/material';
 import { CustomSlider } from './CustomSlider';
 import { useState } from 'react';
-import { DefaultDoublePend } from '../../../constants';
 
 export const LengthSlider = ({ pendulum }) => {
-    const [len1, setLen1] = useState(DefaultDoublePend.defaultLen1)
-    const [len2, setLen2] = useState(DefaultDoublePend.defaultLen2)
+    console.log(pendulum.len1)
+    const [len1, setLen1] = useState(pendulum.len1)
+    const [len2, setLen2] = useState(pendulum.len2)
 
     return (
         <div>

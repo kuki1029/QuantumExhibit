@@ -7,56 +7,62 @@ length, gravity, and resistance*/
 export default class DoublePendulumData { 
     /**
      * Creates a pendulum with the given parameters
-     * @param {number} mass - Mass in Kg
-     * @param {number} length - Length in meters
-     * @param {number} initialAngle - The starting angle of the pendulum in radians. Default is pi/9.
-     * @param {number} drag - The horizontal drag force on the pendulum in Newtons. Default is 0 N.
+     * @param {number} m1 - Mass of first pendulum in Kg
+     * @param {number} m2 - Mass of second pendulum in Kg
+     * @param {number} len1 - Length of first pendulum in meters
+     * @param {number} len2 - Length of second pendulum in meters
+     * @param {number} initialAngle1 - The starting angle of the first pendulum in radians. Default is pi/9.
+     * @param {number} initialAngle2 - The starting angle of the second pendulum in radians. Default is pi/4.
      * @param {number} gravity - Gravity in m/s^2. Default is 9.8
      */
-    constructor(m1, m2, len1, len2, initialAngle1 = Math.PI/9, initialAngle2 = Math.PI/4, drag = 0, gravity = Constant.gravity) {
-        Object.assign(this, { m1, m2, len1, len2, gravity, drag})
+    constructor(m1, m2, len1, len2, initialAngle1 = Math.PI/9, initialAngle2 = Math.PI/4, gravity = Constant.gravity) {
+        Object.assign(this, { m1, m2, len1, len2, gravity})
         this.params = [initialAngle1, initialAngle2, 0, 0]
-        // This offset is to allow smooth transition between parameter changes
-        this.offset = 0
         // Last two functions are invoked because they bind the required constants
         this.diffSolver = new RK4([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()], this.params, 0, 0.001)
     }
 
     /**
-     * Get the x and y point of pendulum. Makes use of small angle approximation
-     * @param {number} time - The time in seconds at which the pos should be returned
-     * @return {[number, number]} The x and y position of the pendulum in meters.
+     * @returns Returns the position in cartesian coordinates for the first pendulum relative to the pivot
      */
-    getCurrentPosition(time) {
-        // Find current angle based on given time
-        const omega = Math.sqrt(this.gravity / this.len1)
-        const theta = this.angle * Math.cos(time * omega + this.offset)
-        // Convert to cartesian using r as length
-        const x = this.len1 * Math.cos(theta)
-        const y = this.len1 * Math.sin(theta)
-        return [x,y]
-    }
-
     getPos1() {
         return { 
             x: Math.sin(this.params[0]) * this.len1 * DefaultDoublePend.scaling, 
-            y: Math.cos(this.params[0]) * this.len1 * DefaultDoublePend.scaling}
-    }
-
-    getPos2() {
-        return { 
-            x: Math.sin(this.params[1]) * this.len2 * DefaultDoublePend.scaling, 
-            y: Math.cos(this.params[1]) * this.len2 * DefaultDoublePend.scaling}
-    }
-
-    calculateNextPos() {
-        for (let i = 0; i<10; i++) {
-            this.params = this.diffSolver.step()[1]
+            y: Math.cos(this.params[0]) * this.len1 * DefaultDoublePend.scaling
         }
     }
 
     /**
-     * Changes the gravity for the pendulum to specified value
+     * @returns Returns the position in cartesian coordinates for the second pendulum 
+     * relative to the first pendulum
+     */
+    getPos2() {
+        return { 
+            x: Math.sin(this.params[1]) * this.len2 * DefaultDoublePend.scaling, 
+            y: Math.cos(this.params[1]) * this.len2 * DefaultDoublePend.scaling
+        }
+    }
+
+    /**
+     * Calls the differential solver and calculates the next timestep.
+     * @returns The position of both pendula in cartesian coordinates. First pendulum
+     * coords is relative to pivot. Second pendulum coords are relative to first pendulum
+     */
+    calculateNextPos() {
+        for (let i = 0; i<10; i++) {
+            this.params = this.diffSolver.step()[1]
+        }
+        return { 
+            x1: Math.sin(this.params[0]) * this.len1 * DefaultDoublePend.scaling, 
+            y1: Math.cos(this.params[0]) * this.len1 * DefaultDoublePend.scaling,
+            x2: Math.sin(this.params[1]) * this.len2 * DefaultDoublePend.scaling, 
+            y2: Math.cos(this.params[1]) * this.len2 * DefaultDoublePend.scaling
+        }
+    }
+
+    /**
+     * Changes the gravity for the pendulum to specified value.
+     * Sends the changes params to the diffSolver as the constants have to be rebinded
      * @param {number} newGrav - The new gravity value to be used in m/s^2
      */
     setGravity(newGrav) {

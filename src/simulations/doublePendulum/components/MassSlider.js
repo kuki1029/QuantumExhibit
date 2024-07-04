@@ -1,12 +1,10 @@
 import { Stack } from '@mui/material';
 import { CustomSlider } from './CustomSlider';
 import { useState } from 'react';
-import { DefaultDoublePend } from '../../../constants';
-
 
 export const MassSlider = ({ pendulum }) => {
-    const [mass1, setMass1] = useState(DefaultDoublePend.mass1)
-    const [mass2, setMass2] = useState(DefaultDoublePend.mass2)
+    const [mass1, setMass1] = useState(pendulum.getMass1())
+    const [mass2, setMass2] = useState(pendulum.getMass2())
 
     return (
         <div>

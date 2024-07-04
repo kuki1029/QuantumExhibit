@@ -1,5 +1,4 @@
 import { Slider, Typography, Box } from '@mui/material';
-import { Screen } from '../../../constants';
 
 export const CustomSlider = ({ name, step, min, max, onChange, val }) => {
     return (
@@ -17,8 +16,7 @@ export const CustomSlider = ({ name, step, min, max, onChange, val }) => {
                     step={step}
                     min={min}
                     max={max}
-                    valueLabelDisplay="auto"
-                />
+                    valueLabelDisplay="auto"/>
             </Box>
         </div>
     )

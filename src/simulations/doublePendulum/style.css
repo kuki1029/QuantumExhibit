@@ -7,14 +7,14 @@ canvas {
 }
 
 .MuiToggleButton-root {
-    border-color: white !important;
-    color: white !important;
+    border-color: var(--secondary-color) !important;;
+    color: var(--secondary-color) !important;;
     width: 140px !important;
     float: right;
 }
 
 .Mui-selected {
-    background-color: rgba(255, 255, 255, 0.5) !important;
+    background-color: var(--active-color) !important;
 }
 
 .testing {
@@ -58,13 +58,3 @@ canvas {
     max-height: 20%
 }
 
-@keyframes inAnimation {
-    0% {
-      opacity: 0;
-      visibility: hidden;
-    }
-    100% {
-      opacity: 0.1;
-      visibility: hidden;
-    }
-}

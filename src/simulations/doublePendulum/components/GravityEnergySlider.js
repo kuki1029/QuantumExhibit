@@ -1,11 +1,10 @@
 import { Stack, ToggleButton } from '@mui/material';
 import { CustomSlider } from './CustomSlider';
 import { useState } from 'react';
-import { Constant } from '../../../constants';
 
 export const GravityEnergySlider = ({ pendulum }) => {
-    const [gravity, setGravity] = useState(Constant.gravity)
-    const [energy, setEnergyButton] = useState(false)
+    const [gravity, setGravity] = useState(pendulum.gravity)
+    const [energy, setEnergyButton] = useState(pendulum.showEnergy)
 
     return (
         <div>
