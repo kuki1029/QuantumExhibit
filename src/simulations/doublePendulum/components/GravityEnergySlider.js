@@ -1,9 +1,9 @@
 import { Stack, ToggleButton } from '@mui/material';
 import { CustomSlider } from './CustomSlider';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const GravityEnergySlider = ({ pendulum }) => {
-    const [gravity, setGravity] = useState(pendulum.gravity)
+    const [gravity, setGravity] = useState(pendulum.getGravity())
     const [energy, setEnergyButton] = useState(pendulum.showEnergy)
 
     return (

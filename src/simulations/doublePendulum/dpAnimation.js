@@ -286,8 +286,10 @@ export default class DoublePendulumAnimation {
      */
     setAngle1(newAngle) {
         this.pend.setAngle1(newAngle)
-        this.firstTrace.clear()  
-        this.secondTrace.clear()  
+        if (this.firstTrace) {
+            this.firstTrace.clear()  
+            this.secondTrace.clear() 
+        } 
     }
 
     /**
@@ -296,8 +298,10 @@ export default class DoublePendulumAnimation {
      */
     setAngle2(newAngle) {
         this.pend.setAngle2(newAngle)
-        this.firstTrace.clear() 
-        this.secondTrace.clear()  
+        if (this.firstTrace) {
+            this.firstTrace.clear()  
+            this.secondTrace.clear() 
+        } 
     }
 
     /**
@@ -348,5 +352,28 @@ export default class DoublePendulumAnimation {
      */
     getMass2() {
         return this.pend.m2
+    }
+
+    /**
+     * @returns {number} Returns current gravity
+     */
+    getGravity() {
+        return this.pend.gravity
+    }
+
+    /**
+     * Returns the first pendulum angle from the calculator class
+     * @returns {number} Returns initial angle of first pendulum
+     */
+    getAngle1() {
+        return this.pend.angle1
+    }
+
+    /**
+     * Returns the second pendulum angle from the calculator class
+     * @returns {number} Returns initla angle of second pendulum
+     */
+    getAngle2() {
+        return this.pend.angle2
     }
 }

@@ -42,7 +42,7 @@ export class DifferentialSolver {
      */
     step() {
         if (this.isArray) {
-            this.y = addArrays(this.y, this.odeMethodVector(this.t, this.y, this.h))
+            this.y = multiplyArrayByScalar(1, addArrays(this.y, this.odeMethodVector(this.t, this.y, this.h)))
         } else {
             this.y += this.odeMethodScalar(this.t, this.y, this.h)
         }

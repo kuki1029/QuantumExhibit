@@ -10,13 +10,8 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
 
     // If the screen is md size or larger, the button will be moved to the left
     // to accomodate the options
-    const moveButton = () => {
-        if (!val) {
-            return false
-        } else {
-            return matches && val
-        }
-    }
+    const moveButton = matches && val
+    
       // Runs once
     useEffect(() => {
         // We need a function for this as pixiJS requires async setup to be initialized
@@ -31,11 +26,9 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
     return (
         <div>
             <Stack  spacing={2} >
-                {/* Pixi Js Canvas */}
-                <div ref={ref} display="flex" />
                 <Stack
                     direction="row"
-                    justifyContent={moveButton() ? "flex-start" : "flex-end"}
+                    justifyContent={moveButton ? "flex-start" : "flex-end"}
                     alignItems="center"
                     spacing={2}
                     maxWidth={Screen.width}>
@@ -46,6 +39,8 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
                             Show Options                        
                     </ToggleButton>
                 </Stack>
+                {/* Pixi Js Canvas */}
+                <div ref={ref} display="flex" />
             </Stack>
         </div>
     )

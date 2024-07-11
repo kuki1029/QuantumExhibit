@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { DefaultDoublePend } from '../../../constants';
 
 export const AngleSlider = ({ pendulum }) => {
-    const [angle1, setAngle1] = useState(DefaultDoublePend.defaultAngle1)
-    const [angle2, setAngle2] = useState(DefaultDoublePend.defaultAngle2)
+    const [angle1, setAngle1] = useState(pendulum.getAngle1())
+    const [angle2, setAngle2] = useState(pendulum.getAngle2())
 
     return (
         <div>

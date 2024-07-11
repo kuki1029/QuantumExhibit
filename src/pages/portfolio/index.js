@@ -107,21 +107,11 @@ export const Portfolio = () => {
                       </Typography>
                     </CardContent>
                     <CardActions sx={{ justifyContent : 'space-between', mb:-1.5  }} disableSpacing>
-                      <Grid
-                        container
-                        direction="row"
-
-                        spacing={2}>
-                          <Grid item xs={6}>
-                          <a href={data.link}>
-                            <Button variant="outlined" color='inherit' sx={{ textDecoration: "none"}}>
-                            Learn More
-                          </Button></a>
-                          </Grid>
-                          <Grid item xs={6}>
-                            <p className="byText">By {data.By}</p>
-                          </Grid>
-                      </Grid>
+                    <a href={data.link}>
+                        <Button variant="outlined" color='inherit' sx={{ textDecoration: "none", marginBottom: 1.5}}>
+                        Learn More
+                        </Button>
+                    </a>
                     </CardActions>
                   </Card>
                 </Grid>

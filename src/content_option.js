@@ -46,15 +46,22 @@ const chatData = {
     keep growing",
 };
 
-const dataportfolio = [{
+const dataportfolio = [
+    {
         title: "Simple Pendulum",
         img: simpPendDark,
         imgLight: simpPendLight,
         alt: "Simple Pendulum",
-        description: "A simple yet elegant pendulum simluation using elementary physics. Our first simulation \
-        which was used to help learn the basics of Pixi.JS and the intricacies of creating online simulations.",
-        By: "Kunal",
+        description: "A simple yet elegant pendulum simluation using elementary physics. Our first simulation which was used to help learn the basics of Pixi.JS and the intricacies of creating online simulations.",
         link: "/simulation/simplePendulum"
+    },
+    {
+        title: "Double Pendulum",
+        img: simpPendDark,
+        imgLight: simpPendLight,
+        alt: "Double Pendulum",
+        description: "An elegant simulation of the double pendulum. One can change various parameters to learn about the deeper physics behind a double pendulum.",
+        link: "/simulation/doublePendulum"
     },
 ];
 

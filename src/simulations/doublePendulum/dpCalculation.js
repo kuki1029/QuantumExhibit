@@ -18,6 +18,9 @@ export default class DoublePendulumData {
     constructor(m1, m2, len1, len2, initialAngle1 = Math.PI/9, initialAngle2 = Math.PI/4, gravity = Constant.gravity) {
         Object.assign(this, { m1, m2, len1, len2, gravity})
         this.params = [initialAngle1, initialAngle2, 0, 0]
+        // Just to store the initial angles separately
+        this.angle1 = initialAngle1
+        this.angle2 = initialAngle2
         // Last two functions are invoked because they bind the required constants
         this.diffSolver = new RK4([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()], this.params, 0, 0.001)
     }
@@ -112,6 +115,7 @@ export default class DoublePendulumData {
      */
     setAngle1(newAngle) {
         this.params = [newAngle, this.params[1], 0, 0]
+        this.angle1 = newAngle
         this.diffSolver.resetParams(this.params)
     }
         
@@ -121,6 +125,7 @@ export default class DoublePendulumData {
      */
     setAngle2(newAngle) {
         this.params = [this.params[0], newAngle, 0, 0]
+        this.angle2 = newAngle
         this.diffSolver.resetParams(this.params)
     }
 

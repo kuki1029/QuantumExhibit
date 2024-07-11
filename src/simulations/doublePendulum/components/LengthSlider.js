@@ -3,7 +3,6 @@ import { CustomSlider } from './CustomSlider';
 import { useState } from 'react';
 
 export const LengthSlider = ({ pendulum }) => {
-    console.log(pendulum.len1)
     const [len1, setLen1] = useState(pendulum.len1)
     const [len2, setLen2] = useState(pendulum.len2)
 
