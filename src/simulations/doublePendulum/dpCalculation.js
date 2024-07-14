@@ -21,6 +21,7 @@ export default class DoublePendulumData {
         // Just to store the initial angles separately
         this.angle1 = initialAngle1
         this.angle2 = initialAngle2
+        this.damper = 0
         // Last two functions are invoked because they bind the required constants
         this.diffSolver = new RK4([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()], this.params, 0, 0.001)
     }
@@ -127,6 +128,15 @@ export default class DoublePendulumData {
         this.params = [this.params[0], newAngle, 0, 0]
         this.angle2 = newAngle
         this.diffSolver.resetParams(this.params)
+    }
+
+    /**
+     * Changes the damping value
+     * @param {number} newDamp - New damp
+     */
+    setDamp(newDamp) {
+        this.damper = newDamp
+        this.diffSolver.setDamp(1 - (0.001 * newDamp) / 100)
     }
 
     /**

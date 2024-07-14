@@ -7,11 +7,11 @@ export const TraceButton = ({ pendulum }) => {
 
     return (
         <div>
-            <Stack direction="row" spacing={6}>
-                <ToggleButton value="Show Trace 1" selected={trace1} onChange={handleTraceChange1} style={{ height: 40, marginTop: 4}}>
+            <Stack direction="row" spacing={6} style={{ marginBottom: 12}} >
+                <ToggleButton value="Show Trace 1" selected={trace1} onChange={handleTraceChange1} style={{ height: 40, marginTop: 4 }}>
                     Show Trace 1                       
                 </ToggleButton>
-                <ToggleButton value="Show Trace 2" selected={trace2} onChange={handleTraceChange2} style={{ height: 40, marginTop: 4}}>
+                <ToggleButton value="Show Trace 2" selected={trace2} onChange={handleTraceChange2} style={{ height: 40, marginTop: 4 }}>
                     Show Trace 2                      
                 </ToggleButton>
             </Stack>

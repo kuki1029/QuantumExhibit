@@ -1,6 +1,6 @@
 import { Slider, Typography, Box } from '@mui/material';
 
-export const CustomSlider = ({ name, step, min, max, onChange, val }) => {
+export const CustomSlider = ({ name, step, min, max, onChange, val, handleLabel }) => {
     return (
         <div>
             <Box sx={{ width: 140 }} >
@@ -11,6 +11,7 @@ export const CustomSlider = ({ name, step, min, max, onChange, val }) => {
                 {/* Length Slider */}
                 <Slider
                     value={val}
+                    valueLabelFormat={handleLabel}
                     onChange={onChange}
                     size="small"
                     step={step}

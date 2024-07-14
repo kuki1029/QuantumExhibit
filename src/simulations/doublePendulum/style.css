@@ -7,7 +7,15 @@ canvas {
 }
 
 .MuiToggleButton-root {
-    border-color: var(--secondary-color) !important;;
+    border-color: var(--secondary-color) !important;
+    color: var(--secondary-color) !important;
+    width: 140px !important;
+    float: right;
+}
+
+.MuiButtonBase-root {
+    border-color: var(--secondary-color) !important;
+    border: '5px solid white rounded' !important;
     color: var(--secondary-color) !important;;
     width: 140px !important;
     float: right;

@@ -50,7 +50,8 @@ export const DoublePendulum = () => {
             </Grid>
             <Box sx={{ maxWidth: '105ch' }} m="auto" pb={20}>
                 {/* <SimePendExplanation /> */}
-                {/* Talk about verification of accuracy. Talk abt animation. Talk abt energy calc */}
+                {/* Talk about verification of accuracy. Talk abt animation. Talk abt energy calc
+                Say why energy isnt 0 and how its relative */}
             </Box>
             </div>
         </HelmetProvider>

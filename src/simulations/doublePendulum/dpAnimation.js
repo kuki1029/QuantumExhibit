@@ -103,7 +103,7 @@ export default class DoublePendulumAnimation {
     displayEnergyText() {
         if (this.showEnergy) {
             const { ke, pe } = this.pend.getEnergy()
-            this.energyText.text = `Kinetic: ${Math.round(ke * 100) / 100}\nPotential: ${Math.round(pe * 100) / 100}\nTotal: ${Math.round((Math.abs(ke+pe)) * 100) / 100}`
+            this.energyText.text = `Kinetic: ${Math.round(ke * 100) / 100}\nPotential: ${Math.round(pe * 100) / 100}\nTotal: ${Math.round((ke+pe) * 100) / 100}`
         } else {
             this.energyText.text = ""
         }
@@ -267,7 +267,7 @@ export default class DoublePendulumAnimation {
     setLen1(newLen) {
         this.pend.setLen1(newLen)
         this.len1 = newLen
-        this.secondTrace.clear()  
+        this.clearTrace() 
     }
 
     /**
@@ -277,7 +277,7 @@ export default class DoublePendulumAnimation {
     setLen2(newLen) {
         this.pend.setLen2(newLen)
         this.len2 = newLen
-        this.secondTrace.clear()  
+        this.clearTrace()
     }
 
     /**
@@ -286,10 +286,7 @@ export default class DoublePendulumAnimation {
      */
     setAngle1(newAngle) {
         this.pend.setAngle1(newAngle)
-        if (this.firstTrace) {
-            this.firstTrace.clear()  
-            this.secondTrace.clear() 
-        } 
+        this.clearTrace()
     }
 
     /**
@@ -298,10 +295,7 @@ export default class DoublePendulumAnimation {
      */
     setAngle2(newAngle) {
         this.pend.setAngle2(newAngle)
-        if (this.firstTrace) {
-            this.firstTrace.clear()  
-            this.secondTrace.clear() 
-        } 
+        this.clearTrace()
     }
 
     /**
@@ -325,7 +319,9 @@ export default class DoublePendulumAnimation {
      * @param {Boolean} showTrace1 - To show energy or not
      */
     setTrace1(showTrace1) {
-        this.firstTrace.clear()
+        if (this.firstTrace) {
+            this.firstTrace.clear()
+        }
         this.showTrace1 = showTrace1
     }
 
@@ -334,8 +330,18 @@ export default class DoublePendulumAnimation {
      * @param {Boolean} showTrace2 - To show energy or not
      */
     setTrace2(showTrace2) {
-        this.secondTrace.clear()
+        if (this.secondTrace) {
+            this.secondTrace.clear()
+        }
         this.showTrace2 = showTrace2
+    }
+
+    /**
+     * Sets the damping value for the system
+     * @param {Boolean} newDamp - New damp value
+     */
+    setDamp(newDamp) {
+        this.pend.setDamp(newDamp)
     }
 
     /**
@@ -375,5 +381,65 @@ export default class DoublePendulumAnimation {
      */
     getAngle2() {
         return this.pend.angle2
+    }
+
+    /**
+     * Returns the first pendulum length 
+     * @returns {number} Returns length of first pendulum
+     */
+    getLen1() {
+        return this.len1
+    }
+
+    /**
+     * Returns the second pendulum length 
+     * @returns {number} Returns length of second pendulum
+     */
+    getLen2() {
+        return this.len2
+    }
+
+    /**
+     * Returns if the energy should be displayed or not
+     * @returns {boolean} Returns if energyDisplay is true
+     */
+    getEnergyDisplay() {
+        return this.showEnergy
+    }
+
+    /**
+     * Returns if the first pendulum trace should be displayed or not
+     * @returns {boolean} 
+     */
+    getTrace1() {
+        return this.showTrace1
+    }
+
+    /**
+     * Returns if the second pendulum trace should be displayed or not
+     * @returns {boolean} 
+     */
+    getTrace2() {
+        return this.showTrace2
+    }
+
+    /**
+     * Returns the damping amount on the system
+     * @returns {number} Returns damping number
+     */
+    getDamp() {
+        return this.pend.damper
+    }
+
+    /**
+     * Clears trace if they are defined
+     */
+    clearTrace() {
+        if (this.firstTrace) {
+            this.firstTrace.clear()
+        }
+        if (this.secondTrace) {
+            this.secondTrace.clear()
+        }
     }
 }
