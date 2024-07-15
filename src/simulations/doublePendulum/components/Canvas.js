@@ -1,6 +1,7 @@
 import { ToggleButton, Stack, useMediaQuery, useTheme  } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { Screen } from "../../../constants.js";
+import { Graph } from './DoublePendGraph.js';
 
 // Shows the canvas and show options button
 export const Canvas = ({ pendAnimate, val, onSmash }) => {
@@ -41,6 +42,8 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
                 </Stack>
                 {/* Pixi Js Canvas */}
                 <div ref={ref} display="flex" />
+                <Graph />
+                
             </Stack>
         </div>
     )

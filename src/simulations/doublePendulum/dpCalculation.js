@@ -65,6 +65,14 @@ export default class DoublePendulumData {
     }
 
     /**
+     * Resets the pendulum so we start over from the user chosen settings
+     */
+    resetPendulum() {
+        this.params = [this.angle1, this.angle2, 0, 0]
+        this.diffSolver.resetParams(this.params)
+    }
+
+    /**
      * Changes the gravity for the pendulum to specified value.
      * Sends the changes params to the diffSolver as the constants have to be rebinded
      * @param {number} newGrav - The new gravity value to be used in m/s^2

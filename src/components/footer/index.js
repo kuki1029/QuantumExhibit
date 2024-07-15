@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Link from '@mui/material/Link';
-import Button from '@mui/material/Button';
 import "./style.css";
 
 export const Footer = () => {

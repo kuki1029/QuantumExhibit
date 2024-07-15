@@ -245,6 +245,16 @@ export default class DoublePendulumAnimation {
     }
 
     /**
+     * Resets the pendulum so we start over from the user chosen settings
+     */
+    resetPendulum() {
+        this.pend.resetPendulum()
+        const {x1, y1, x2, y2} = this.pend.calculateNextPos()
+        this.drawTraces(x1, y1, x2, y2)
+        this.clearTrace() 
+    }
+
+    /**
      * Changes the mass for first pendulum
      * @param {number} newMass - New mass value
      */

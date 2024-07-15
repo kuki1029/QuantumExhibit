@@ -5,8 +5,9 @@ import { AngleSlider } from './AngleSlider';
 import { GravityEnergySlider } from './GravityEnergySlider';
 import { TraceButton } from './TraceButton';
 import { QueryDamper } from './QueryDamper';
+import { ResetGraphButtons } from './ResetGraphButton';
 
-export const Options = ({ pendulum, refresh }) => {
+export const Options = ({ pendulum }) => {
     return (
         <Grid xs={4} sm={4} md={6} item={true} >
             <MassSlider pendulum={pendulum} />
@@ -15,6 +16,7 @@ export const Options = ({ pendulum, refresh }) => {
             <GravityEnergySlider pendulum={pendulum} />
             <TraceButton pendulum={pendulum} />
             <QueryDamper pendulum={pendulum} />
+            <ResetGraphButtons pendulum={pendulum} />
         </Grid>
     )
 }
