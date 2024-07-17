@@ -51,7 +51,7 @@ export const DoublePendulum = () => {
             <Box sx={{ maxWidth: '105ch' }} m="auto" pb={20}>
                 {/* <SimePendExplanation /> */}
                 {/* Talk about verification of accuracy. Talk abt animation. Talk abt energy calc
-                Say why energy isnt 0 and how its relative */}
+                Say why energy isnt 0 and how its relative. talk about how loops were blocking ticker in the pixi. when changing domain to -pi to pi*/}
             </Box>
             </div>
         </HelmetProvider>

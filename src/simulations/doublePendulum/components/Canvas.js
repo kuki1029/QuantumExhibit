@@ -1,18 +1,17 @@
 import { ToggleButton, Stack, useMediaQuery, useTheme  } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { Screen } from "../../../constants.js";
-import { Graph } from './DoublePendGraph.js';
+import { DoublePendGraph } from './DoublePendGraph.js';
 
 // Shows the canvas and show options button
 export const Canvas = ({ pendAnimate, val, onSmash }) => {
     const ref = useRef(null);
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
-
     // If the screen is md size or larger, the button will be moved to the left
     // to accomodate the options
     const moveButton = matches && val
-    
+
       // Runs once
     useEffect(() => {
         // We need a function for this as pixiJS requires async setup to be initialized
@@ -42,8 +41,7 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
                 </Stack>
                 {/* Pixi Js Canvas */}
                 <div ref={ref} display="flex" />
-                <Graph />
-                
+                <DoublePendGraph pendulum={pendAnimate} />
             </Stack>
         </div>
     )

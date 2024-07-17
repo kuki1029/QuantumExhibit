@@ -17,7 +17,9 @@ export const SimColors = {
     "red": "#ff0033",
     "blue": "#4169E1",
     "bgLight": "#ffffff",
-    "bgDark": "#0c0c0c"
+    "bgDark": "#0c0c0c",
+    "graphDark": '#00FFFF',
+    "graphLight": '#4169E1'
 }
 
 // Specifically for double pendulum
