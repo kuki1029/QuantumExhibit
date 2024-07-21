@@ -68,8 +68,30 @@ canvas {
 
 .plotly-notifier {
     p {
-        color: red !important;
-        font-family: cursive !important;
+        color: var(--primary-color) !important;
+        font-family: 'Raleway', sans-serif !important;
     }
+    div {
+        background-color: var(--secondary-color) !important;
+    }
+    .notifier-close {
+        color: var(--primary-color) !important;
+    }
+}
 
+.updatemenu-item-rect {
+    stroke: var(--secondary-color) !important;
+    stroke-width: 0.5px !important;
+}
+
+.updatemenu-item-rect:hover {
+    fill: var(--active-color) !important;
+}
+
+.updatemenu-item-rect:has(+ .updatemenu-item-text:hover) {
+    fill: var(--active-color) !important;
+}
+
+.updatemenu-header-arrow {
+    fill: var(--secondary-color) !important;
 }

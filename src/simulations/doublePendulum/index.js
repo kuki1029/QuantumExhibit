@@ -13,6 +13,7 @@ const defaultLength2 = DefaultDoublePend.defaultLen2
 const pendAnimate = new dpAnimation(null, null, null, defaultLength1, defaultLength2)
 export const DoublePendulum = () => {
     const [showOptions, setShowOptions] = useState(true)
+    const [showGraph, setShowGraph] = useState(true)
 
     // Query params for sharing
     useEffect(() => {
@@ -44,9 +45,9 @@ export const DoublePendulum = () => {
             {/* Shows the canvas and sliders. Slider are hidden until user clicks to show them*/}
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 4, md: 12 }} display="flex" justifyContent="center" alignItems="top">
                 <Grid xs={4} sm={4} md={6}  >
-                    <Canvas pendAnimate={pendAnimate} val={showOptions} onSmash={handleShowOptions} />
+                    <Canvas pendAnimate={pendAnimate} val={showOptions} onSmash={handleShowOptions} showGraph={showGraph} />
                 </Grid>
-                    {showOptions &&  <Options pendulum={pendAnimate} />}
+                    {showOptions && <Options pendulum={pendAnimate} showGraph={showGraph} setShowGraph={setShowGraph} />}
             </Grid>
             <Box sx={{ maxWidth: '105ch' }} m="auto" pb={20}>
                 {/* <SimePendExplanation /> */}

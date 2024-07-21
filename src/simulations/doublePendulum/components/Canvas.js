@@ -4,7 +4,7 @@ import { Screen } from "../../../constants.js";
 import { DoublePendGraph } from './DoublePendGraph.js';
 
 // Shows the canvas and show options button
-export const Canvas = ({ pendAnimate, val, onSmash }) => {
+export const Canvas = ({ pendAnimate, val, onSmash, showGraph }) => {
     const ref = useRef(null);
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('md'));
@@ -41,7 +41,7 @@ export const Canvas = ({ pendAnimate, val, onSmash }) => {
                 </Stack>
                 {/* Pixi Js Canvas */}
                 <div ref={ref} display="flex" />
-                <DoublePendGraph pendulum={pendAnimate} />
+                { showGraph && <DoublePendGraph pendulum={pendAnimate} /> }
             </Stack>
         </div>
     )
