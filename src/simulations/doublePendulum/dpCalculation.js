@@ -149,7 +149,7 @@ export default class DoublePendulumData {
 
     /**
      * Changes the angle for the second pendulum
-     * @return {number} - Returns total energy of system
+     * @return {Object} - Returns total energy of system { ke, pe }
      */
     getEnergy() {
         const {m1, m2, len1, len2, gravity:g} = this

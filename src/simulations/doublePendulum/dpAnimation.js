@@ -356,18 +356,27 @@ export default class DoublePendulumAnimation {
 
     /**
      * Returns all the parameters of the pendulum currently.
-     * Values such as the angle of first and second pendulum, the omega values for each,
-     * the potential and kinetic energy.
-     * @returns {Object} Returns { theta1, theta2, omega1, omega2, pe, ke }
+     * Values such as the angle of first and second pendulum, the omega values for each
+     * @returns {Object} Returns { angle: [theta1, theta2], speed: [omega1, omega2] }
      */
     getPendulumValues() {
         const params = this.pend.params
+        return {
+            angle: [params[0], params[1]],
+            speed: [params[2], params[3]],
+        }
+    }
+
+    /**
+     * Returns energy values of the pendulum. All taken to be positive for convienence
+     * @returns {Object} Returns { angle: [theta1, theta2], speed: [omega1, omega2] }
+     */
+    getEnergy() {
         const energy = this.pend.getEnergy()
         return {
-            theta1: params[0],
-            theta2: params[1],
-            omega1: params[2],
-            omega2: params[3],
+            pe: energy.pe,
+            ke: energy.ke,
+            total: energy.ke + energy.pe
         }
     }
 
