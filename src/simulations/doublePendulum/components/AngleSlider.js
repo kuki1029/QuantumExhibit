@@ -1,10 +1,14 @@
 import { Stack } from '@mui/material';
 import { CustomSlider } from './CustomSlider';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const AngleSlider = ({ pendulum }) => {
     const [angle1, setAngle1] = useState(pendulum.getAngle1())
     const [angle2, setAngle2] = useState(pendulum.getAngle2())
+
+    useEffect(() => {
+        pendulum.setAngleCallback(setAngle1, setAngle2)
+    }, [])
 
     return (
         <div>

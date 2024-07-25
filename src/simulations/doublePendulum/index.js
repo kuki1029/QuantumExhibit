@@ -13,7 +13,7 @@ const defaultLength2 = DefaultDoublePend.defaultLen2
 const pendAnimate = new dpAnimation(null, null, null, defaultLength1, defaultLength2)
 export const DoublePendulum = () => {
     const [showOptions, setShowOptions] = useState(true)
-    const [showGraph, setShowGraph] = useState(true)
+    const [showGraph, setShowGraph] = useState(false)
 
     // Query params for sharing
     useEffect(() => {

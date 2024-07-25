@@ -21,7 +21,7 @@ export default class DoublePendulumData {
         // Just to store the initial angles separately
         this.angle1 = initialAngle1
         this.angle2 = initialAngle2
-        this.damper = 0
+        this.dampCoeff = 0
         // Last two functions are invoked because they bind the required constants
         this.diffSolver = new RK4([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()], this.params, 0, 0.001)
     }
@@ -143,8 +143,8 @@ export default class DoublePendulumData {
      * @param {number} newDamp - New damp
      */
     setDamp(newDamp) {
-        this.damper = newDamp
-        this.diffSolver.setDamp(1 - (0.001 * newDamp) / 100)
+        this.dampCoeff = newDamp
+        this.diffSolver.changeFunc([this.thetaPrime1, this.thetaPrime2, this.alpha1(), this.alpha2()])
     }
 
     /**
@@ -152,7 +152,7 @@ export default class DoublePendulumData {
      * @return {Object} - Returns total energy of system { ke, pe }
      */
     getEnergy() {
-        const {m1, m2, len1, len2, gravity:g} = this
+        const {m1, m2, len1, len2, gravity:g } = this
         const ke = 0.5 * (m1 + m2) * len1**2 * this.params[2]**2 + 
             0.5 * m2 * len2**2 * this.params[3]**2 + 
             m2*len1*len2*this.params[2]*this.params[3]*Math.cos(this.params[0]-this.params[1])
@@ -171,7 +171,7 @@ export default class DoublePendulumData {
 
     alpha1() {
         // Define local variables
-        const { m1, m2, gravity: g, len1, len2 } = this;
+        const { m1, m2, gravity: g, len1, len2, dampCoeff } = this;
         const sin = (theta) => {return Math.sin(theta)}
         const cos = (theta) => {return Math.cos(theta)}
 
@@ -180,13 +180,13 @@ export default class DoublePendulumData {
                 2*sin(params[0]-params[1])*m2*
                 (params[3]**2*len2 + params[2]**2*len1*cos(params[0] - params[1]))
             const bottom = len1*(2*m1 + m2 - m2*cos(2*params[0] - 2*params[1]))
-            return top / bottom
+            return top / bottom - (params[2] * dampCoeff)
         }
     }
 
     alpha2() {
         // Define local variables
-        const { m1, m2, gravity: g, len1, len2 } = this;
+        const { m1, m2, gravity: g, len1, len2, dampCoeff } = this;
         const sin = (theta) => {return Math.sin(theta)}
         const cos = (theta) => {return Math.cos(theta)}
 
@@ -195,7 +195,7 @@ export default class DoublePendulumData {
                 g*(m1 + m2)*cos(params[0]) + 
                 params[3]**2*len2*m2*cos(params[0] - params[1]))
             const bottom = len2*(2*m1 + m2 - m2*cos(2*params[0] - 2*params[1]))
-            return top / bottom
+            return top / bottom - (params[3] * dampCoeff)
         }
     }
 }

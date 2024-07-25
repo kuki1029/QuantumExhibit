@@ -32,7 +32,6 @@ export class DifferentialSolver {
             }
         }
         Object.assign(this, { func, y0, t0, h })
-        this.reducer = 1 // This reduces each iteration of the ode method. Every time a step is done, it gets multiplied by this. Applications include artifical damping of systems
         this.y = y0
         this.t = t0
     }
@@ -43,9 +42,9 @@ export class DifferentialSolver {
      */
     step() {
         if (this.isArray) {
-            this.y = multiplyArrayByScalar(this.reducer, addArrays(this.y, this.odeMethodVector(this.t, this.y, this.h)))
+            this.y = addArrays(this.y, this.odeMethodVector(this.t, this.y, this.h))
         } else {
-            this.y += this.odeMethodScalar(this.t, this.y, this.h) * this.reducer
+            this.y += this.odeMethodScalar(this.t, this.y, this.h)
         }
         this.t += this.h
         return [this.t, this.y]
@@ -71,13 +70,13 @@ export class DifferentialSolver {
         if (this.isArray) {
             while (t0 < tf + h) {
                 solved.push([t0, y0])
-                y0 = multiplyArrayByScalar(this.reducer, addArrays(y0, this.odeMethodVector(t0, y0, h)))
+                y0 = addArrays(y0, this.odeMethodVector(t0, y0, h))
                 t0 += h
             }
         } else {
             while (t0 < tf + h) {
                 solved.push([t0, y0])
-                y0 += this.odeMethodScalar(t0, y0, h) * this.reducer
+                y0 += this.odeMethodScalar(t0, y0, h)
                 t0 += h
             }
         }
@@ -141,13 +140,5 @@ export class DifferentialSolver {
      */
     resetParams(newParams) {
         this.y = newParams
-    }
-
-    /**
-     * Sets the reducer or damping value
-     * @param {number} newReducer - Value for reducer. Exact value will be interpolated
-     */
-    setDamp(newReducer) {
-        this.reducer = newReducer
     }
 }

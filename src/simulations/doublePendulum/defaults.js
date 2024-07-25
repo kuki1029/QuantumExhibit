@@ -30,6 +30,9 @@ export const regularDataOptions = {
 export const barPlotDataOptions = {
     x: ['Potential', 'Kinetic', 'Total'],
     y: [0, 0, 0],
+    marker: {
+        color: ['#cd7058', '#f9a65a', '#599ad3']
+    },
     type: 'bar'
 }
 

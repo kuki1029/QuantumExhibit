@@ -4,7 +4,7 @@ import { useState } from 'react';
 import dpAnimation from "../dpAnimation.js";
 
 export const QueryDamper = ({ pendulum }) => {
-    const [damp, setDamp] = useState(pendulum.getDamp())
+    const [damp, setDamp] = useState(pendulum.getDamp() / 0.02) // Scaling factor. We map values of [0, 100] to [0, 2]
 
     return (
         <div>
@@ -18,7 +18,8 @@ export const QueryDamper = ({ pendulum }) => {
     )
 
     function handleDampChange(e, val) {
-        pendulum.setDamp(val)
+        // The 0.02 is for scaling. We map values of [0, 100] to [0, 2]
+        pendulum.setDamp(val * 0.02)
         setDamp(val) 
     }
 
