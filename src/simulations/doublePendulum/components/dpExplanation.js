@@ -1,5 +1,9 @@
 import { useState} from "react"
-import { MathJax, MathJaxContext } from "better-react-mathjax";
+import { MathJaxContext } from "better-react-mathjax";
+import { SimulationQuirks } from "./simulationQuirks";
+import { ThingsLeanred } from "./ThingsILeanred";
+import { Motivation } from "./Motivation";
+import { Derivation } from "./Derivation";
 
 export const DoubPendExplanation = () => {
     const [isLightTheme, setTheme] = useState((localStorage.getItem("theme") === 'light') ? true : false);
@@ -10,10 +14,29 @@ export const DoubPendExplanation = () => {
     })
 
     return (
-        <MathJaxContext>
+    <MathJaxContext>
         <h1>An Elegant Double Pendulum</h1>
-
-        </MathJaxContext>
+        A list of features this double pendulum simulation has:
+        <ul>
+            <li>Click and drag the pendulum</li>
+            <li>Change mass, length, angle, gravity with sliders</li>
+            <li>Show traces for each pendulum</li>
+            <li>Reset the pendulum or graph</li>
+            <li>Show a graph of the angles, speeds or energy</li>
+            <li>Display kinetic and potential energy</li>
+            <li>Share graph parameters</li>
+            <li>Add friction to the system</li>
+            <li>A smooth seamless experience between changes</li>
+        </ul>
+        <p className="sPText">
+            The derivation is at the end or click here to go to the derivation. 
+            {/* TODO: ADD LINK TO GO TO DERIVATION */}
+        </p>
+        <SimulationQuirks isLightTheme={isLightTheme} />
+        <ThingsLeanred />
+        <Motivation />
+        <Derivation isLightTheme={isLightTheme} />
+    </MathJaxContext>
     )
 }
 
@@ -21,9 +44,5 @@ export const DoubPendExplanation = () => {
  * Topics
  * -Features
  * -Explain derivation
- * -Quriks explained: Damping easy way. Graph plotting, using multiple traces. 
- * -Things learned: Blocking code or async code like the while loop that blocked th. More into JS closures. Class organization for 
- * diff solvers and testing code. Organizing react components. Global state instead of using redux. Calling funs with string for query params
- * -Motivations: Extension of simp Pend. Wanted to introduce level of detph with changing parameters.
- * -In another world. I wanted to implement a multiple system pendulum where u can add as many pendulumas as u want. more integration methods. say wanted to do more project
+ * -In another world. I wanted to implement a multiple system pendulum where u can add as many pendulumas as u want. more integration methods. say wanted to do more project instersad of staying on this one
  */

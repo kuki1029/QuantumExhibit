@@ -40,9 +40,6 @@ body {
     border-right: 10px solid var(--primary-color);
 }
 
-ul {
-    list-style: none;
-}
 
 h1,
 h2,

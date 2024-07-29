@@ -20,16 +20,18 @@ export const SimePendExplanation = () => {
         <p className="sPText">Our goal here was to recreate a simple pendulum using elementary physics principles. 
             We start by drawing the free body diagram for the pendulum:
         </p>
-        {/* Reactively shown the right image for the theme */}
+        {/* Reactively shown the correct image for the theme */}
         <img
           className='centerImage'
           src={isLightTheme ? fbdLight  : fbdDark}
+          alt="Free body diagram of pendulum"
         />
         <p className="sPText">
           From this free body diagram, we can derive the following equations:
         </p>
         <MathJax>{"\\[ F=ma  \\]"}</MathJax>
         <MathJax>{"\\[ -mg \\sin(\\theta) = ma  \\]"}</MathJax>
+        {/* TODO: Fix this messed up text formatting */}
         <MathJax hideUntilTypeset={"first"}>
           {`Here, we need to apply a change of variables as we have two different variables for the position
           on each side of the equation. We can replace acceleration with \\(L \\alpha \\) where \\( \\alpha \\) represents the

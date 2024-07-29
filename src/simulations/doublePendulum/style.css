@@ -95,3 +95,10 @@ canvas {
 .updatemenu-header-arrow {
     fill: var(--secondary-color) !important;
 }
+
+.simulationQuirkImages {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
