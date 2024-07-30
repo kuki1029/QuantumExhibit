@@ -1,6 +1,7 @@
 import { Screen, SimColors } from "../../constants.js";
-import { Graphics } from 'pixi.js';
+import { Graphics, Assets } from 'pixi.js';
 import SimplePendulumData from './spCalculation.js'
+import { StarWarp } from "../starWarp.js";
 
 // Constants for animation
 const pivotSize = 20;
@@ -88,6 +89,15 @@ export default class simpPendAnimation {
     }   
 
     /**
+     * Stars warp for stars
+     */
+    enableStars(e) {
+        if (e.code === "KeyS") {
+            this.stars.enableStars()
+        }
+    }
+
+    /**
      * Colors for simulation. If not light, assume dark
      * We emit an event in the themeToggle component and listen to it here
      * Whenever theme changes, we update our colors and redraw shapes
@@ -143,6 +153,10 @@ export default class simpPendAnimation {
         // Run animation
         this.animatePendulumRope()
         this.initObjectsToStage()
+        // For Stars secret
+        this.stars = new StarWarp(this.app)
+        await this.stars.loadTextures()
+        window.addEventListener("keyup", (event) => {this.enableStars(event)});
     }
 
     /**

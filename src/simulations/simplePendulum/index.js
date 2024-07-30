@@ -7,14 +7,11 @@ import Stack from '@mui/material/Stack';
 import { Box } from "@mui/material";
 import { SimePendExplanation } from "./spExplanation.js";
 import simpPendAnimation from "./spAnimation.js";
-import { Screen, SimColors } from "../../constants.js";
+import { Screen } from "../../constants.js";
 import "./style.css";
 
 const defaultLength = 200;
 const sliderBoxSize = 180;
-
-const theme = localStorage.getItem("theme")
-let sliderColor = (theme === 'light') ? SimColors.black : SimColors.white;
 
 const pendAnimate = new simpPendAnimation()
 
@@ -85,7 +82,6 @@ export const SimplePendulum = () => {
                 size="small"
                 step={0.1}
                 min={0.1}
-                color={sliderColor}
                 valueLabelDisplay="auto"
               />
           </Box>
@@ -103,7 +99,6 @@ export const SimplePendulum = () => {
                 step={1}
                 min={5}
                 max={400}
-                color={sliderColor}
                 valueLabelDisplay="auto"
               />
           </Box>

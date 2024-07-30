@@ -1,0 +1,116 @@
+canvas {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    order: -1;
+    width: 400px;
+}
+
+.MuiToggleButton-root {
+    border-color: var(--secondary-color) !important;
+    color: var(--secondary-color) !important;
+    width: 140px !important;
+    float: right;
+}
+
+.MuiButtonBase-root {
+    border-color: var(--secondary-color) !important;
+    border: '5px solid white rounded' !important;
+    color: var(--secondary-color) !important;;
+    width: 140px !important;
+    float: right;
+}
+
+.showDerButton {
+    width: auto !important
+}
+
+.Mui-selected {
+    background-color: var(--active-color) !important;
+}
+
+.testing {
+    position: absolute;
+}
+
+#simBoard {
+    order: -1;
+}
+
+#root {
+    order: 2;
+}
+
+.s_c {
+    order: 3;
+}
+
+.sPText {
+    font-size: 14px;
+}
+
+/* Colors for the label that pops out when you hover on slider */
+.css-cq3a6k-MuiSlider-valueLabel {
+    background-color: var(--secondary-color) !important;
+}
+.MuiSlider-valueLabel {
+    color: var(--primary-color) !important;
+}
+
+/* Colors for thumbtrack and slider */
+.css-nl6333-MuiSlider-track, .css-7o8aqz-MuiSlider-rail, .MuiSlider-thumb {
+    background-color: var(--secondary-color) !important;
+}
+
+.centerImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 20%;
+    max-height: 20%
+}
+
+.plotly-notifier {
+    p {
+        color: var(--primary-color) !important;
+        font-family: 'Raleway', sans-serif !important;
+    }
+    div {
+        background-color: var(--secondary-color) !important;
+    }
+    .notifier-close {
+        color: var(--primary-color) !important;
+    }
+}
+
+.updatemenu-item-rect {
+    stroke: var(--secondary-color) !important;
+    stroke-width: 0.5px !important;
+}
+
+.updatemenu-item-rect:hover {
+    fill: var(--active-color) !important;
+}
+
+.updatemenu-item-rect:has(+ .updatemenu-item-text:hover) {
+    fill: var(--active-color) !important;
+}
+
+.updatemenu-header-arrow {
+    fill: var(--secondary-color) !important;
+}
+
+.simulationQuirkImages {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.clickableText {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 0;
+    margin: 0;
+    padding: 0;
+}

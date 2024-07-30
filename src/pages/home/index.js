@@ -49,7 +49,7 @@ export const Home = () => {
                             <div className="intro_btn-action">
                                 <Link to="/simulation" className="text_2">
                                     <div id="button_p" className="ac_btn btn ">
-                                    Our Simulations
+                                    Simulations
                                         <div className="ring one"></div>
                                         <div className="ring two"></div>
                                         <div className="ring three"></div>
