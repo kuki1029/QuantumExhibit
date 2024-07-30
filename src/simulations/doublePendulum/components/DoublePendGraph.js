@@ -8,7 +8,6 @@ import {
     layoutDefault
 } from '../defaults';
 
-// TODO: Fix switching from bar to angle ranges
 export const DoublePendGraph = ({ pendulum }) => {
     const pi = Constant.pi
     const [graphType, setGraphType] = useState(buttonType.angle)

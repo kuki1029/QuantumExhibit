@@ -12,7 +12,7 @@ export const Motivation = () => {
                 with the physics, but also in regards to simulating such equations for people to understand in an easier manner. 
                 The simple pendulum was great but it was too simple. There just wasn't much going on in terms of code and 
                 things to do. I didn't feel satisfied enough to stop with the pendulums. With this simulation, I feel satisfied 
-                where I can move on to another area of physics. 
+                that I can move on to another area of physics. 
             </p>    
 
             {/* In another world */}

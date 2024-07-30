@@ -1,13 +1,14 @@
-import { useState} from "react"
+import { useRef, useState} from "react"
 import { MathJaxContext } from "better-react-mathjax";
 import { SimulationQuirks } from "./simulationQuirks";
 import { ThingsLeanred } from "./ThingsILeanred";
 import { Motivation } from "./Motivation";
 import { Derivation } from "./Derivation";
-
+import { Button } from "@mui/material";
 export const DoubPendExplanation = () => {
     const [isLightTheme, setTheme] = useState((localStorage.getItem("theme") === 'light') ? true : false);
-
+    const [showDerivation, setShowDerivation] = useState(false)
+    const derivationRef = useRef(null)
     // We emit an event in the themeToggle component and listen to it here
     window.addEventListener('themeChanged', () => {
         setTheme((localStorage.getItem("theme") === 'light') ? true : false)
@@ -29,13 +30,17 @@ export const DoubPendExplanation = () => {
             <li>A smooth seamless experience between changes</li>
         </ul>
         <p className="sPText">
-            The derivation is at the end or click here to go to the derivation. 
-            {/* TODO: ADD LINK TO GO TO DERIVATION */}
+            The derivation is at the end or <button className='clickableText' onClick={() => derivationRef.current.scrollIntoView()}>click here to go to the</button> derivation. 
         </p>
         <SimulationQuirks isLightTheme={isLightTheme} />
         <ThingsLeanred />
         <Motivation />
-        <Derivation isLightTheme={isLightTheme} />
+        <Button className='showDerButton' value="ShowDerivation" variant="outlined" onClick={() => setShowDerivation(!showDerivation)} style={{ height: 40, marginTop: 4 }}>
+            Show Derivation                     
+        </Button>
+        <div ref={derivationRef} >
+            {showDerivation && <Derivation isLightTheme={isLightTheme} />}
+        </div>
     </MathJaxContext>
     )
 }

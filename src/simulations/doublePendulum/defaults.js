@@ -16,6 +16,19 @@ const colors = {
     graph: (theme === 'light') ? SimColors.graphLight : SimColors.graphDark
 }
 
+window.addEventListener('themeChanged', () => {
+    const theme = localStorage.getItem('theme')
+    if (theme === 'light') {
+        colors.bg = SimColors.bgLight
+        colors.text = SimColors.black
+        colors.graph = SimColors.graphLight
+    } else {
+        colors.bg = SimColors.bgDark
+        colors.text = SimColors.white
+        colors.graph = SimColors.graphDark
+    }
+})
+
 // Default data template for the plotting
 export const regularDataOptions = {
     x: [],
@@ -23,7 +36,7 @@ export const regularDataOptions = {
     mode: 'lines',
     type: 'scatter',
     line: {
-        color: colors.graph,
+        color: (localStorage.getItem('theme') === 'light') ? SimColors.graphLight : SimColors.graphDark,
         width: 0.5
     }
 }

@@ -16,6 +16,5 @@ export const ResetGraphButtons = ({ pendulum, showGraph, setShowGraph }) => {
 
     function handleRestClick() {
         pendulum.resetPendulum()
-        // TODO: Also reset graph
     }
 }

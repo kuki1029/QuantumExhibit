@@ -21,6 +21,10 @@ canvas {
     float: right;
 }
 
+.showDerButton {
+    width: auto !important
+}
+
 .Mui-selected {
     background-color: var(--active-color) !important;
 }
@@ -101,4 +105,12 @@ canvas {
     margin-left: auto;
     margin-right: auto;
 
+}
+
+.clickableText {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 0;
+    margin: 0;
+    padding: 0;
 }

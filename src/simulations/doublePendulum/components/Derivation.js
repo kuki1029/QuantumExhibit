@@ -6,12 +6,12 @@ export const Derivation = ({ isLightTheme }) => {
     return (
         <div>
             <h2>Derivation</h2>
-            <p class='sPText'>
+            <p className='sPText'>
                 I initially tried to do this derivation without using the Lagrangian. It's possible, however, the algebra 
                 gets pretty complicated real quick. Thus, as any physicist would do, I decided to make use of the better tools 
                 available to me and take a shortcut from the complicated algebra by using the Lagrangian. <br></br><br></br>
                 We assume the usual list of items such as massless rods, point masses, and no air resistance. 
-                We start with a basic diagram of the system:
+                We start with a basic diagram of the system: 
                 <img
                     className='simulationQuirkImages'
                     style={{ maxWidth: '30%' }}
@@ -19,7 +19,7 @@ export const Derivation = ({ isLightTheme }) => {
                     alt="Example of graph with bad plotting"
                 />
                 Our coordinate system will be x positive to the right and y positive downwards. Angles will be measured 
-                from the positive y axis in counter clockwise direction. From this diagram, we can obtain the equations 
+                from the positive y-axis in counterclockwise direction. From this diagram, we can obtain the equations 
                 for each x and y coordinate:
                 <MathJax>
                 {`
@@ -88,7 +88,7 @@ export const Derivation = ({ isLightTheme }) => {
                 `}
                 </MathJax>
                 In the last line, we use a trigonometry difference identity to simplify the equation. We will 
-                make the following substistution <MathJax inline>{"\\( \\theta_1 - \\theta_2 = \\Delta \\theta \\)"}</MathJax> to 
+                make the following substitution <MathJax inline>{"\\( \\theta_1 - \\theta_2 = \\Delta \\theta \\)"}</MathJax> to 
                 simplify the equations. The Lagrangian is:
                 <MathJax>
                 {`
@@ -198,7 +198,7 @@ export const Derivation = ({ isLightTheme }) => {
                 And there we have it. Two coupled second order ordinary differential equations to describe the motion of each pendulum in the system. 
                 To solve this, we make use of Runge-Kutta 4 and make a change of variables to convert this into a first order ODE. 
                 These equations can be simplified further, but for the purposes of this simulation, this is good enough. Ideally, on 
-                an assignment, I would've simplified even further. 
+                an assignment, I would've simplified it even further. 
             </p>
         </div>
     )

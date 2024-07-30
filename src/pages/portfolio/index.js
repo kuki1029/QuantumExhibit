@@ -60,30 +60,6 @@ export const Portfolio = () => {
                   <Card className="simCard"  sx={{ maxWidth: 345}}>
                     <CardHeader
                     className="cardText"
-                      action={
-                        <div>
-                        <IconButton
-                          id="basic-button"
-                          aria-controls={open ? 'basic-menu' : undefined}
-                          aria-haspopup="true"
-                          aria-expanded={open ? 'true' : undefined}
-                          onClick={handleClick}
-                          className="cardText">
-                          <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                          id="basic-menu"
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleClose}
-                          MenuListProps={{
-                            'aria-labelledby': 'basic-button',
-                          }}>
-                          <MenuItem component={"a"} target="_blank" onClick={handleClose} href="https://github.com/kuki1029">Kunal's GitHub</MenuItem>
-                          <MenuItem component={"a"} target="_blank" onClick={handleClose} href="https://github.com/cluktuke">Chat's GitHub</MenuItem>
-                        </Menu>
-                        </div>
-                      }
                       title={data.title}
                     />
                     {isLightTheme ? 

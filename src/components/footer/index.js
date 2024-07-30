@@ -49,8 +49,8 @@ export const Footer = () => {
                     </Grid> 
                     <Grid item xs={12}>
                         <Typography align='center'>
-                            <Link href='https://github.com/kuki1029' underline="none">
-                                Kunal's GitHub
+                            <Link href='https://github.com/kuki1029' target='_blank'  underline="none">
+                                GitHub
                             </Link>
                         </Typography>
                     </Grid> 
@@ -74,15 +74,15 @@ export const Footer = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <Typography align='center'>
-                            <Link href='https://github.com/cluktuke' underline="none">
-                                Chat's GitHub
+                            <Link href='https://www.linkedin.com/in/kunal-varkekar/' target='_blank' underline="none">
+                                LinkedIn
                             </Link>
                         </Typography>
-                    </Grid> 
+                    </Grid>
                 </Grid>
             </Grid>
             <Grid item xs={12}>
-                <p className="footerMadeByText">Made by Chaitanya Luktuke & Kunal Varkekar. 2024.</p>
+                <p className="footerMadeByText">Made by Kunal Varkekar. 2024.</p>
             </Grid>
         </Grid>
         </Box>
