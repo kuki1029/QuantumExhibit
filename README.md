@@ -2,7 +2,8 @@
 
 A joint website by Kunal Varkekar and Chaitanya Luktuke to showcase physics simulations in a simplified and easily understood way. 
 
-![image](https://github.com/kuki1029/QuantumExhibit/assets/67561449/af0b807a-f084-4ea8-8e8c-59d284c90647)
+![image](https://github.com/user-attachments/assets/da9aad23-8781-4880-b10b-9c67e87954b3)
+
 
 
 ### Simulations
