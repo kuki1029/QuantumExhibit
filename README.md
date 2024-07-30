@@ -9,6 +9,7 @@ A joint website by Kunal Varkekar and Chaitanya Luktuke to showcase physics simu
 ### Simulations
 
 - Simple Pendulum
+- Double Pendulum
 
 ### Suggestions?
 
