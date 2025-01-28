@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import Grid from '@mui/material/Unstable_Grid2';
+import { Grid } from '@mui/material';
 import { Box } from "@mui/material";
 import dpAnimation from "./dpAnimation.js";
 import "./style.css";
-import { Canvas } from "./components/Canvas.js";
-import { Options } from "./components/Options.js";
+import { Canvas } from "./components/Canvas.jsx";
+import { Options } from "./components/Options.jsx";
 import { DefaultDoublePend } from "../../constants.js";
-import { DoubPendExplanation } from "./components/dpExplanation.js";
+import { DoubPendExplanation } from "./components/dpExplanation.jsx";
 
 const defaultLength1 = DefaultDoublePend.defaultLen1
 const defaultLength2 = DefaultDoublePend.defaultLen2

@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import Stack from '@mui/material/Stack';
 import { Box } from "@mui/material";
-import { SimePendExplanation } from "./spExplanation.js";
+import { SimePendExplanation } from "./spExplanation.jsx";
 import simpPendAnimation from "./spAnimation.js";
 import { Screen } from "../../constants.js";
 import "./style.css";

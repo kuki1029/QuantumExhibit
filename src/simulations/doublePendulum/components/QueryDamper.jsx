@@ -1,5 +1,5 @@
 import { Stack, Button } from '@mui/material';
-import { CustomSlider } from './CustomSlider';
+import { CustomSlider } from './CustomSlider.jsx';
 import { useState } from 'react';
 import dpAnimation from "../dpAnimation.js";
 

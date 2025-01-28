@@ -10,7 +10,7 @@ import "./App.css";
 
 export default function App() {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
+    <Router>
         <Headermain />
         <AppRoutes />
       <Footer />

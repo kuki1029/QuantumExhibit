@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col, Image } from "react-bootstrap";
-import kunalPic from '../../assets/images/kunalPic.JPG'
+import kunalPic from '../../assets/images/kunalPic.jpg'
 import {
   kunalData,
 } from "../../content_option";
