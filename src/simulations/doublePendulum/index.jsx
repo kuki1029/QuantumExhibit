@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { Grid } from '@mui/material';
+import { Grid2 } from '@mui/material';
 import { Box } from "@mui/material";
 import dpAnimation from "./dpAnimation.js";
 import "./style.css";
@@ -21,7 +21,7 @@ export const DoublePendulum = () => {
         const queryParams = new URLSearchParams(window.location.search);
         // Check all the query params and if they are valid function calls,
         // then calls the animate class to change those variables
-        queryParams.entries().forEach(param => {
+        Array.from(queryParams.entries()).forEach(param => {
             const funcCall = pendAnimate['set' + param[0]].bind(pendAnimate)
             if (typeof funcCall === 'function') {
                 if (isNaN(parseInt(param[1]))) {
@@ -43,12 +43,12 @@ export const DoublePendulum = () => {
             </Helmet>
             <div>
             {/* Shows the canvas and sliders. Slider are hidden until user clicks to show them*/}
-            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 4, md: 12 }} display="flex" justifyContent="center" alignItems="top">
-                <Grid xs={4} sm={4} md={6}  >
+            <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 4, md: 12 }} display="flex" justifyContent="center" alignItems="top">
+                <Grid2 xs={4} sm={4} md={6}  >
                     <Canvas pendAnimate={pendAnimate} val={showOptions} onSmash={handleShowOptions} showGraph={showGraph} />
-                </Grid>
+                </Grid2>
                     {showOptions && <Options pendulum={pendAnimate} showGraph={showGraph} setShowGraph={setShowGraph} />}
-            </Grid>
+            </Grid2>
             <Box sx={{ maxWidth: '105ch' }} m="auto" pb={20}>
                 <DoubPendExplanation />
             </Box>
