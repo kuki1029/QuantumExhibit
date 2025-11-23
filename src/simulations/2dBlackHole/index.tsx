@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import blackHoleAnimation from "./blackHole2dAnimation";
+import blackHoleAnimation from "./AnimationBlackHole";
 import { Screen } from "../../constants";
 import "./style.css";
 

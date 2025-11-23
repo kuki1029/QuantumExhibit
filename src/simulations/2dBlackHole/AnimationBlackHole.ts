@@ -1,10 +1,13 @@
 import { Screen, SimColors } from "../../constants";
-import { Application } from "pixi.js";
+import { Application, Graphics, Ticker } from "pixi.js";
 
 export default class BlackHole2dAnimation {
   app!: Application;
   originX!: number;
   originY!: number;
+  blackHole!: Graphics;
+  ray!: Graphics;
+  ticker!: Ticker;
   backgroundColor: string;
 
   /**
@@ -15,6 +18,10 @@ export default class BlackHole2dAnimation {
     const theme = localStorage.getItem("theme");
     this.backgroundColor =
       theme === "light" ? SimColors.bgLight : SimColors.bgDark;
+
+    this.ticker = Ticker.shared;
+    this.ticker.autoStart = false;
+    this.ticker.stop();
   }
 
   /**
@@ -35,8 +42,21 @@ export default class BlackHole2dAnimation {
     // Bind events for click handlers
     this.app.stage.eventMode = "static";
     this.app.stage.hitArea = this.app.screen;
+
+    this.ray = new Graphics();
+    this.blackHole = new Graphics();
+    this.app.stage.addChild(this.ray);
+    this.app.stage.addChild(this.blackHole);
+
+    this.ray.circle(0, 30, 3);
+    this.ray.fill("#f7dd1bff");
+
+    this.blackHole.circle(Screen.width / 2, Screen.height / 2, 30);
+    this.blackHole.fill("#ffffff");
+
     // Set colors to be reactive to theme changes
     this.updateColors();
+    this.animateRays();
     return this.app;
   }
 
@@ -55,5 +75,17 @@ export default class BlackHole2dAnimation {
 
       this.app.renderer.background.color = this.backgroundColor;
     });
+  }
+
+  /**
+   * Adds a ticker to the app instance of Pixi.Js. Runs every frame to
+   * help with animation. All animation is handled in here
+   */
+  animateRays() {
+    // Runs on each render loop. Used to animate
+    this.ticker.add(() => {
+      this.ray.x += 1;
+    });
+    this.ticker.start();
   }
 }
