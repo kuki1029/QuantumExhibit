@@ -1,0 +1,62 @@
+import { useState, useEffect } from "react";
+import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Grid2 } from '@mui/material';
+import { Box } from "@mui/material";
+import dpAnimation from "./dpAnimation.js";
+import "./style.css";
+import { Canvas } from "./components/Canvas.jsx";
+import { Options } from "./components/Options.jsx";
+import { DefaultDoublePend } from "../../constants.js";
+import { DoubPendExplanation } from "./components/dpExplanation.jsx";
+
+const defaultLength1 = DefaultDoublePend.defaultLen1
+const defaultLength2 = DefaultDoublePend.defaultLen2
+const pendAnimate = new dpAnimation(null, null, null, defaultLength1, defaultLength2)
+export const DoublePendulum = () => {
+    const [showOptions, setShowOptions] = useState(false)
+    const [showGraph, setShowGraph] = useState(false)
+
+    // Query params for sharing
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        // Check all the query params and if they are valid function calls,
+        // then calls the animate class to change those variables
+        Array.from(queryParams.entries()).forEach(param => {
+            const funcCall = pendAnimate['set' + param[0]].bind(pendAnimate)
+            if (typeof funcCall === 'function') {
+                if (isNaN(parseInt(param[1]))) {
+                    funcCall(param[1] === 'true')
+                } else {
+                    funcCall(parseFloat(param[1]))
+                }
+            }
+        })
+    }, [])
+
+    return (
+        <HelmetProvider>
+            <Helmet>
+            <meta charSet="utf-8" />
+            <title> Elegant Double Pendulum Simulation</title>
+            <meta name="description" content="A simple yet elegant simulation of the double pendulum. You can change different 
+            parameters of the pendulum. An explanation behind the pendulum is also shown." />
+            </Helmet>
+            <div>
+            {/* Shows the canvas and sliders. Slider are hidden until user clicks to show them*/}
+            <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 4, md: 12 }} display="flex" justifyContent="center" alignItems="top">
+                <Grid2 xs={4} sm={4} md={6}  >
+                    <Canvas pendAnimate={pendAnimate} val={showOptions} onSmash={handleShowOptions} showGraph={showGraph} />
+                </Grid2>
+                    {showOptions && <Options pendulum={pendAnimate} showGraph={showGraph} setShowGraph={setShowGraph} />}
+            </Grid2>
+            <Box sx={{ maxWidth: '105ch' }} m="auto" pb={20}>
+                <DoubPendExplanation />
+            </Box>
+            </div>
+        </HelmetProvider>
+    );
+
+    function handleShowOptions() {
+        setShowOptions(!showOptions)
+    }
+}
