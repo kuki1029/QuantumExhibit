@@ -1,14 +1,18 @@
 ### Description
 
-A joint website by Kunal Varkekar to showcase physics simulations in a simplified and easily understood way. 
+A website by Kunal Varkekar to showcase physics simulations in a simplified and easily understood way. 
 
-![image](https://github.com/kuki1029/QuantumExhibit/assets/67561449/af0b807a-f084-4ea8-8e8c-59d284c90647)
+<img width="1194" height="593" alt="image" src="https://github.com/user-attachments/assets/36559b68-df50-4e30-9cf9-18fdd1725c8a" />
 
+Can be accessed at [Physics.ImKunal.ca](https://physics.imkunal.ca/)
+
+You can also run it locally by
+- npm install
+- npm run dev
 
 ### Simulations
 
 - Simple Pendulum
+- Double Pendulum
 
 ### Suggestions?
-
-Please feel free to send us suggestions on simulations you'd like to see added!
