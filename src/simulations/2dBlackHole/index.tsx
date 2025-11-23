@@ -1,14 +1,14 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import blackHoleAnimation from "./blackHole2dAnimation.js";
-import { Screen } from "../../constants.js";
+import blackHoleAnimation from "./blackHole2dAnimation";
+import { Screen } from "../../constants";
 import "./style.css";
 
 const bhAnimate = new blackHoleAnimation();
 
 export const BlackHole2D = () => {
   // Ref used to display the pixi.js code
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   // Runs once
   useEffect(() => {
@@ -17,7 +17,9 @@ export const BlackHole2D = () => {
       const app = await bhAnimate.initPixi(Screen.width / 2, Screen.height / 3);
 
       // Attach to the current DOM
-      ref.current.appendChild(app.canvas);
+      if (ref.current) {
+        ref.current.appendChild(app.canvas);
+      }
     }
 
     initializePixiApp();

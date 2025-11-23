@@ -1,13 +1,17 @@
-import { Screen, SimColors } from "../../constants.js";
+import { Screen, SimColors } from "../../constants";
 import { Application } from "pixi.js";
 
 export default class BlackHole2dAnimation {
+  app!: Application;
+  originX!: number;
+  originY!: number;
+  backgroundColor: string;
+
   /**
    * Initializes the application for Pixi.JS
-   * @param {Renderer} app - Pixi.JS renderer
    */
-  constructor(app) {
-    // Set intial colors based on users theme
+  constructor() {
+    // Set initial colors based on users theme
     const theme = localStorage.getItem("theme");
     this.backgroundColor =
       theme === "light" ? SimColors.bgLight : SimColors.bgDark;
@@ -18,7 +22,7 @@ export default class BlackHole2dAnimation {
    * Starts the animation and creates listeners for theme changes to update colors.
    * Also, creates all graphics objects and adds to stage.
    */
-  async initPixi(originX, originY) {
+  async initPixi(originX: number, originY: number): Promise<Application> {
     this.app = new Application();
     this.originX = originX;
     this.originY = originY;
@@ -41,7 +45,7 @@ export default class BlackHole2dAnimation {
    * We emit an event in the themeToggle component and listen to it here
    * Whenever theme changes, we update our colors and redraw shapes
    */
-  updateColors() {
+  updateColors(): void {
     window.addEventListener("themeChanged", () => {
       if (localStorage.getItem("theme") === "light") {
         this.backgroundColor = SimColors.bgLight;

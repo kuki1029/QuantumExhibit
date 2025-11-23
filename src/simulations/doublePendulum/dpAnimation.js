@@ -1,4 +1,4 @@
-import { Screen, SimColors, DefaultDoublePend } from "../../constants.js";
+import { Screen, SimColors, DefaultDoublePend } from "../../constants";
 import { Graphics, Text } from "pixi.js";
 import DoublePendulumData from "./dpCalculation.js";
 import { Application, Ticker, Circle } from "pixi.js";
