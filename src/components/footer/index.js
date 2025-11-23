@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Link from '@mui/material/Link';
 import "./style.css";
@@ -26,7 +25,7 @@ export const Footer = () => {
             <Grid item xs={4}>
                 <Link href="/" underline="none"> 
                     <h1 href="/" className="footerText">
-                        Quantum <br></br>
+                        Quantum <br />
                         Exhibit
                     </h1>
                 </Link>

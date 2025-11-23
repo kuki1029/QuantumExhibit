@@ -96,7 +96,7 @@ export const SimePendExplanation = () => {
         <p className="sPText">
           When changing the gravity, the <MathJax inline>{"\\( \\omega \\)"}</MathJax> term also changes as it depends on gravity.
           This means that the overall function is different and thus, the position at the same time will be different. The pendulum
-          will just teleport to the new position which does not look visually appealing. <br></br>
+          will just teleport to the new position which does not look visually appealing. <br />
           How do we combat this? We applied a phase angle to the solution:
         </p>
         <MathJax>{
@@ -119,11 +119,11 @@ export const SimePendExplanation = () => {
           As this was my first crack at a web based simulation, I did things that seemed to be the most straight forward. However, 
           in hindsight, I realize that there are a lot of things that I could've done differently to allow for more features for the user
           and faster calculations in the backend. For example, to obtain the position of the pendulum, we just made use of the equation
-          of motion with the small angle approximations. This is fine but it limits what we can do. <br></br>
+          of motion with the small angle approximations. This is fine but it limits what we can do. <br />
           For example, I wanted to allow the user to be able to drag the pendulum anywhere and flick it to any speed they like.
           This cannot be achieved with my current setup. To achieve this, I would need to also make use of energy conservation
           and calculate the initial speed of the pendulum based on how fast the user moves it. It was a level of complexity that
-          I expect to overcome in my double pendulum simulation. <br></br><br></br>
+          I expect to overcome in my double pendulum simulation. <br /><br />
           Also, another thing I would like to implement is some form of numerical integration instead of using the small angle 
           approximation. Although it works just fine and the difference wouldn't be noticeable, it would still be nice to be 
           able to implement it in a more rigorous way. I will have to make use of numerical integration in the double pendulum 
@@ -137,7 +137,7 @@ export const SimePendExplanation = () => {
           This was my first simulation. Simple yet elegant. My main motivation behind this simulation was to learn how Pixi.JS works 
           and how I can use it to create physics simulations. It wasn't meant to be complicated. I could've added plenty of options
           and customizations but I wanted to keep it simple. This simulation will lead the way for all future simulations as it allowed
-          us to learn what we might need to do differently. <br></br>
+          us to learn what we might need to do differently. <br />
           This first simulation was extremely fun to make as I spent my time figuring out something new and learning many things along the way. 
           The future simulations will hopefully be a bit more complicated and showcase the magic of Physics as I intend to.
         </p>

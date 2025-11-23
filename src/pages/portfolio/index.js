@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Container, Row, Col } from "react-bootstrap";
@@ -8,32 +8,22 @@ import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 
 export const Portfolio = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [isLightTheme, setTheme] = useState((localStorage.getItem("theme") === 'light') ? true : false);
-
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [isLightTheme, setTheme] = useState(localStorage.getItem("theme") === 'light');
 
   // We emit an event in the themeToggle component and listen to it here
-  window.addEventListener('themeChanged', () => {
-    setTheme((localStorage.getItem("theme") === 'light') ? true : false)
-  })
+  useEffect(() => {
+    const handleThemeChange = () => {
+      setTheme(localStorage.getItem("theme") === 'light')
+    }
+    window.addEventListener('themeChanged', handleThemeChange)
+    return () => window.removeEventListener('themeChanged', handleThemeChange)
+  }, [])
 
   return (
     <HelmetProvider>

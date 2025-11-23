@@ -57,7 +57,7 @@ export const SimplePendulum = () => {
     <HelmetProvider>
       <Helmet>
         <meta charSet="utf-8" />
-        <title> Elegant Simple Pendulum Simulataion</title>
+        <title> Elegant Simple Pendulum Simulation</title>
         <meta name="description" content="A simple yet elegant simulation of the simple pendulum. You can change the gravity and length 
         to see how the pendulum reacts. There is also an explanation about how the math works behind the physics of the single pendulum. " />
       </Helmet>

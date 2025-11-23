@@ -1,4 +1,3 @@
-import React from "react";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import Typewriter from "typewriter-effect";
@@ -67,7 +66,7 @@ export const Home = () => {
                         </Box>
                         <Box  m="auto">
                         <div>
-                            <img className="homeImage" src={introData.your_img_url}></img> 
+                            <img className="homeImage" src={introData.your_img_url} alt="Quantum Exhibit Logo"></img>
                         </div>
                         </Box>
                     </Stack>
@@ -91,7 +90,7 @@ export const Home = () => {
                             }}
                         /></h2>
                         <div>
-                            <img className="homeImage" src={introData.your_img_url}></img> 
+                            <img className="homeImage" src={introData.your_img_url} alt="Quantum Exhibit Logo"></img>
                         </div>
                         <p className="mb-1x">{introData.description}</p>
                         {/* ================= Buttons ================= */}

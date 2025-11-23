@@ -1,6 +1,8 @@
 import { Constant, DefaultDoublePend } from "../../constants";
 import { RK4 } from "../../odeSolvers/rk4";
 
+const SIMULATION_STEPS_PER_FRAME = 10;
+
 /** Class contains information to draw a double pendulum
 Can change the various parameters such as mass, 
 length, gravity, and resistance*/
@@ -53,7 +55,7 @@ export default class DoublePendulumData {
      * coords is relative to pivot. Second pendulum coords are relative to first pendulum
      */
     calculateNextPos() {
-        for (let i = 0; i<10; i++) {
+        for (let i = 0; i < SIMULATION_STEPS_PER_FRAME; i++) {
             this.params = this.diffSolver.step()[1]
         }
         return { 

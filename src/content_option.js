@@ -37,7 +37,7 @@ const dataportfolio = [
         img: simpPendDark,
         imgLight: simpPendLight,
         alt: "Simple Pendulum",
-        description: "A simple yet elegant pendulum simluation using elementary physics. Our first simulation which was used to help learn the basics of Pixi.JS and the intricacies of creating online simulations.",
+        description: "A simple yet elegant pendulum simulation using elementary physics. Our first simulation which was used to help learn the basics of Pixi.JS and the intricacies of creating online simulations.",
         link: "/simulation/simplePendulum"
     },
     {

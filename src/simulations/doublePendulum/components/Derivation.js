@@ -9,7 +9,7 @@ export const Derivation = ({ isLightTheme }) => {
             <p className='sPText'>
                 I initially tried to do this derivation without using the Lagrangian. It's possible, however, the algebra 
                 gets pretty complicated real quick. Thus, as any physicist would do, I decided to make use of the better tools 
-                available to me and take a shortcut from the complicated algebra by using the Lagrangian. <br></br><br></br>
+                available to me and take a shortcut from the complicated algebra by using the Lagrangian. <br /><br />
                 We assume the usual list of items such as massless rods, point masses, and no air resistance. 
                 We start with a basic diagram of the system: 
                 <img

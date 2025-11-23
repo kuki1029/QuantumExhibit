@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { SimColors, Constant } from '../../../constants';
 import Plot from 'react-plotly.js';
 import { 

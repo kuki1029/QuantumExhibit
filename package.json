@@ -20,9 +20,7 @@
         "react-icons": "^4.1.0",
         "react-plotly.js": "^2.6.0",
         "react-router-dom": "^6.6.2",
-        "react-transition-group": "^4.4.2",
-        "typewriter-effect": "^2.18.2",
-        "web-vitals": "^3.1.1"
+        "typewriter-effect": "^2.18.2"
     },
     "devDependencies": {
         "@vitejs/plugin-react": "^4.3.0",
@@ -33,25 +31,7 @@
         "dev": "vite",
         "build": "vite build",
         "preview": "vite preview",
-        "predeploy": "yarn build && cp build/index.html build/404.html",
-        "deploy": "gh-pages -d build"
-    },
-    "eslintConfig": {
-        "extends": [
-            "react-app",
-            "react-app/jest"
-        ]
-    },
-    "browserslist": {
-        "production": [
-            ">0.2%",
-            "not dead",
-            "not op_mini all"
-        ],
-        "development": [
-            "last 1 chrome version",
-            "last 1 firefox version",
-            "last 1 safari version"
-        ]
+        "predeploy": "yarn build && cp dist/index.html dist/404.html",
+        "deploy": "gh-pages -d dist"
     }
 }

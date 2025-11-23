@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import * as emailjs from "emailjs-com";
 import "./style.css";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -36,7 +36,6 @@ export const ContactUs = () => {
         contactConfig.YOUR_USER_ID
       )
       .then((result) => {
-          console.log(result.text);
           setFormdata({
             loading: false,
             alertmessage: "Success! ,Thank you for your messege",
@@ -45,7 +44,6 @@ export const ContactUs = () => {
           });
         },
         (error) => {
-          console.log(error.text);
           setFormdata({
             alertmessage: `Faild to send! Please try again.`,
             variant: "danger",

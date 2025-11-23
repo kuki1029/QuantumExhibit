@@ -86,7 +86,7 @@ export default class simpPendAnimation {
             this.rope.clear();
             this.drawRope(yCoord, xCoord + defaultLength)
         });
-    }   
+    }
 
     /**
      * Stars warp for stars

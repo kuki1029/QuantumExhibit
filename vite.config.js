@@ -29,7 +29,6 @@ export default defineConfig({
   ssr: {
     noExternal: ['@mui/material', '@mui/icons-material'],
   },
-  assetsInclude: ['**/*.JPG', '**/*.JPEG', '**/*.PNG', '**/*.GIF', '**/*.SVG'],
   server: {
     port: 3000,
     open: true,

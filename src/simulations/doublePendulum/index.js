@@ -37,7 +37,7 @@ export const DoublePendulum = () => {
         <HelmetProvider>
             <Helmet>
             <meta charSet="utf-8" />
-            <title> Elegant Double Pendulum Simulataion</title>
+            <title> Elegant Double Pendulum Simulation</title>
             <meta name="description" content="A simple yet elegant simulation of the double pendulum. You can change different 
             parameters of the pendulum. An explanation behind the pendulum is also shown." />
             </Helmet>
