@@ -1,5 +1,6 @@
 import { Screen, SimColors } from "../../constants";
-import { Application, Graphics, Ticker } from "pixi.js";
+import { Application, Container, Graphics, Ticker } from "pixi.js";
+import { Ray } from "./Ray";
 
 export default class BlackHole2dAnimation {
   app!: Application;
@@ -7,6 +8,7 @@ export default class BlackHole2dAnimation {
   originY!: number;
   blackHole!: Graphics;
   ray!: Graphics;
+  rayData: Ray;
   ticker!: Ticker;
   backgroundColor: string;
 
@@ -18,6 +20,8 @@ export default class BlackHole2dAnimation {
     const theme = localStorage.getItem("theme");
     this.backgroundColor =
       theme === "light" ? SimColors.bgLight : SimColors.bgDark;
+
+    this.rayData = new Ray(-10, -20, 0);
 
     this.ticker = Ticker.shared;
     this.ticker.autoStart = false;
@@ -43,15 +47,17 @@ export default class BlackHole2dAnimation {
     this.app.stage.eventMode = "static";
     this.app.stage.hitArea = this.app.screen;
 
+    // Create world container with origin at center of screen
+
     this.ray = new Graphics();
     this.blackHole = new Graphics();
     this.app.stage.addChild(this.ray);
     this.app.stage.addChild(this.blackHole);
 
-    this.ray.circle(0, 30, 3);
+    this.ray.circle(10, 2, 3);
     this.ray.fill("#f7dd1bff");
 
-    this.blackHole.circle(Screen.width / 2, Screen.height / 2, 30);
+    this.blackHole.circle(Screen.width / 2, Screen.height / 2, 3);
     this.blackHole.fill("#ffffff");
 
     // Set colors to be reactive to theme changes
@@ -84,7 +90,13 @@ export default class BlackHole2dAnimation {
   animateRays() {
     // Runs on each render loop. Used to animate
     this.ticker.add(() => {
-      this.ray.x += 1;
+      const y = this.rayData.calculateNextPos();
+      // console.log(y.x);
+      // console.log(this.ray.position)
+      
+      console.log(y);
+      this.ray.x = (Screen.width / 2 - y.x) * 1;
+      this.ray.y = (Screen.height / 2 - y.y) * 1;
     });
     this.ticker.start();
   }
