@@ -7,8 +7,8 @@ export default class BlackHole2dAnimation {
   originX!: number;
   originY!: number;
   blackHole!: Graphics;
-  ray!: Graphics;
-  rayData: Ray;
+  ray!: Graphics[];
+  rayData: Ray[];
   ticker!: Ticker;
   backgroundColor: string;
 
@@ -21,7 +21,11 @@ export default class BlackHole2dAnimation {
     this.backgroundColor =
       theme === "light" ? SimColors.bgLight : SimColors.bgDark;
 
-    this.rayData = new Ray(-10, -20, 0);
+    this.rayData = [];
+
+    for (var i = 0; i < 30; i++) {
+      this.rayData.push(new Ray(-200, 100 - i * 10, 0));
+    }
 
     this.ticker = Ticker.shared;
     this.ticker.autoStart = false;
@@ -49,13 +53,19 @@ export default class BlackHole2dAnimation {
 
     // Create world container with origin at center of screen
 
-    this.ray = new Graphics();
-    this.blackHole = new Graphics();
-    this.app.stage.addChild(this.ray);
-    this.app.stage.addChild(this.blackHole);
+    this.ray = [];
+    for (var i = 0; i < 30; i++) {
+      const ray = new Graphics();
 
-    this.ray.circle(10, 2, 3);
-    this.ray.fill("#f7dd1bff");
+      this.app.stage.addChild(ray);
+      ray.circle(10, 2, 3);
+      ray.fill("#f7dd1bff");
+
+      this.ray.push(ray);
+    }
+
+    this.blackHole = new Graphics();
+    this.app.stage.addChild(this.blackHole);
 
     this.blackHole.circle(Screen.width / 2, Screen.height / 2, 3);
     this.blackHole.fill("#ffffff");
@@ -90,13 +100,12 @@ export default class BlackHole2dAnimation {
   animateRays() {
     // Runs on each render loop. Used to animate
     this.ticker.add(() => {
-      const y = this.rayData.calculateNextPos();
-      // console.log(y.x);
-      // console.log(this.ray.position)
-      
-      console.log(y);
-      this.ray.x = (Screen.width / 2 - y.x) * 1;
-      this.ray.y = (Screen.height / 2 - y.y) * 1;
+      for (var i = 0; i < 30; i++) {
+        const y = this.rayData[i].calculateNextPos();
+
+        this.ray[i].x = (Screen.width / 2 - y.x) * 1;
+        this.ray[i].y = (Screen.height / 2 - y.y) * 1;
+      }
     });
     this.ticker.start();
   }

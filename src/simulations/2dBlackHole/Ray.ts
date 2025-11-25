@@ -68,7 +68,7 @@ export class Ray {
       [this.rPrime, this.phiPrime, this.drPrime, this.dphiPrime],
       [this.r, this.phi, this.dr, this.dphi],
       0, // initial affine parameter λ = 0
-      0.1 // step size dλ
+      1 // step size dλ
     );
   }
 
