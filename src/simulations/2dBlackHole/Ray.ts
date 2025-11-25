@@ -1,11 +1,5 @@
 import { RK4 } from "../../odeSolvers/rk4";
-
-const SIMULATION_STEPS_PER_FRAME = 10;
-
-const c = 1.0;
-const G = 1.0;
-const M = 10; 
-const rs = (2.0 * G * M) / (c * c);
+import { c, rs } from "./constants";
 
 /** Class contains information to create a black hole simulation.
  * Allows to add more black holes, max of 3.
@@ -74,7 +68,7 @@ export class Ray {
 
   /**
    * Calls the differential solver and calculates the next pos for the ray.
-   * @returns The position of the ray in cartesian coordinates
+   * @returns The position of the ray in cartesian coordinates, or null if ray crossed event horizon
    */
   calculateNextPos() {
     const params = this.diffSolver.step();
@@ -84,6 +78,12 @@ export class Ray {
     this.phi = params[1][1];
     this.dr = params[1][2];
     this.dphi = params[1][3];
+
+    // Check if ray has crossed the Schwarzschild radius (event horizon)
+    if (this.r <= rs) {
+      return null;
+    }
+
     // console.log(params);
     // Convert back to Cartesian coordinates
     this.x = this.r * Math.cos(this.phi);

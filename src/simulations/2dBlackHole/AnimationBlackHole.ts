@@ -1,14 +1,21 @@
 import { Screen, SimColors } from "../../constants";
-import { Application, Container, Graphics, Ticker } from "pixi.js";
+import { Application, Graphics, Ticker } from "pixi.js";
 import { Ray } from "./Ray";
+import { rs, RAY_COLOR, EVENT_HORIZON_COLOR } from "./constants";
+
+interface RayObject {
+  data: Ray;
+  graphics: Graphics;
+  id: string;
+  positionHistory: Array<{ x: number; y: number }>;
+}
 
 export default class BlackHole2dAnimation {
   app!: Application;
   originX!: number;
   originY!: number;
   blackHole!: Graphics;
-  ray!: Graphics[];
-  rayData: Ray[];
+  rayObjects: RayObject[];
   ticker!: Ticker;
   backgroundColor: string;
 
@@ -21,10 +28,19 @@ export default class BlackHole2dAnimation {
     this.backgroundColor =
       theme === "light" ? SimColors.bgLight : SimColors.bgDark;
 
-    this.rayData = [];
+    this.rayObjects = [];
 
-    for (var i = 0; i < 30; i++) {
-      this.rayData.push(new Ray(-200, 100 - i * 10, 0));
+    const RAYS = 80;
+    const spacing = Screen.height / (RAYS + 1);
+
+    for (var i = 0; i < RAYS; i++) {
+      const yPosition = spacing * (i + 1) - Screen.height / 2;
+      this.rayObjects.push({
+        data: new Ray(-200, yPosition, 0),
+        graphics: new Graphics(),
+        id: `ray-${i}`,
+        positionHistory: [],
+      });
     }
 
     this.ticker = Ticker.shared;
@@ -53,22 +69,17 @@ export default class BlackHole2dAnimation {
 
     // Create world container with origin at center of screen
 
-    this.ray = [];
-    for (var i = 0; i < 30; i++) {
-      const ray = new Graphics();
-
-      this.app.stage.addChild(ray);
-      ray.circle(10, 2, 3);
-      ray.fill("#f7dd1bff");
-
-      this.ray.push(ray);
+    for (var i = 0; i < this.rayObjects.length; i++) {
+      const graphics = this.rayObjects[i].graphics;
+      this.app.stage.addChild(graphics);
     }
 
     this.blackHole = new Graphics();
     this.app.stage.addChild(this.blackHole);
 
-    this.blackHole.circle(Screen.width / 2, Screen.height / 2, 3);
-    this.blackHole.fill("#ffffff");
+    // Draw black hole with radius = Schwarzschild radius (rs)
+    this.blackHole.circle(Screen.width / 2, Screen.height / 2, rs);
+    this.blackHole.fill(EVENT_HORIZON_COLOR);
 
     // Set colors to be reactive to theme changes
     this.updateColors();
@@ -98,13 +109,55 @@ export default class BlackHole2dAnimation {
    * help with animation. All animation is handled in here
    */
   animateRays() {
+    const maxTrailLength = 200;
+
     // Runs on each render loop. Used to animate
     this.ticker.add(() => {
-      for (var i = 0; i < 30; i++) {
-        const y = this.rayData[i].calculateNextPos();
+      for (let i = this.rayObjects.length - 1; i >= 0; i--) {
+        const rayObj = this.rayObjects[i];
+        const pos = rayObj.data.calculateNextPos();
 
-        this.ray[i].x = (Screen.width / 2 - y.x) * 1;
-        this.ray[i].y = (Screen.height / 2 - y.y) * 1;
+        // If ray crossed event horizon, remove it
+        if (pos === null) {
+          this.app.stage.removeChild(rayObj.graphics);
+          rayObj.graphics.destroy();
+          this.rayObjects.splice(i, 1);
+          continue;
+        }
+
+        // Convert to screen coordinates
+        const screenX = Screen.width / 2 - pos.x;
+        const screenY = Screen.height / 2 - pos.y;
+
+        // Add current position to history
+        rayObj.positionHistory.push({ x: screenX, y: screenY });
+
+        // Limit trail length
+        if (rayObj.positionHistory.length > maxTrailLength) {
+          rayObj.positionHistory.shift();
+        }
+
+        // Clear and redraw the trail
+        rayObj.graphics.clear();
+
+        // Draw trail with fading alpha
+        const historyLength = rayObj.positionHistory.length;
+        for (let j = 0; j < historyLength - 1; j++) {
+          const pos1 = rayObj.positionHistory[j];
+          const pos2 = rayObj.positionHistory[j + 1];
+
+          // Calculate alpha: older positions are more transparent
+          const alpha = (j + 1) / historyLength;
+
+          // Draw line segment
+          rayObj.graphics
+            .moveTo(pos1.x, pos1.y)
+            .lineTo(pos2.x, pos2.y)
+            .stroke({ width: 1, color: RAY_COLOR, alpha: alpha });
+        }
+
+        // Draw the ray head (bright circle at current position)
+        rayObj.graphics.circle(screenX, screenY, 1.5).fill(RAY_COLOR);
       }
     });
     this.ticker.start();
