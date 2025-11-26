@@ -1,7 +1,5 @@
 import { DifferentialSolver } from "./differentialSolver";
 
-type OdeFunction = (t: number, y: number | number[]) => number;
-
 export class RK4 extends DifferentialSolver {
   /**
    * Returns the constants or terms required for the ode scheme for scalar variables. RK4 in this case

@@ -1,7 +1,8 @@
 import { useRef, useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import blackHoleAnimation from "./AnimationBlackHole";
+import blackHoleAnimation, { RaySetup } from "./AnimationBlackHole";
 import { Screen } from "../../constants";
+import { SetupButtons } from "./components/SetupButtons";
 import "./style.css";
 
 const bhAnimate = new blackHoleAnimation();
@@ -25,6 +26,19 @@ export const BlackHole2D = () => {
     initializePixiApp();
   }, []);
 
+  // Handlers for different ray setups
+  const handleSetup1 = () => {
+    bhAnimate.resetAnimation(RaySetup.VERTICAL_LINE);
+  };
+
+  const handleSetup2 = () => {
+    bhAnimate.resetAnimation(RaySetup.TOP_LEFT_CORNER);
+  };
+
+  const handleSetup3 = () => {
+    bhAnimate.resetAnimation(RaySetup.CENTER_LEFT_RIGHT);
+  };
+
   // Return the actual code for the Pixi.JS.
   return (
     <HelmetProvider>
@@ -39,6 +53,13 @@ export const BlackHole2D = () => {
       <div>
         {/* Div for the canvas element. Pixi adds the canvas here through ref */}
         <div ref={ref} />
+        <div style={{ width: `${Screen.width / 2}px`, margin: "12px auto" }}>
+          <SetupButtons
+            onSetup1={handleSetup1}
+            onSetup2={handleSetup2}
+            onSetup3={handleSetup3}
+          />
+        </div>
       </div>
     </HelmetProvider>
   );

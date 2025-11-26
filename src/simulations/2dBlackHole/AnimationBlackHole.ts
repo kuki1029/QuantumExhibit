@@ -3,6 +3,12 @@ import { Application, Graphics, Ticker } from "pixi.js";
 import { Ray } from "./Ray";
 import { rs, RAY_COLOR, EVENT_HORIZON_COLOR } from "./constants";
 
+export enum RaySetup {
+  VERTICAL_LINE = 1,
+  TOP_LEFT_CORNER = 2,
+  CENTER_LEFT_RIGHT = 3,
+}
+
 interface RayObject {
   data: Ray;
   graphics: Graphics;
@@ -29,23 +35,101 @@ export default class BlackHole2dAnimation {
       theme === "light" ? SimColors.bgLight : SimColors.bgDark;
 
     this.rayObjects = [];
-
-    const RAYS = 80;
-    const spacing = Screen.height / (RAYS + 1);
-
-    for (var i = 0; i < RAYS; i++) {
-      const yPosition = spacing * (i + 1) - Screen.height / 2;
-      this.rayObjects.push({
-        data: new Ray(-200, yPosition, 0),
-        graphics: new Graphics(),
-        id: `ray-${i}`,
-        positionHistory: [],
-      });
-    }
+    this.initializeRays(RaySetup.VERTICAL_LINE); // Start with default setup
 
     this.ticker = Ticker.shared;
     this.ticker.autoStart = false;
     this.ticker.stop();
+  }
+
+  /**
+   * Initialize rays based on setup configuration
+   * @param setupType - VERTICAL_LINE, TOP_LEFT_CORNER, or CENTER_LEFT_RIGHT
+   */
+  initializeRays(setupType: RaySetup): void {
+    this.rayObjects = [];
+
+    switch (setupType) {
+      case RaySetup.VERTICAL_LINE: {
+        // Setup 1: 80 rays from left side, evenly spaced vertically, moving right
+        const RAYS = 80;
+        const spacing = Screen.height / (RAYS + 1);
+
+        for (let i = 0; i < RAYS; i++) {
+          const yPosition = spacing * (i + 1) - Screen.height / 2;
+          this.rayObjects.push({
+            data: new Ray(-200, yPosition, 0),
+            graphics: new Graphics(),
+            id: `ray-${i}`,
+            positionHistory: [],
+          });
+        }
+        break;
+      }
+
+      case RaySetup.TOP_LEFT_CORNER: {
+        // Setup 2: ~25 rays from top-left corner, angles 0° to 90°
+        const RAYS = 25;
+        const startX = -200;
+        const startY = -200;
+        const startAngle = 0; // 0°
+        const endAngle = Math.PI / 2; // 90°
+        const angleStep = (endAngle - startAngle) / (RAYS - 1);
+
+        for (let i = 0; i < RAYS; i++) {
+          const angle = startAngle + i * angleStep;
+          this.rayObjects.push({
+            data: new Ray(startX, startY, angle),
+            graphics: new Graphics(),
+            id: `ray-${i}`,
+            positionHistory: [],
+          });
+        }
+        break;
+      }
+
+      case RaySetup.CENTER_LEFT_RIGHT: {
+        // Setup 3: 20 rays from left, 20 from right, radiating toward center
+        const RAYS_PER_SIDE = 20;
+
+        // Left side: angles from -90° to +90° (right-facing hemisphere)
+        const leftX = -200;
+        const leftY = 0;
+        const leftStartAngle = -Math.PI / 2; // -90°
+        const leftEndAngle = Math.PI / 2; // 90°
+        const leftAngleStep =
+          (leftEndAngle - leftStartAngle) / (RAYS_PER_SIDE - 1);
+
+        for (let i = 0; i < RAYS_PER_SIDE; i++) {
+          const angle = leftStartAngle + i * leftAngleStep;
+          this.rayObjects.push({
+            data: new Ray(leftX, leftY, angle),
+            graphics: new Graphics(),
+            id: `ray-left-${i}`,
+            positionHistory: [],
+          });
+        }
+
+        // Right side: angles from 90° to 270° (left-facing hemisphere)
+        const rightX = 200;
+        const rightY = 0;
+        const rightStartAngle = Math.PI / 2; // 90°
+        const rightEndAngle = (3 * Math.PI) / 2; // 270°
+        const rightAngleStep =
+          (rightEndAngle - rightStartAngle) / (RAYS_PER_SIDE - 1);
+
+        for (let i = 0; i < RAYS_PER_SIDE; i++) {
+          const angle = rightStartAngle + i * rightAngleStep;
+          this.rayObjects.push({
+            data: new Ray(rightX, rightY, angle),
+            graphics: new Graphics(),
+            id: `ray-right-${i}`,
+            positionHistory: [],
+          });
+        }
+        break;
+      }
+    }
   }
 
   /**
@@ -85,6 +169,34 @@ export default class BlackHole2dAnimation {
     this.updateColors();
     this.animateRays();
     return this.app;
+  }
+
+  /**
+   * Reset animation with a new setup configuration
+   * @param setupType - VERTICAL_LINE, TOP_LEFT_CORNER, or CENTER_LEFT_RIGHT
+   */
+  resetAnimation(setupType: RaySetup): void {
+    // Stop the ticker
+    this.ticker.stop();
+
+    // Remove all existing ray graphics from stage and destroy them
+    for (let i = this.rayObjects.length - 1; i >= 0; i--) {
+      const rayObj = this.rayObjects[i];
+      this.app.stage.removeChild(rayObj.graphics);
+      rayObj.graphics.destroy();
+    }
+
+    // Reinitialize rays with new configuration
+    this.initializeRays(setupType);
+
+    // Add new ray graphics to stage
+    for (let i = 0; i < this.rayObjects.length; i++) {
+      const graphics = this.rayObjects[i].graphics;
+      this.app.stage.addChild(graphics);
+    }
+
+    // Restart the ticker
+    this.ticker.start();
   }
 
   /**

@@ -71,13 +71,18 @@ export class Ray {
    * @returns The position of the ray in cartesian coordinates, or null if ray crossed event horizon
    */
   calculateNextPos() {
-    const params = this.diffSolver.step();
+    const [, state] = this.diffSolver.step();
+
+    // State should always be a list of variables as thats what we initialize it with
+    if (!Array.isArray(state)) {
+      return null
+    }
 
     // Extract new state: [r, phi, dr, dphi]
-    this.r = params[1][0];
-    this.phi = params[1][1];
-    this.dr = params[1][2];
-    this.dphi = params[1][3];
+    this.r = state[0];
+    this.phi = state[1];
+    this.dr = state[2];
+    this.dphi = state[3];
 
     // Check if ray has crossed the Schwarzschild radius (event horizon)
     if (this.r <= rs) {
@@ -94,21 +99,21 @@ export class Ray {
   /**
    * dr/dλ = dr (radial velocity)
    */
-  rPrime = (lambda: number, state: number[]) => {
+  rPrime = (_lambda: number, state: number[]) => {
     return state[2]; // dr
   };
 
   /**
    * dφ/dλ = dphi (angular velocity)
    */
-  phiPrime = (lambda: number, state: number[]) => {
+  phiPrime = (_lambda: number, state: number[]) => {
     return state[3]; // dphi
   };
 
   /**
    * d²r/dλ² (radial acceleration from Schwarzschild geodesic)
    */
-  drPrime = (lambda: number, state: number[]) => {
+  drPrime = (_lambda: number, state: number[]) => {
     const r = state[0];
     const dr = state[2];
     const dphi = state[3];
@@ -126,7 +131,7 @@ export class Ray {
   /**
    * d²φ/dλ² (angular acceleration)
    */
-  dphiPrime = (lambda: number, state: number[]) => {
+  dphiPrime = (_lambda: number, state: number[]) => {
     const r = state[0];
     const dr = state[2];
     const dphi = state[3];

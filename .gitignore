@@ -9,6 +9,9 @@
 .claude/
 CLAUDE.md
 
+# Planning and documentation (local only)
+planning/
+
 # misc
 .DS_Store
 .env.local

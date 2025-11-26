@@ -1,7 +1,8 @@
-type OdeFunction = (t: number, y: number | number[]) => number;
+type OdeFunctionScalar = (t: number, y: number) => number;
+type OdeFunctionVector = (t: number, y: number[]) => number;
 
 export class DifferentialSolver {
-  func: OdeFunction | OdeFunction[];
+  func: OdeFunctionScalar | OdeFunctionVector[];
   y0: number | number[];
   t0: number;
   h: number;
@@ -19,7 +20,7 @@ export class DifferentialSolver {
    * @param t0 - The intial time value. Always scalar.
    * @param h - Stepsize. Always scalar.
    */
-  constructor(func: OdeFunction | OdeFunction[], y0: number | number[], t0: number, h: number);
+  constructor(func: OdeFunctionScalar | OdeFunctionVector[], y0: number | number[], t0: number, h: number);
 
   /**
    * Does one step of the differential solver. Makes use of the class variables
@@ -70,7 +71,7 @@ export class DifferentialSolver {
    * Changes the step size to new value
    * @param newFunc - Function that takes in parameters in format f(t, y) where y is a scalar or vector
    */
-  changeFunc(newFunc: OdeFunction | OdeFunction[]): void;
+  changeFunc(newFunc: OdeFunctionScalar | OdeFunctionVector[]): void;
 
   /**
    * Reset the params to start over from new angle
