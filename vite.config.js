@@ -35,7 +35,6 @@ export default defineConfig({
     open: true,
   },
   build: {
-    outDir: 'build',
     sourcemap: false,
     commonjsOptions: {
       include: [/node_modules/],
