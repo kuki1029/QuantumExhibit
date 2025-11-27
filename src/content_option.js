@@ -2,6 +2,8 @@ import simpPendDark from "./simulations/simplePendulum/images/simExampleSimplePe
 import simpPendLight from "./simulations/simplePendulum/images/simExampleSimplePendLight.png";
 import doublePendDark from "./simulations/doublePendulum/images/doubleExampleDark.png";
 import doublePendLight from "./simulations/doublePendulum/images/doubleExampleLight.png";
+import bH2Dark from "./simulations/2dBlackHole/images/blackHole2dDark.png"
+import bH2Light from "./simulations/2dBlackHole/images/blackHole2dLight.png"
 import homeLogo from "./assets/images/homeLogo.png";
 
 const logotext = "QE";
@@ -20,22 +22,21 @@ const introData = {
 
 const kunalData = {
   title: "About Me",
-  aboutme: `I am a Physics and Astronomy student at the University Of Waterloo. Although astronomy is my speciality, I've \
-    been dipping my feet into the world of full stack development. Building creative and unique websites has allowed my \
-    artistic side to flow out. Being able to create these physics simulations has allowed me to understand the physics \
-    at a deeper level while also having fun and spreading the knowledge of physics. It has also allowed me to hone my \
-    full stack development skills. I have worked with multiple technologies including MERN, VueJS, NodeJS, Golang, \
-    Typescript, and many other that I've picked up while working at the Department of National Defence as a Full Stack developer.`,
+  aboutme: `I'm a physicist turned builder! I originally studied Physics & Astronomy at the University of Waterloo. During my time
+  at Waterloo, I had the chance to work on a real physical quantum computer to help build state of the art technology! However, I now
+  spend my time solving software engineering challenges, my passion for physics lives on through this site. It allows me to spend time 
+  creating new simulations and sharing them with the world. These days I've gone from working with the Canadian military to the American Air Force
+  and everything in between!`
 };
 
 const dataportfolio = [
   {
     title: "2D Black Hole",
-    img: doublePendDark,
-    imgLight: doublePendLight,
+    img: bH2Dark,
+    imgLight: bH2Light,
     alt: "2D Black Hole",
     description:
-      "TODO",
+      "A simple simulation of a 2D black hole. One can choose different initial conditions for the rays. This is merely a stepping stone to create a 3D black hole simulation!",
     link: "/simulation/2dblackhole",
   },
   {
@@ -53,7 +54,7 @@ const dataportfolio = [
     imgLight: simpPendLight,
     alt: "Simple Pendulum",
     description:
-      "A simple yet elegant pendulum simulation using elementary physics. Our first simulation which was used to help learn the basics of Pixi.JS and the intricacies of creating online simulations.",
+      "A simple yet elegant pendulum simulation using elementary physics. My first simulation which was used to help learn the basics of Pixi.JS and the intricacies of creating online simulations.",
     link: "/simulation/simplePendulum",
   },
 ];

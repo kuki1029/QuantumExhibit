@@ -3,6 +3,7 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import blackHoleAnimation, { RaySetup } from "./AnimationBlackHole";
 import { Screen } from "../../constants";
 import { SetupButtons } from "./components/SetupButtons";
+import { Box } from "@mui/material";
 import "./style.css";
 
 const bhAnimate = new blackHoleAnimation();
@@ -65,6 +66,21 @@ export const BlackHole2D = () => {
             onSetup4={handleSetup4}
           />
         </div>
+        <Box sx={{ maxWidth: "105ch" }} m="auto" pb={20}>
+          {/* Add your explanation content here */}
+          <h2>About This Simulation</h2>
+          <p>
+            Although the math behind this simulation is complex, the animation
+            itself is visually very simple. This 2D version of the blackhole is
+            simple a stepping stone for me to attempt the 3D version. The 3D
+            version will pose many challenges, one of them being the need of a
+            GPU to calculate millions of pixels worth of ray tracing. Hopefully,
+            the result of that will be beautiful. But for now, we must ponder
+            upon a 2D black hole. <br />I will not go into the math here as it
+            will be further explained in the 3D simulation when that is
+            finished.
+          </p>
+        </Box>
       </div>
     </HelmetProvider>
   );

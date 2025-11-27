@@ -1,7 +1,13 @@
 import { Screen, SimColors } from "../../constants";
 import { Application, Graphics, Ticker } from "pixi.js";
 import { Ray } from "./Ray";
-import { rs, RAY_COLOR, EVENT_HORIZON_COLOR } from "./constants";
+import {
+  rs,
+  RAY_COLOR_DARK,
+  RAY_COLOR_LIGHT,
+  EVENT_HORIZON_COLOR_DARK,
+  EVENT_HORIZON_COLOR_LIGHT,
+} from "./constants";
 
 export enum RaySetup {
   VERTICAL_LINE = 1,
@@ -25,6 +31,8 @@ export default class BlackHole2dAnimation {
   rayObjects: RayObject[];
   ticker!: Ticker;
   backgroundColor: string;
+  rayColor: string;
+  eventHorizonColor: string;
 
   /**
    * Initializes the application for Pixi.JS
@@ -34,6 +42,9 @@ export default class BlackHole2dAnimation {
     const theme = localStorage.getItem("theme");
     this.backgroundColor =
       theme === "light" ? SimColors.bgLight : SimColors.bgDark;
+    this.rayColor = theme === "light" ? RAY_COLOR_LIGHT : RAY_COLOR_DARK;
+    this.eventHorizonColor =
+      theme === "light" ? EVENT_HORIZON_COLOR_LIGHT : EVENT_HORIZON_COLOR_DARK;
 
     this.rayObjects = [];
     this.initializeRays(RaySetup.VERTICAL_LINE); // Start with default setup
@@ -220,7 +231,7 @@ export default class BlackHole2dAnimation {
 
     // Draw black hole with radius = Schwarzschild radius (rs)
     this.blackHole.circle(Screen.width / 2, Screen.height / 2, rs);
-    this.blackHole.fill(EVENT_HORIZON_COLOR);
+    this.blackHole.fill(this.eventHorizonColor);
 
     // Set colors to be reactive to theme changes
     this.updateColors();
@@ -265,8 +276,23 @@ export default class BlackHole2dAnimation {
     window.addEventListener("themeChanged", () => {
       if (localStorage.getItem("theme") === "light") {
         this.backgroundColor = SimColors.bgLight;
+        this.rayColor = RAY_COLOR_LIGHT;
+        this.eventHorizonColor = EVENT_HORIZON_COLOR_LIGHT;
       } else {
         this.backgroundColor = SimColors.bgDark;
+        this.rayColor = RAY_COLOR_DARK;
+        this.eventHorizonColor = EVENT_HORIZON_COLOR_DARK;
+      }
+
+      // Redraw black hole with new color
+      this.blackHole.clear();
+      this.blackHole.circle(Screen.width / 2, Screen.height / 2, rs);
+      this.blackHole.fill(this.eventHorizonColor);
+
+      // Clear all ray trails so they redraw with new color
+      for (let i = 0; i < this.rayObjects.length; i++) {
+        this.rayObjects[i].positionHistory = [];
+        this.rayObjects[i].graphics.clear();
       }
 
       this.app.renderer.background.color = this.backgroundColor;
@@ -322,11 +348,11 @@ export default class BlackHole2dAnimation {
           rayObj.graphics
             .moveTo(pos1.x, pos1.y)
             .lineTo(pos2.x, pos2.y)
-            .stroke({ width: 1, color: RAY_COLOR, alpha: alpha });
+            .stroke({ width: 1, color: this.rayColor, alpha: alpha });
         }
 
         // Draw the ray head (bright circle at current position)
-        rayObj.graphics.circle(screenX, screenY, 1.5).fill(RAY_COLOR);
+        rayObj.graphics.circle(screenX, screenY, 1.5).fill(this.rayColor);
       }
     });
     this.ticker.start();

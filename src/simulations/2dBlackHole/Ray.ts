@@ -1,5 +1,5 @@
 import { RK4 } from "../../odeSolvers/rk4";
-import { c, rs } from "./constants";
+import { c, rs, SIMULATION_STEPS_PER_FRAME } from "./constants";
 
 /** Class contains information to create a black hole simulation.
  * Allows to add more black holes, max of 3.
@@ -55,7 +55,7 @@ export class Ray {
     }
 
     const dt_dlambda = Math.sqrt(Math.max(0, dt_dlambda_squared));
-    this.E = f * dt_dlambda;  
+    this.E = f * dt_dlambda;
 
     // Initialize RK4 solver with state vector [r, phi, dr, dphi]
     this.diffSolver = new RK4(
@@ -72,13 +72,13 @@ export class Ray {
    */
   calculateNextPos() {
     let state;
-    for (let i = 0; i < 10; i++) {
-[, state] = this.diffSolver.step();
+    for (let i = 0; i < SIMULATION_STEPS_PER_FRAME; i++) {
+      [, state] = this.diffSolver.step();
     }
 
     // State should always be a list of variables as thats what we initialize it with
     if (!Array.isArray(state)) {
-      return null
+      return null;
     }
 
     // Extract new state: [r, phi, dr, dphi]
