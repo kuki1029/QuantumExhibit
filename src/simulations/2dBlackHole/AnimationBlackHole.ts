@@ -7,6 +7,7 @@ export enum RaySetup {
   VERTICAL_LINE = 1,
   TOP_LEFT_CORNER = 2,
   CENTER_LEFT_RIGHT = 3,
+  ORBITING = 4,
 }
 
 interface RayObject {
@@ -44,91 +45,147 @@ export default class BlackHole2dAnimation {
 
   /**
    * Initialize rays based on setup configuration
-   * @param setupType - VERTICAL_LINE, TOP_LEFT_CORNER, or CENTER_LEFT_RIGHT
+   * @param setupType - VERTICAL_LINE, TOP_LEFT_CORNER, CENTER_LEFT_RIGHT, or ORBITING
    */
   initializeRays(setupType: RaySetup): void {
     this.rayObjects = [];
 
     switch (setupType) {
-      case RaySetup.VERTICAL_LINE: {
-        // Setup 1: 80 rays from left side, evenly spaced vertically, moving right
-        const RAYS = 80;
-        const spacing = Screen.height / (RAYS + 1);
-
-        for (let i = 0; i < RAYS; i++) {
-          const yPosition = spacing * (i + 1) - Screen.height / 2;
-          this.rayObjects.push({
-            data: new Ray(-200, yPosition, 0),
-            graphics: new Graphics(),
-            id: `ray-${i}`,
-            positionHistory: [],
-          });
-        }
+      case RaySetup.VERTICAL_LINE:
+        this.createVerticalLineRays();
         break;
+      case RaySetup.TOP_LEFT_CORNER:
+        this.createTopLeftCornerRays();
+        break;
+      case RaySetup.CENTER_LEFT_RIGHT:
+        this.createCenterLeftRightRays();
+        break;
+      case RaySetup.ORBITING:
+        this.createOrbitingRays();
+        break;
+    }
+  }
+
+  /**
+   * Setup 1: 80 rays from left side, evenly spaced vertically, moving right
+   */
+  private createVerticalLineRays(): void {
+    const RAYS = 80;
+    const spacing = Screen.height / (RAYS + 1);
+
+    for (let i = 0; i < RAYS; i++) {
+      const yPosition = spacing * (i + 1) - Screen.height / 2;
+      this.rayObjects.push({
+        data: new Ray(-200, yPosition, 0),
+        graphics: new Graphics(),
+        id: `ray-${i}`,
+        positionHistory: [],
+      });
+    }
+  }
+
+  /**
+   * Setup 2: ~25 rays from top-left corner, angles 0° to 90°
+   */
+  private createTopLeftCornerRays(): void {
+    const RAYS = 25;
+    const startX = -200;
+    const startY = -200;
+    const startAngle = 0; // 0°
+    const endAngle = Math.PI / 2; // 90°
+    const angleStep = (endAngle - startAngle) / (RAYS - 1);
+
+    for (let i = 0; i < RAYS; i++) {
+      const angle = startAngle + i * angleStep;
+      this.rayObjects.push({
+        data: new Ray(startX, startY, angle),
+        graphics: new Graphics(),
+        id: `ray-${i}`,
+        positionHistory: [],
+      });
+    }
+  }
+
+  /**
+   * Setup 3: 20 rays from left, 20 from right, radiating toward center
+   */
+  private createCenterLeftRightRays(): void {
+    const RAYS_PER_SIDE = 20;
+
+    // Left side: angles from -90° to +90° (right-facing hemisphere)
+    const leftX = -200;
+    const leftY = 0;
+    const leftStartAngle = -Math.PI / 2; // -90°
+    const leftEndAngle = Math.PI / 2; // 90°
+    const leftAngleStep =
+      (leftEndAngle - leftStartAngle) / (RAYS_PER_SIDE - 1);
+
+    for (let i = 0; i < RAYS_PER_SIDE; i++) {
+      const angle = leftStartAngle + i * leftAngleStep;
+      this.rayObjects.push({
+        data: new Ray(leftX, leftY, angle),
+        graphics: new Graphics(),
+        id: `ray-left-${i}`,
+        positionHistory: [],
+      });
+    }
+
+    // Right side: angles from 90° to 270° (left-facing hemisphere)
+    const rightX = 200;
+    const rightY = 0;
+    const rightStartAngle = Math.PI / 2; // 90°
+    const rightEndAngle = (3 * Math.PI) / 2; // 270°
+    const rightAngleStep =
+      (rightEndAngle - rightStartAngle) / (RAYS_PER_SIDE - 1);
+
+    for (let i = 0; i < RAYS_PER_SIDE; i++) {
+      const angle = rightStartAngle + i * rightAngleStep;
+      this.rayObjects.push({
+        data: new Ray(rightX, rightY, angle),
+        graphics: new Graphics(),
+        id: `ray-right-${i}`,
+        positionHistory: [],
+      });
+    }
+  }
+
+  /**
+   * Setup 4: Rays from far away that approach, orbit, and escape
+   */
+  private createOrbitingRays(): void {
+    const RAYS = 20;
+    const photonSphereRadius = 1.5 * rs; // r = 30
+    const startX = -250;
+
+    for (let i = 0; i < RAYS; i++) {
+      // Spread rays vertically
+      const spacing = Screen.height / (RAYS + 1);
+      const startY = spacing * (i + 1) - Screen.height / 2;
+
+      // Calculate impact parameter (distance of closest approach if no gravity)
+      const impactParameter = Math.abs(startY);
+
+      // For orbiting behavior, we want impact parameters near the photon sphere
+      // Aim the ray slightly off-center to create the right impact parameter
+      let velocityAngle: number;
+
+      if (impactParameter < photonSphereRadius * 0.8) {
+        // Too close - aim slightly away to increase impact parameter
+        velocityAngle = startY > 0 ? -0.05 : 0.05;
+      } else if (impactParameter > photonSphereRadius * 1.2) {
+        // Too far - aim slightly toward center to decrease impact parameter
+        velocityAngle = startY > 0 ? 0.05 : -0.05;
+      } else {
+        // Just right - mostly horizontal with tiny adjustment
+        velocityAngle = startY > 0 ? 0.02 : -0.02;
       }
 
-      case RaySetup.TOP_LEFT_CORNER: {
-        // Setup 2: ~25 rays from top-left corner, angles 0° to 90°
-        const RAYS = 25;
-        const startX = -200;
-        const startY = -200;
-        const startAngle = 0; // 0°
-        const endAngle = Math.PI / 2; // 90°
-        const angleStep = (endAngle - startAngle) / (RAYS - 1);
-
-        for (let i = 0; i < RAYS; i++) {
-          const angle = startAngle + i * angleStep;
-          this.rayObjects.push({
-            data: new Ray(startX, startY, angle),
-            graphics: new Graphics(),
-            id: `ray-${i}`,
-            positionHistory: [],
-          });
-        }
-        break;
-      }
-
-      case RaySetup.CENTER_LEFT_RIGHT: {
-        // Setup 3: 20 rays from left, 20 from right, radiating toward center
-        const RAYS_PER_SIDE = 20;
-
-        // Left side: angles from -90° to +90° (right-facing hemisphere)
-        const leftX = -200;
-        const leftY = 0;
-        const leftStartAngle = -Math.PI / 2; // -90°
-        const leftEndAngle = Math.PI / 2; // 90°
-        const leftAngleStep =
-          (leftEndAngle - leftStartAngle) / (RAYS_PER_SIDE - 1);
-
-        for (let i = 0; i < RAYS_PER_SIDE; i++) {
-          const angle = leftStartAngle + i * leftAngleStep;
-          this.rayObjects.push({
-            data: new Ray(leftX, leftY, angle),
-            graphics: new Graphics(),
-            id: `ray-left-${i}`,
-            positionHistory: [],
-          });
-        }
-
-        // Right side: angles from 90° to 270° (left-facing hemisphere)
-        const rightX = 200;
-        const rightY = 0;
-        const rightStartAngle = Math.PI / 2; // 90°
-        const rightEndAngle = (3 * Math.PI) / 2; // 270°
-        const rightAngleStep =
-          (rightEndAngle - rightStartAngle) / (RAYS_PER_SIDE - 1);
-
-        for (let i = 0; i < RAYS_PER_SIDE; i++) {
-          const angle = rightStartAngle + i * rightAngleStep;
-          this.rayObjects.push({
-            data: new Ray(rightX, rightY, angle),
-            graphics: new Graphics(),
-            id: `ray-right-${i}`,
-            positionHistory: [],
-          });
-        }
-        break;
-      }
+      this.rayObjects.push({
+        data: new Ray(startX, startY, velocityAngle),
+        graphics: new Graphics(),
+        id: `ray-orbit-${i}`,
+        positionHistory: [],
+      });
     }
   }
 

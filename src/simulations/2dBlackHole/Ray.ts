@@ -62,7 +62,7 @@ export class Ray {
       [this.rPrime, this.phiPrime, this.drPrime, this.dphiPrime],
       [this.r, this.phi, this.dr, this.dphi],
       0, // initial affine parameter λ = 0
-      1 // step size dλ
+      0.1 // step size dλ
     );
   }
 
@@ -71,7 +71,10 @@ export class Ray {
    * @returns The position of the ray in cartesian coordinates, or null if ray crossed event horizon
    */
   calculateNextPos() {
-    const [, state] = this.diffSolver.step();
+    let state;
+    for (let i = 0; i < 10; i++) {
+[, state] = this.diffSolver.step();
+    }
 
     // State should always be a list of variables as thats what we initialize it with
     if (!Array.isArray(state)) {

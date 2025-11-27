@@ -39,6 +39,10 @@ export const BlackHole2D = () => {
     bhAnimate.resetAnimation(RaySetup.CENTER_LEFT_RIGHT);
   };
 
+  const handleSetup4 = () => {
+    bhAnimate.resetAnimation(RaySetup.ORBITING);
+  };
+
   // Return the actual code for the Pixi.JS.
   return (
     <HelmetProvider>
@@ -58,6 +62,7 @@ export const BlackHole2D = () => {
             onSetup1={handleSetup1}
             onSetup2={handleSetup2}
             onSetup3={handleSetup3}
+            onSetup4={handleSetup4}
           />
         </div>
       </div>
