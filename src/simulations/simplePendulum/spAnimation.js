@@ -1,4 +1,4 @@
-import { Screen, SimColors } from "../../constants.js";
+import { Screen, SimColors } from "../../constants";
 import { Graphics, Assets } from 'pixi.js';
 import SimplePendulumData from './spCalculation.js'
 import { StarWarp } from "../starWarp.js";

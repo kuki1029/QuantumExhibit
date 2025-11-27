@@ -6,7 +6,7 @@ import dpAnimation from "./dpAnimation.js";
 import "./style.css";
 import { Canvas } from "./components/Canvas.js";
 import { Options } from "./components/Options.js";
-import { DefaultDoublePend } from "../../constants.js";
+import { DefaultDoublePend } from "../../constants";
 import { DoubPendExplanation } from "./components/dpExplanation.js";
 
 const defaultLength1 = DefaultDoublePend.defaultLen1

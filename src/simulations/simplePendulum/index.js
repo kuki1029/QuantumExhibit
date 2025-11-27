@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import { Box } from "@mui/material";
 import { SimePendExplanation } from "./spExplanation.js";
 import simpPendAnimation from "./spAnimation.js";
-import { Screen } from "../../constants.js";
+import { Screen } from "../../constants";
 import "./style.css";
 
 const defaultLength = 200;

@@ -1,6 +1,6 @@
 import { ToggleButton, Stack, useMediaQuery, useTheme  } from '@mui/material';
 import { useEffect, useRef } from 'react';
-import { Screen } from "../../../constants.js";
+import { Screen } from "../../../constants";
 import { DoublePendGraph } from './DoublePendGraph.js';
 
 // Shows the canvas and show options button
